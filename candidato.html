@@ -6,14 +6,8 @@
     <title>Cadastro de Candidato - RNO</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
-
         body {
+            font-family: Arial, sans-serif;
             background: #f5f7fa;
             padding: 30px 15px;
         }
@@ -22,70 +16,56 @@
             max-width: 600px;
             margin: auto;
             background: white;
-            padding: 35px;
+            padding: 30px;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
         h1 {
             text-align: center;
             color: #0b5ed7;
-            margin-bottom: 10px;
-        }
-
-        .subtitulo {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
         }
 
         label {
             display: block;
             margin-top: 15px;
-            margin-bottom: 7px;
             font-weight: bold;
         }
 
-        input,
-        select,
-        textarea {
+        input, select, textarea {
             width: 100%;
             padding: 12px;
+            margin-top: 6px;
             border: 1px solid #ccc;
-            border-radius: 7px;
-            font-size: 15px;
+            border-radius: 6px;
         }
 
         textarea {
             min-height: 100px;
-            resize: vertical;
         }
 
         button {
             width: 100%;
-            margin-top: 25px;
             padding: 14px;
-            border: none;
-            border-radius: 7px;
+            margin-top: 25px;
             background: #0b5ed7;
             color: white;
+            border: 0;
+            border-radius: 6px;
             font-size: 17px;
-            font-weight: bold;
             cursor: pointer;
+        }
+
+        #mensagem {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            display: none;
         }
 
         .voltar {
             display: block;
             text-align: center;
             margin-top: 20px;
-            color: #0b5ed7;
-            text-decoration: none;
-        }
-
-        #mensagem {
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -95,10 +75,6 @@
 <div class="container">
 
     <h1>Cadastro de Candidato</h1>
-
-    <p class="subtitulo">
-        Crie o seu perfil profissional na RNO
-    </p>
 
     <form id="formCandidato">
 
@@ -139,9 +115,7 @@
 
     <div id="mensagem"></div>
 
-    <a href="index.html" class="voltar">
-        ← Voltar para a RNO
-    </a>
+    <a href="index.html" class="voltar">← Voltar para a RNO</a>
 
 </div>
 
@@ -149,68 +123,67 @@
 
 <script>
 
-    const SUPABASE_URL =
-        "https://bwkpmirlwrsbeiavzapm.supabase.co";
+const URL_SUPABASE = "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
-    const SUPABASE_KEY =
-        "COLOQUE_AQUI_A_PUBLISHABLE_KEY";
+const CHAVE_SUPABASE = Publishable key
 
-    const supabaseClient =
-        window.supabase.createClient(
-            SUPABASE_URL,
-            SUPABASE_KEY
-        );
+const cliente = window.supabase.createClient(
+    URL_SUPABASE,
+    CHAVE_SUPABASE
+);
 
-    document
-        .getElementById("formCandidato")
-        .addEventListener("submit", async function(event) {
+const formulario = document.getElementById("formCandidato");
+const mensagem = document.getElementById("mensagem");
 
-            event.preventDefault();
+formulario.addEventListener("submit", async function(event) {
 
-            const mensagem =
-                document.getElementById("mensagem");
+    event.preventDefault();
 
-            mensagem.textContent = "A guardar o seu cadastro...";
+    mensagem.style.display = "block";
+    mensagem.innerHTML = "A processar o cadastro...";
 
-            const { error } =
-                await supabaseClient
-                    .from("candidatos")
-                    .insert({
-                        nome_completo:
-                            document.getElementById("nome").value,
+    const dados = {
+        nome_completo: document.getElementById("nome").value,
+        telefone: document.getElementById("telefone").value,
+        email: document.getElementById("email").value,
+        provincia: document.getElementById("provincia").value,
+        area_profissional: document.getElementById("area").value,
+        experiencia: document.getElementById("experiencia").value
+    };
 
-                        telefone:
-                            document.getElementById("telefone").value,
+    try {
 
-                        email:
-                            document.getElementById("email").value,
+        const resultado = await cliente
+            .from("candidatos")
+            .insert([dados]);
 
-                        provincia:
-                            document.getElementById("provincia").value,
+        if (resultado.error) {
 
-                        area_profissional:
-                            document.getElementById("area").value,
+            mensagem.innerHTML =
+                "<strong>ERRO:</strong><br>" +
+                resultado.error.message;
 
-                        experiencia:
-                            document.getElementById("experiencia").value
-                    });
+            console.error(resultado.error);
 
-            if (error) {
+            return;
+        }
 
-                console.error(error);
+        mensagem.innerHTML =
+            "<strong>SUCESSO!</strong><br>" +
+            "O candidato foi registado na base de dados da RNO.";
 
-                mensagem.textContent =
-                    "Não foi possível concluir o cadastro. Tente novamente.";
+        formulario.reset();
 
-                return;
-            }
+    } catch (erro) {
 
-            mensagem.textContent =
-                "Cadastro realizado com sucesso!";
+        mensagem.innerHTML =
+            "<strong>ERRO:</strong><br>" +
+            erro.message;
 
-            document.getElementById("formCandidato").reset();
+        console.error(erro);
+    }
 
-        });
+});
 
 </script>
 
