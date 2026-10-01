@@ -9,6 +9,7 @@
         body {
             font-family: Arial, sans-serif;
             background: #f5f7fa;
+            margin: 0;
             padding: 30px 15px;
         }
 
@@ -18,6 +19,7 @@
             background: white;
             padding: 30px;
             border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
         h1 {
@@ -28,44 +30,52 @@
         label {
             display: block;
             margin-top: 15px;
+            margin-bottom: 6px;
             font-weight: bold;
         }
 
-        input, select, textarea {
+        input,
+        select,
+        textarea {
             width: 100%;
             padding: 12px;
-            margin-top: 6px;
             border: 1px solid #ccc;
-            border-radius: 6px;
+            border-radius: 7px;
+            font-size: 15px;
         }
 
         textarea {
             min-height: 100px;
+            resize: vertical;
         }
 
         button {
             width: 100%;
-            padding: 14px;
             margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
             background: #0b5ed7;
             color: white;
-            border: 0;
-            border-radius: 6px;
             font-size: 17px;
+            font-weight: bold;
             cursor: pointer;
         }
 
         #mensagem {
             margin-top: 20px;
             padding: 15px;
-            border-radius: 6px;
+            border-radius: 7px;
             display: none;
+            line-height: 1.5;
         }
 
         .voltar {
             display: block;
             text-align: center;
             margin-top: 20px;
+            color: #0b5ed7;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -75,6 +85,10 @@
 <div class="container">
 
     <h1>Cadastro de Candidato</h1>
+
+    <p style="text-align:center;color:#666;">
+        Crie o seu perfil profissional na RNO
+    </p>
 
     <form id="formCandidato">
 
@@ -109,78 +123,333 @@
         <label>Experiência profissional</label>
         <textarea id="experiencia"></textarea>
 
-        <button type="submit">Criar Perfil</button>
+        <button type="submit" id="botao">
+            Criar Perfil
+        </button>
 
     </form>
 
     <div id="mensagem"></div>
 
-    <a href="index.html" class="voltar">← Voltar para a RNO</a>
+    <a href="index.html" class="voltar">
+        ← Voltar para a RNO
+    </a>
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+
+const SUPABASE_URL =
+    "https://bwkpmirlwrsbeiavzapm.supabase.co";
+
+const SUPABASE_KEY =
+    <!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Candidato - RNO</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0b5ed7;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #0b5ed7;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #mensagem {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 7px;
+            display: none;
+            line-height: 1.5;
+        }
+
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #0b5ed7;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Cadastro de Candidato</h1>
+
+    <p style="text-align:center;color:#666;">
+        Crie o seu perfil profissional na RNO
+    </p>
+
+    <form id="formCandidato">
+
+        <label>Nome completo</label>
+        <input type="text" id="nome" required>
+
+        <label>Telefone</label>
+        <input type="tel" id="telefone" required>
+
+        <label>Email</label>
+        <input type="email" id="email">
+
+        <label>Província</label>
+        <select id="provincia" required>
+            <option value="">Selecione</option>
+            <option>Maputo Cidade</option>
+            <option>Maputo Província</option>
+            <option>Gaza</option>
+            <option>Inhambane</option>
+            <option>Sofala</option>
+            <option>Manica</option>
+            <option>Tete</option>
+            <option>Zambézia</option>
+            <option>Nampula</option>
+            <option>Cabo Delgado</option>
+            <option>Niassa</option>
+        </select>
+
+        <label>Área profissional</label>
+        <input type="text" id="area" required>
+
+        <label>Experiência profissional</label>
+        <textarea id="experiencia"></textarea>
+
+        <button type="submit" id="botao">
+            Criar Perfil
+        </button>
+
+    </form>
+
+    <div id="mensagem"></div>
+
+    <a href="index.html" class="voltar">
+        ← Voltar para a RNO
+    </a>
+
+</div>
 
 <script>
 
-const URL_SUPABASE = "https://bwkpmirlwrsbeiavzapm.supabase.co";
+const SUPABASE_URL =
+    "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
-const CHAVE_SUPABASE = Publishable key
-
-const cliente = window.supabase.createClient(
-    URL_SUPABASE,
-    CHAVE_SUPABASE
-);
-
+const SUPABASE_KEY =
+   Publishable key
 const formulario = document.getElementById("formCandidato");
 const mensagem = document.getElementById("mensagem");
+const botao = document.getElementById("botao");
 
 formulario.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
     mensagem.style.display = "block";
-    mensagem.innerHTML = "A processar o cadastro...";
+    mensagem.innerHTML = "A guardar o cadastro...";
+    
+    botao.disabled = true;
+    botao.textContent = "A guardar...";
 
     const dados = {
-        nome_completo: document.getElementById("nome").value,
-        telefone: document.getElementById("telefone").value,
-        email: document.getElementById("email").value,
+        nome_completo: document.getElementById("nome").value.trim(),
+        telefone: document.getElementById("telefone").value.trim(),
+        email: document.getElementById("email").value.trim() || null,
         provincia: document.getElementById("provincia").value,
-        area_profissional: document.getElementById("area").value,
-        experiencia: document.getElementById("experiencia").value
+        area_profissional: document.getElementById("area").value.trim(),
+        experiencia: document.getElementById("experiencia").value.trim()
     };
 
     try {
 
-        const resultado = await cliente
-            .from("candidatos")
-            .insert([dados]);
+        const resposta = await fetch(
+            SUPABASE_URL + "/rest/v1/candidatos",
+            {
+                method: "POST",
 
-        if (resultado.error) {
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": "Bearer " + SUPABASE_KEY,
+                    "Prefer": "return=minimal"
+                },
+
+                body: JSON.stringify(dados)
+            }
+        );
+
+        if (!resposta.ok) {
+
+            const erro = await resposta.text();
+
+            console.error("Erro Supabase:", erro);
 
             mensagem.innerHTML =
-                "<strong>ERRO:</strong><br>" +
-                resultado.error.message;
+                "<strong>Erro no cadastro.</strong><br><br>" +
+                erro;
 
-            console.error(resultado.error);
+            botao.disabled = false;
+            botao.textContent = "Criar Perfil";
 
             return;
         }
 
         mensagem.innerHTML =
-            "<strong>SUCESSO!</strong><br>" +
-            "O candidato foi registado na base de dados da RNO.";
+            "<strong>✅ Cadastro realizado com sucesso!</strong><br>" +
+            "O seu perfil foi guardado na RNO.";
 
         formulario.reset();
 
+        botao.disabled = false;
+        botao.textContent = "Criar Perfil";
+
     } catch (erro) {
 
+        console.error(erro);
+
         mensagem.innerHTML =
-            "<strong>ERRO:</strong><br>" +
+            "<strong>Erro de ligação.</strong><br>" +
             erro.message;
 
+        botao.disabled = false;
+        botao.textContent = "Criar Perfil";
+    }
+
+});
+
+</script>
+
+</body>
+</html>
+
+const formulario = document.getElementById("formCandidato");
+const mensagem = document.getElementById("mensagem");
+const botao = document.getElementById("botao");
+
+formulario.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    mensagem.style.display = "block";
+    mensagem.innerHTML = "A guardar o cadastro...";
+    
+    botao.disabled = true;
+    botao.textContent = "A guardar...";
+
+    const dados = {
+        nome_completo: document.getElementById("nome").value.trim(),
+        telefone: document.getElementById("telefone").value.trim(),
+        email: document.getElementById("email").value.trim() || null,
+        provincia: document.getElementById("provincia").value,
+        area_profissional: document.getElementById("area").value.trim(),
+        experiencia: document.getElementById("experiencia").value.trim()
+    };
+
+    try {
+
+        const resposta = await fetch(
+            SUPABASE_URL + "/rest/v1/candidatos",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": "Bearer " + SUPABASE_KEY,
+                    "Prefer": "return=minimal"
+                },
+
+                body: JSON.stringify(dados)
+            }
+        );
+
+        if (!resposta.ok) {
+
+            const erro = await resposta.text();
+
+            console.error("Erro Supabase:", erro);
+
+            mensagem.innerHTML =
+                "<strong>Erro no cadastro.</strong><br><br>" +
+                erro;
+
+            botao.disabled = false;
+            botao.textContent = "Criar Perfil";
+
+            return;
+        }
+
+        mensagem.innerHTML =
+            "<strong>✅ Cadastro realizado com sucesso!</strong><br>" +
+            "O seu perfil foi guardado na RNO.";
+
+        formulario.reset();
+
+        botao.disabled = false;
+        botao.textContent = "Criar Perfil";
+
+    } catch (erro) {
+
         console.error(erro);
+
+        mensagem.innerHTML =
+            "<strong>Erro de ligação.</strong><br>" +
+            erro.message;
+
+        botao.disabled = false;
+        botao.textContent = "Criar Perfil";
     }
 
 });
