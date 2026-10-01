@@ -1,7 +1,190 @@
-<a href="candidato.html" class="btn btn-candidato">
-    Sou Candidato
-</a>
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RNO - Rede Nacional de Oportunidades</title>
 
-<a href="empresa.html" class="btn btn-empresa">
-    Sou Empresa
-</a>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #222;
+        }
+
+        header {
+            background: #0b5ed7;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
+
+        .hero {
+            background: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 50px;
+            color: #0b5ed7;
+            margin-bottom: 10px;
+        }
+
+        .hero h2 {
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+        }
+
+        .candidato {
+            background: #0b5ed7;
+        }
+
+        .empresa {
+            background: #198754;
+        }
+
+        .section {
+            padding: 60px 8%;
+            text-align: center;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: white;
+            width: 280px;
+            padding: 30px 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            color: #0b5ed7;
+            margin-bottom: 12px;
+        }
+
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">RNO</div>
+
+    <nav>
+        <a href="index.html">Início</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Serviços</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>RNO</h1>
+
+    <h2>Rede Nacional de Oportunidades</h2>
+
+    <p>
+        Conectamos candidatos a oportunidades de emprego
+        e empresas aos profissionais que procuram.
+    </p>
+
+    <a href="candidato.html" class="btn candidato">
+        Sou Candidato
+    </a>
+
+    <a href="empresa.html" class="btn empresa">
+        Sou Empresa
+    </a>
+</section>
+
+<section class="section" id="sobre">
+    <h2>Sobre a RNO</h2>
+
+    <p>
+        A RNO é uma plataforma criada para facilitar a ligação
+        entre candidatos e empresas em Moçambique.
+    </p>
+</section>
+
+<section class="section" id="servicos">
+    <h2>Serviços</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Para Candidatos</h3>
+            <p>
+                Criação de perfil profissional e procura de oportunidades.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Para Empresas</h3>
+            <p>
+                Divulgação de vagas e procura de profissionais.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Conexão</h3>
+            <p>
+                Aproximamos empresas e candidatos numa única plataforma.
+            </p>
+        </div>
+
+    </div>
+</section>
+
+<footer>
+    © 2026 RNO - Rede Nacional de Oportunidades
+</footer>
+
+</body>
+</html>
