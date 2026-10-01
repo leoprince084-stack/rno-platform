@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Empresa - RNO</title>
+    <title>Cadastro de Candidato - RNO</title>
 
     <style>
         * {
@@ -29,7 +29,7 @@
 
         h1 {
             text-align: center;
-            color: #198754;
+            color: #0b5ed7;
             margin-bottom: 10px;
         }
 
@@ -58,6 +58,7 @@
 
         textarea {
             min-height: 100px;
+            resize: vertical;
         }
 
         button {
@@ -66,7 +67,7 @@
             padding: 14px;
             border: none;
             border-radius: 7px;
-            background: #198754;
+            background: #0b5ed7;
             color: white;
             font-size: 17px;
             font-weight: bold;
@@ -77,8 +78,14 @@
             display: block;
             text-align: center;
             margin-top: 20px;
-            color: #198754;
+            color: #0b5ed7;
             text-decoration: none;
+        }
+
+        #mensagem {
+            margin-top: 20px;
+            text-align: center;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -87,19 +94,16 @@
 
 <div class="container">
 
-    <h1>Cadastro de Empresa</h1>
+    <h1>Cadastro de Candidato</h1>
 
     <p class="subtitulo">
-        Registe a sua empresa na RNO
+        Crie o seu perfil profissional na RNO
     </p>
 
-    <form onsubmit="cadastrarEmpresa(event)">
+    <form id="formCandidato">
 
-        <label>Nome da empresa</label>
-        <input type="text" id="empresa" required>
-
-        <label>Nome do responsável</label>
-        <input type="text" id="responsavel" required>
+        <label>Nome completo</label>
+        <input type="text" id="nome" required>
 
         <label>Telefone</label>
         <input type="tel" id="telefone" required>
@@ -123,26 +127,91 @@
             <option>Niassa</option>
         </select>
 
-        <label>Área de atuação</label>
+        <label>Área profissional</label>
         <input type="text" id="area" required>
 
-        <label>Descrição da empresa</label>
-        <textarea id="descricao"></textarea>
+        <label>Experiência profissional</label>
+        <textarea id="experiencia"></textarea>
 
-        <button type="submit">Criar Perfil da Empresa</button>
+        <button type="submit">Criar Perfil</button>
 
     </form>
 
-    <a href="index.html" class="voltar">← Voltar para a RNO</a>
+    <div id="mensagem"></div>
+
+    <a href="index.html" class="voltar">
+        ← Voltar para a RNO
+    </a>
 
 </div>
 
-<script>
-    function cadastrarEmpresa(event) {
-        event.preventDefault();
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-        alert("Perfil da empresa criado com sucesso!");
-    }
+<script>
+
+    const SUPABASE_URL =
+        "https://bwkpmirlwrsbeiavzapm.supabase.co";
+
+    const SUPABASE_KEY =
+        "COLOQUE_AQUI_A_PUBLISHABLE_KEY";
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+    document
+        .getElementById("formCandidato")
+        .addEventListener("submit", async function(event) {
+
+            event.preventDefault();
+
+            const mensagem =
+                document.getElementById("mensagem");
+
+            mensagem.textContent = "A guardar o seu cadastro...";
+
+            const { error } =
+                await supabaseClient
+                    .from("candidatos")
+                    .insert({
+                        nome_completo:
+                            document.getElementById("nome").value,
+
+                        telefone:
+                            document.getElementById("telefone").value,
+
+                        email:
+                            document.getElementById("email").value,
+
+                        provincia:
+                            document.getElementById("provincia").value,
+
+                        area_profissional:
+                            document.getElementById("area").value,
+
+                        experiencia:
+                            document.getElementById("experiencia").value
+                    });
+
+            if (error) {
+
+                console.error(error);
+
+                mensagem.textContent =
+                    "Não foi possível concluir o cadastro. Tente novamente.";
+
+                return;
+            }
+
+            mensagem.textContent =
+                "Cadastro realizado com sucesso!";
+
+            document.getElementById("formCandidato").reset();
+
+        });
+
 </script>
 
 </body>
