@@ -3,18 +3,234 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>RNO - Rede Nacional de Oportunidades</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fa;
+            color: #222;
+        }
+
+        header {
+            background: #0b5ed7;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: bold;
+        }
+
+        .hero {
+            background: white;
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #0b5ed7;
+        }
+
+        .hero h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 19px;
+            color: #555;
+            max-width: 700px;
+            margin: auto;
+            line-height: 1.6;
+        }
+
+        .buttons {
+            margin-top: 35px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .btn-candidato {
+            background: #0b5ed7;
+            color: white;
+        }
+
+        .btn-empresa {
+            background: #198754;
+            color: white;
+        }
+
+        .section {
+            padding: 60px 8%;
+            text-align: center;
+        }
+
+        .section h2 {
+            font-size: 32px;
+            margin-bottom: 35px;
+        }
+
+        .cards {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            background: white;
+            width: 280px;
+            padding: 30px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: #0b5ed7;
+        }
+
+        .card p {
+            color: #666;
+            line-height: 1.5;
+        }
+
+        footer {
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            margin-top: 30px;
+        }
+    </style>
 </head>
+
 <body>
+
+<header>
+    <div class="logo">RNO</div>
+
+    <nav>
+        <a href="#">Início</a>
+        <a href="#sobre">Sobre</a>
+        <a href="#servicos">Serviços</a>
+    </nav>
+</header>
+
+<section class="hero">
 
     <h1>RNO</h1>
 
     <h2>Rede Nacional de Oportunidades</h2>
 
-    <p>Conectamos candidatos e empresas em Moçambique.</p>
+    <p>
+        Conectamos candidatos a oportunidades de emprego
+        e empresas aos profissionais que procuram.
+    </p>
 
-    <button>Candidato</button>
-    <button>Empresa</button>
+    <div class="buttons">
+        <a href="#" class="btn btn-candidato">
+            Sou Candidato
+        </a>
+
+        <a href="#" class="btn btn-empresa">
+            Sou Empresa
+        </a>
+    </div>
+
+</section>
+
+<section class="section" id="sobre">
+
+    <h2>Por que usar a RNO?</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Encontre Emprego</h3>
+            <p>
+                Descubra oportunidades de trabalho
+                em diferentes áreas e províncias de Moçambique.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Encontre Profissionais</h3>
+            <p>
+                Empresas podem encontrar candidatos
+                preparados para diferentes funções.
+            </p>
+        </div>
+
+        <div class="card">
+            <h3>Conecte-se</h3>
+            <p>
+                Facilite o contacto entre candidatos
+                e empresas através de uma única plataforma.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+<section class="section" id="servicos">
+
+    <h2>O que a RNO oferece?</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <h3>Cadastro de Candidatos</h3>
+            <p>Criação de perfil profissional e currículo.</p>
+        </div>
+
+        <div class="card">
+            <h3>Publicação de Vagas</h3>
+            <p>Empresas poderão publicar oportunidades de emprego.</p>
+        </div>
+
+        <div class="card">
+            <h3>Pesquisa de Vagas</h3>
+            <p>Procure oportunidades de acordo com a sua área.</p>
+        </div>
+
+    </div>
+
+</section>
+
+<footer>
+    © 2026 RNO - Rede Nacional de Oportunidades
+</footer>
 
 </body>
 </html>
