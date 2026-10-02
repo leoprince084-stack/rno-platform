@@ -147,8 +147,7 @@ const SUPABASE_URL =
     "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ;"
-
+    "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
 
 const parametros =
     new URLSearchParams(window.location.search);
@@ -180,19 +179,16 @@ formulario.addEventListener("submit", async function(event) {
 
     const dados = {
         vaga: vagaSelecionada,
-
         nome_completo:
             document.getElementById("nome").value.trim(),
-
         telefone:
             document.getElementById("telefone").value.trim(),
-
         email:
             document.getElementById("email").value.trim() || null,
-
         mensagem:
             document.getElementById("mensagemCandidato").value.trim()
     };
+
     try {
 
         const resposta = await fetch(
@@ -203,22 +199,20 @@ formulario.addEventListener("submit", async function(event) {
                 headers: {
                     "Content-Type": "application/json",
                     "apikey": SUPABASE_KEY,
-                    "Prefer": "return=minimal"
+                    "Prefer": "return=representation"
                 },
 
                 body: JSON.stringify(dados)
             }
         );
 
+        const resultado = await resposta.text();
+
         if (!resposta.ok) {
 
-            const erro = await resposta.text();
-
-            console.error("Erro Supabase:", erro);
-
             mensagem.innerHTML =
-                "<strong>Erro no envio:</strong><br><br>" +
-                erro;
+                "<strong>❌ ERRO DO SUPABASE</strong><br><br>" +
+                resultado;
 
             botao.disabled = false;
             botao.textContent = "Enviar Candidatura";
@@ -227,20 +221,20 @@ formulario.addEventListener("submit", async function(event) {
         }
 
         mensagem.innerHTML =
-            "<strong>✅ Candidatura enviada com sucesso!</strong><br><br>" +
-            "A sua candidatura foi registada na RNO.";
-
-        formulario.reset();
+            "<strong>✅ CANDIDATURA GRAVADA!</strong><br><br>" +
+            "Vaga: " + vagaSelecionada + "<br>" +
+            "Nome: " + dados.nome_completo + "<br>" +
+            "Mensagem: " + dados.mensagem;
 
         botao.disabled = false;
         botao.textContent = "Enviar Candidatura";
 
+        console.log("Candidatura gravada:", resultado);
+
     } catch (erro) {
 
-        console.error("Erro de ligação:", erro);
-
         mensagem.innerHTML =
-            "<strong>Erro de ligação:</strong><br><br>" +
+            "<strong>❌ ERRO DE LIGAÇÃO</strong><br><br>" +
             erro.message;
 
         botao.disabled = false;
