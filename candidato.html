@@ -102,7 +102,7 @@
         Crie o seu perfil profissional na RNO
     </p>
 
-    <form id="formCandidato">
+   <form id="formCandidato" onsubmit="return testarFormulario(event)">
 
         <label>Nome completo</label>
         <input type="text" id="nome" required>
@@ -226,10 +226,18 @@ formulario.addEventListener("submit", async function(event) {
         mensagem.innerHTML =
             "<strong>Erro de ligação:</strong><br><br>" +
             erro.message;
-    }
+ <a href="index.html" class="voltar">
+    ← Voltar para a RNO
+</a>
 
-});
+<script>
+function testarFormulario(event) {
+    event.preventDefault();
+
+    alert("O botão está funcionando corretamente!");
+
+    return false;
+}
 </script>
 
 </body>
-</html>
