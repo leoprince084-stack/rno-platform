@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Candidatura - RNO</title>
+
+    <title>Oportunidades de Emprego - RNO</title>
 
     <style>
         * {
@@ -14,16 +15,33 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f5f7fa;
-            padding: 30px 15px;
+            color: #222;
+        }
+
+        header {
+            background: #0b5ed7;
+            color: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .inicio {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
         }
 
         .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
         }
 
         h1 {
@@ -31,136 +49,380 @@
             color: #0b5ed7;
         }
 
-        #vaga {
+        .subtitulo {
             text-align: center;
-            font-size: 22px;
-            font-weight: bold;
-            color: #333;
-            margin: 20px 0 30px;
+            color: #666;
+            margin-bottom: 30px;
         }
 
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 6px;
-            font-weight: bold;
+        .filtros {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .filtros-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
         }
 
         input,
-        textarea {
+        select {
             width: 100%;
-            padding: 12px;
+            padding: 13px;
             border: 1px solid #ccc;
             border-radius: 7px;
             font-size: 15px;
         }
 
-        textarea {
-            min-height: 100px;
+        .vagas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
 
-        button {
-            width: 100%;
-            margin-top: 25px;
-            padding: 14px;
-            border: none;
-            border-radius: 7px;
+        .vaga {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .vaga h2 {
+            color: #0b5ed7;
+            margin-top: 0;
+        }
+
+        .empresa {
+            font-weight: bold;
+        }
+
+        .info {
+            color: #666;
+            margin: 8px 0;
+        }
+
+        .btn-candidatar {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 20px;
             background: #0b5ed7;
             color: white;
-            font-size: 17px;
+            text-decoration: none;
+            border-radius: 7px;
             font-weight: bold;
-            cursor: pointer;
         }
 
-        #mensagem {
+        .sem-resultados {
             display: none;
-            margin-top: 20px;
-            padding: 15px;
-            background: #e8f5e9;
-            border-radius: 7px;
             text-align: center;
-            line-height: 1.5;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 20px;
         }
 
         .voltar {
             display: block;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
             color: #0b5ed7;
             text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer {
+            margin-top: 50px;
+            background: #222;
+            color: white;
+            text-align: center;
+            padding: 25px;
         }
     </style>
 </head>
 
 <body>
 
+<header>
+    <div class="logo">RNO</div>
+
+    <a href="index.html" class="inicio">
+        Início
+    </a>
+</header>
+
 <div class="container">
 
-    <h1>Enviar Candidatura</h1>
+    <h1>Oportunidades de Emprego</h1>
 
-    <div id="vaga">
-        Vaga selecionada
+    <p class="subtitulo">
+        Encontre oportunidades de trabalho em Moçambique
+    </p>
+
+    <div class="filtros">
+
+        <div class="filtros-grid">
+
+            <input
+                type="text"
+                id="pesquisa"
+                placeholder="Pesquisar vaga ou profissão..."
+            >
+
+            <select id="provincia">
+                <option value="">Todas as províncias</option>
+                <option value="Maputo">Maputo</option>
+                <option value="Gaza">Gaza</option>
+                <option value="Inhambane">Inhambane</option>
+                <option value="Sofala">Sofala</option>
+                <option value="Manica">Manica</option>
+                <option value="Tete">Tete</option>
+                <option value="Zambézia">Zambézia</option>
+                <option value="Nampula">Nampula</option>
+                <option value="Cabo Delgado">Cabo Delgado</option>
+                <option value="Niassa">Niassa</option>
+            </select>
+
+            <select id="tipo">
+                <option value="">Todos os tipos</option>
+                <option value="Tempo inteiro">Tempo inteiro</option>
+                <option value="Tempo parcial">Tempo parcial</option>
+                <option value="Estágio">Estágio</option>
+                <option value="Freelancer">Freelancer</option>
+            </select>
+
+        </div>
+
     </div>
 
-    <form id="formCandidatura">
+    <div id="contador"></div>
 
-        <label for="nome">Nome completo</label>
-        <input type="text" id="nome" required>
+    <div class="vagas">
 
-        <label for="telefone">Telefone</label>
-        <input type="tel" id="telefone" required>
+        <div class="vaga"
+             data-titulo="Assistente Administrativo"
+             data-provincia="Maputo"
+             data-tipo="Tempo inteiro">
 
-        <label for="email">Email</label>
-        <input type="email" id="email">
+            <h2>Assistente Administrativo</h2>
 
-        <label for="mensagemCandidato">Mensagem</label>
-        <textarea
-            id="mensagemCandidato"
-            placeholder="Escreva uma breve apresentação"
-        ></textarea>
+            <p class="empresa">
+                Empresa: Empresa Exemplo
+            </p>
 
-        <button type="submit">
-            Enviar Candidatura
-        </button>
+            <p class="info">📍 Maputo</p>
+            <p class="info">💼 Tempo inteiro</p>
+            <p class="info">🎓 Experiência: 1 ano</p>
 
-    </form>
+            <a
+                href="candidatar.html?vaga=Assistente%20Administrativo"
+                class="btn-candidatar">
+                Candidatar-se
+            </a>
 
-    <div id="mensagem"></div>
+        </div>
 
-    <a href="vagas.html" class="voltar">
-        ← Voltar para Oportunidades
+        <div class="vaga"
+             data-titulo="Técnico de Informática"
+             data-provincia="Maputo"
+             data-tipo="Tempo inteiro">
+
+            <h2>Técnico de Informática</h2>
+
+            <p class="empresa">
+                Empresa: Empresa Exemplo
+            </p>
+
+            <p class="info">📍 Maputo</p>
+            <p class="info">💼 Tempo inteiro</p>
+            <p class="info">🎓 Experiência: 2 anos</p>
+
+            <a
+                href="candidatar.html?vaga=Tecnico%20de%20Informatica"
+                class="btn-candidatar">
+                Candidatar-se
+            </a>
+
+        </div>
+
+        <div class="vaga"
+             data-titulo="Assistente de Vendas"
+             data-provincia="Gaza"
+             data-tipo="Tempo parcial">
+
+            <h2>Assistente de Vendas</h2>
+
+            <p class="empresa">
+                Empresa: Empresa Exemplo
+            </p>
+
+            <p class="info">📍 Gaza</p>
+            <p class="info">💼 Tempo parcial</p>
+            <p class="info">🎓 Experiência: Não obrigatória</p>
+
+            <a
+                href="candidatar.html?vaga=Assistente%20de%20Vendas"
+                class="btn-candidatar">
+                Candidatar-se
+            </a>
+
+        </div>
+
+        <div class="vaga"
+             data-titulo="Motorista"
+             data-provincia="Sofala"
+             data-tipo="Tempo inteiro">
+
+            <h2>Motorista</h2>
+
+            <p class="empresa">
+                Empresa: Empresa Exemplo
+            </p>
+
+            <p class="info">📍 Sofala</p>
+            <p class="info">💼 Tempo inteiro</p>
+            <p class="info">🎓 Carta de condução válida</p>
+
+            <a
+                href="candidatar.html?vaga=Motorista"
+                class="btn-candidatar">
+                Candidatar-se
+            </a>
+
+        </div>
+
+        <div class="vaga"
+             data-titulo="Estágio de Marketing"
+             data-provincia="Maputo"
+             data-tipo="Estágio">
+
+            <h2>Estágio de Marketing</h2>
+
+            <p class="empresa">
+                Empresa: Empresa Exemplo
+            </p>
+
+            <p class="info">📍 Maputo</p>
+            <p class="info">💼 Estágio</p>
+            <p class="info">🎓 Recém-formado</p>
+
+            <a
+                href="candidatar.html?vaga=Estagio%20de%20Marketing"
+                class="btn-candidatar">
+                Candidatar-se
+            </a>
+
+        </div>
+
+    </div>
+
+    <div id="semResultados" class="sem-resultados">
+        <h2>Nenhuma oportunidade encontrada</h2>
+        <p>Tente alterar os filtros.</p>
+    </div>
+
+    <a href="index.html" class="voltar">
+        ← Voltar para a RNO
     </a>
 
 </div>
 
+<footer>
+    © 2026 RNO - Rede Nacional de Oportunidades
+</footer>
+
 <script>
 
-const parametros = new URLSearchParams(window.location.search);
+const pesquisa =
+    document.getElementById("pesquisa");
 
-<a href="candidatar.html?vaga=Estagio%20de%20Marketing" class="btn-candidatar">
-    Candidatar-se
-</a>
+const provincia =
+    document.getElementById("provincia");
 
-document.getElementById("vaga").textContent =
-    vagaSelecionada;
+const tipo =
+    document.getElementById("tipo");
 
-document
-    .getElementById("formCandidatura")
-    .addEventListener("submit", function(event) {
+function filtrarVagas() {
 
-        event.preventDefault();
+    const texto =
+        pesquisa.value.toLowerCase().trim();
 
-        const mensagem =
-            document.getElementById("mensagem");
+    const provinciaSelecionada =
+        provincia.value;
 
-        mensagem.style.display = "block";
+    const tipoSelecionado =
+        tipo.value;
 
-        mensagem.innerHTML =
-            "<strong>✅ Candidatura enviada com sucesso!</strong><br><br>" +
-            "Vaga: " + vagaSelecionada;
+    const vagas =
+        document.querySelectorAll(".vaga");
 
-        this.reset();
+    let total = 0;
+
+    vagas.forEach(function(vaga) {
+
+        const titulo =
+            vaga.dataset.titulo.toLowerCase();
+
+        const vagaProvincia =
+            vaga.dataset.provincia;
+
+        const vagaTipo =
+            vaga.dataset.tipo;
+
+        const encontrouTexto =
+            titulo.includes(texto);
+
+        const encontrouProvincia =
+            provinciaSelecionada === "" ||
+            vagaProvincia === provinciaSelecionada;
+
+        const encontrouTipo =
+            tipoSelecionado === "" ||
+            vagaTipo === tipoSelecionado;
+
+        if (
+            encontrouTexto &&
+            encontrouProvincia &&
+            encontrouTipo
+        ) {
+
+            vaga.style.display = "block";
+            total++;
+
+        } else {
+
+            vaga.style.display = "none";
+
+        }
+
     });
+
+    document.getElementById("contador").textContent =
+        total + " oportunidade(s) encontrada(s)";
+
+    document.getElementById("semResultados").style.display =
+        total === 0 ? "block" : "none";
+}
+
+pesquisa.addEventListener(
+    "input",
+    filtrarVagas
+);
+
+provincia.addEventListener(
+    "change",
+    filtrarVagas
+);
+
+tipo.addEventListener(
+    "change",
+    filtrarVagas
+);
+
+filtrarVagas();
 
 </script>
 
