@@ -118,12 +118,14 @@
 
         <label for="email">Email</label>
         <input type="email" id="email">
+<label for="mensagemCandidato">Mensagem</label>
 
-        <label for="mensagemCandidato">Mensagem</label>
-        <textarea
-            id="mensagemCandidato"
-            placeholder="Faça uma breve apresentação"
-        ></textarea>
+<textarea
+    id="mensagemCandidato"
+    name="mensagem"
+    placeholder="Faça uma breve apresentação"
+    required
+></textarea>
 
         <button type="submit" id="botao">
             Enviar Candidatura
@@ -184,7 +186,8 @@ formulario.addEventListener("submit", async function(event) {
         email:
             document.getElementById("email").value.trim() || null,
         mensagem:
-            document.getElementById("mensagemCandidato").value.trim() || null
+           mensagem:
+    document.getElementById("mensagemCandidato").value.trim()
     };
 
     try {
