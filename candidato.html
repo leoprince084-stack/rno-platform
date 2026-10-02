@@ -154,7 +154,7 @@ const SUPABASE_URL =
     "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_XXXXXXXXXXXXXXXX";
+"sb_publishable_A_TUA_CHAVE_REAL";
 const formulario =
     document.getElementById("formCandidato");
 
@@ -195,12 +195,10 @@ formulario.addEventListener("submit", async function(event) {
             {
                 method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json",
-                    "apikey": SUPABASE_KEY,
-                    "Authorization": "Bearer " + SUPABASE_KEY,
-                    "Prefer": "return=minimal"
-                },
+            headers: {
+    "Content-Type": "application/json",
+    "apikey": SUPABASE_KEY,
+    "Prefer": "return=minimal",
 
                 body: JSON.stringify(dados)
             }
