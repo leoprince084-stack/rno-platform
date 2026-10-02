@@ -14,13 +14,12 @@
             margin: 0;
             font-family: Arial, sans-serif;
             background: #f5f7fa;
-            color: #222;
             padding: 30px 15px;
         }
 
         .container {
             max-width: 600px;
-            margin: 0 auto;
+            margin: auto;
             background: white;
             padding: 30px;
             border-radius: 12px;
@@ -30,7 +29,6 @@
         h1 {
             text-align: center;
             color: #0b5ed7;
-            margin-bottom: 10px;
         }
 
         .subtitulo {
@@ -74,9 +72,12 @@
             cursor: pointer;
         }
 
-        button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #0b5ed7;
+            text-decoration: none;
         }
 
         #mensagem {
@@ -87,14 +88,6 @@
             background: #eef4ff;
             line-height: 1.5;
             word-break: break-word;
-        }
-
-        .voltar {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #0b5ed7;
-            text-decoration: none;
         }
     </style>
 </head>
@@ -111,16 +104,16 @@
 
     <form id="formCandidato">
 
-        <label for="nome">Nome completo</label>
+        <label>Nome completo</label>
         <input type="text" id="nome" required>
 
-        <label for="telefone">Telefone</label>
+        <label>Telefone</label>
         <input type="tel" id="telefone" required>
 
-        <label for="email">Email</label>
+        <label>Email</label>
         <input type="email" id="email">
 
-        <label for="provincia">Província</label>
+        <label>Província</label>
         <select id="provincia" required>
             <option value="">Selecione</option>
             <option>Maputo Cidade</option>
@@ -136,21 +129,13 @@
             <option>Niassa</option>
         </select>
 
-        <label for="area">Área profissional</label>
-        <input
-            type="text"
-            id="area"
-            placeholder="Ex.: Contabilidade, Informática"
-            required
-        >
+        <label>Área profissional</label>
+        <input type="text" id="area" required>
 
-        <label for="experiencia">Experiência profissional</label>
-        <textarea
-            id="experiencia"
-            placeholder="Descreva a sua experiência profissional"
-        ></textarea>
+        <label>Experiência profissional</label>
+        <textarea id="experiencia"></textarea>
 
-        <button type="submit" id="botao">
+        <button type="submit">
             Criar Perfil
         </button>
 
@@ -169,11 +154,12 @@ const SUPABASE_URL =
     "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
 const SUPABASE_KEY =
-   "sb_publishable_xxxxxxxxxxxxx";
+    "sb_publishable_XXXXXXXXXXXXXXXX";
+const formulario =
+    document.getElementById("formCandidato");
 
-const formulario = document.getElementById("formCandidato");
-const mensagem = document.getElementById("mensagem");
-const botao = document.getElementById("botao");
+const mensagem =
+    document.getElementById("mensagem");
 
 formulario.addEventListener("submit", async function(event) {
 
@@ -182,16 +168,24 @@ formulario.addEventListener("submit", async function(event) {
     mensagem.style.display = "block";
     mensagem.innerHTML = "A guardar o cadastro...";
 
-    botao.disabled = true;
-    botao.textContent = "A guardar...";
-
     const dados = {
-        nome_completo: document.getElementById("nome").value.trim(),
-        telefone: document.getElementById("telefone").value.trim(),
-        email: document.getElementById("email").value.trim() || null,
-        provincia: document.getElementById("provincia").value,
-        area_profissional: document.getElementById("area").value.trim(),
-        experiencia: document.getElementById("experiencia").value.trim()
+        nome_completo:
+            document.getElementById("nome").value.trim(),
+
+        telefone:
+            document.getElementById("telefone").value.trim(),
+
+        email:
+            document.getElementById("email").value.trim() || null,
+
+        provincia:
+            document.getElementById("provincia").value,
+
+        area_profissional:
+            document.getElementById("area").value.trim(),
+
+        experiencia:
+            document.getElementById("experiencia").value.trim()
     };
 
     try {
@@ -216,14 +210,9 @@ formulario.addEventListener("submit", async function(event) {
 
             const erro = await resposta.text();
 
-            console.error("Erro do Supabase:", erro);
-
             mensagem.innerHTML =
                 "<strong>Erro no cadastro:</strong><br><br>" +
                 erro;
-
-            botao.disabled = false;
-            botao.textContent = "Criar Perfil";
 
             return;
         }
@@ -234,64 +223,15 @@ formulario.addEventListener("submit", async function(event) {
 
         formulario.reset();
 
-        botao.disabled = false;
-        botao.textContent = "Criar Perfil";
-
     } catch (erro) {
-
-        console.error("Erro de ligação:", erro);
 
         mensagem.innerHTML =
             "<strong>Erro de ligação:</strong><br><br>" +
             erro.message;
-
-        botao.disabled = false;
-        botao.textContent = "Criar Perfil";
     }
+
 });
 </script>
 
 </body>
 </html>
-3. A única coisa que tens de mudar
-
-Procura esta linha:
-
-"COLE_AQUI_A_TUA_PUBLISHABLE_KEY"
-
-Apaga somente esse texto e coloca no lugar a tua Publishable key do Supabase.
-
-Por exemplo:
-
-const SUPABASE_KEY =
-    "sb_publishable_xxxxxxxxxxxxx";
-
-As aspas ficam.
-
-Não coloques a Secret key.
-
-4. Guardar
-
-Depois desce até ao fim do GitHub e clica em:
-
-Commit changes
-
-5. Testar
-
-Abre:
-
-https://leoprince084-stack.github.io/rno-platform/candidato.html
-
-Depois pressiona:
-
-Ctrl + F5
-
-Preenche o formulário e clica em Criar Perfil.
-
-Agora o código JavaScript não deverá aparecer como texto na página. Deve aparecer a mensagem:
-
-“A guardar o cadastro...”
-
-e depois “Cadastro realizado com sucesso!”, ou um erro detalhado.
-
-Quando fizeres esse teste, manda-me o que aparece dentro da caixa abaixo do botão.
