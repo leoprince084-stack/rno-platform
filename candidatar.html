@@ -31,7 +31,7 @@
             color: #0b5ed7;
         }
 
-        #vaga {
+        .vaga {
             text-align: center;
             font-size: 22px;
             font-weight: bold;
@@ -56,7 +56,8 @@
         }
 
         textarea {
-            min-height: 100px;
+            min-height: 110px;
+            resize: vertical;
         }
 
         button {
@@ -72,14 +73,19 @@
             cursor: pointer;
         }
 
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
         #mensagem {
             display: none;
             margin-top: 20px;
             padding: 15px;
-            background: #e8f5e9;
             border-radius: 7px;
-            text-align: center;
+            background: #eef4ff;
             line-height: 1.5;
+            word-break: break-word;
         }
 
         .voltar {
@@ -98,7 +104,7 @@
 
     <h1>Enviar Candidatura</h1>
 
-    <div id="vaga">
+    <div class="vaga" id="vaga">
         Vaga selecionada
     </div>
 
@@ -116,10 +122,10 @@
         <label for="mensagemCandidato">Mensagem</label>
         <textarea
             id="mensagemCandidato"
-            placeholder="Escreva uma breve apresentação"
+            placeholder="Faça uma breve apresentação"
         ></textarea>
 
-        <button type="submit">
+        <button type="submit" id="botao">
             Enviar Candidatura
         </button>
 
@@ -127,14 +133,22 @@
 
     <div id="mensagem"></div>
 
-<a href="candidatar.html?vaga=Estagio%20de%20Marketing" class="btn-candidatar">
-    Candidatar-se
-</a>
+    <a href="vagas.html" class="voltar">
+        ← Voltar para Oportunidades
+    </a>
+
 </div>
 
 <script>
 
-const parametros = new URLSearchParams(window.location.search);
+const SUPABASE_URL =
+    "https://bwkpmirlwrsbeiavzapm.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_...a-tua-chave-real...";
+
+const parametros =
+    new URLSearchParams(window.location.search);
 
 const vagaSelecionada =
     parametros.get("vaga") || "Vaga não identificada";
@@ -142,23 +156,92 @@ const vagaSelecionada =
 document.getElementById("vaga").textContent =
     vagaSelecionada;
 
-document
-    .getElementById("formCandidatura")
-    .addEventListener("submit", function(event) {
+const formulario =
+    document.getElementById("formCandidatura");
 
-        event.preventDefault();
+const mensagem =
+    document.getElementById("mensagem");
 
-        const mensagem =
-            document.getElementById("mensagem");
+const botao =
+    document.getElementById("botao");
 
-        mensagem.style.display = "block";
+formulario.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    mensagem.style.display = "block";
+    mensagem.innerHTML = "A enviar candidatura...";
+
+    botao.disabled = true;
+    botao.textContent = "A enviar...";
+
+    const dados = {
+        vaga: vagaSelecionada,
+        nome_completo:
+            document.getElementById("nome").value.trim(),
+        telefone:
+            document.getElementById("telefone").value.trim(),
+        email:
+            document.getElementById("email").value.trim() || null,
+        mensagem:
+            document.getElementById("mensagemCandidato").value.trim() || null
+    };
+
+    try {
+
+        const resposta = await fetch(
+            SUPABASE_URL + "/rest/v1/candidaturas",
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "apikey": SUPABASE_KEY,
+                    "Prefer": "return=minimal"
+                },
+
+                body: JSON.stringify(dados)
+            }
+        );
+
+        if (!resposta.ok) {
+
+            const erro = await resposta.text();
+
+            console.error("Erro Supabase:", erro);
+
+            mensagem.innerHTML =
+                "<strong>Erro no envio:</strong><br><br>" +
+                erro;
+
+            botao.disabled = false;
+            botao.textContent = "Enviar Candidatura";
+
+            return;
+        }
 
         mensagem.innerHTML =
             "<strong>✅ Candidatura enviada com sucesso!</strong><br><br>" +
-            "Vaga: " + vagaSelecionada;
+            "A sua candidatura foi registada na RNO.";
 
-        this.reset();
-    });
+        formulario.reset();
+
+        botao.disabled = false;
+        botao.textContent = "Enviar Candidatura";
+
+    } catch (erro) {
+
+        console.error("Erro de ligação:", erro);
+
+        mensagem.innerHTML =
+            "<strong>Erro de ligação:</strong><br><br>" +
+            erro.message;
+
+        botao.disabled = false;
+        botao.textContent = "Enviar Candidatura";
+    }
+
+});
 
 </script>
 
