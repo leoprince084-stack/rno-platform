@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Candidatura - RNO</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            padding: 30px 15px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #0b5ed7;
+        }
+
+        #vaga {
+            text-align: center;
+            font-size: 22px;
+            font-weight: bold;
+            color: #333;
+            margin: 20px 0 30px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 6px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 100px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 7px;
+            background: #0b5ed7;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #mensagem {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            background: #e8f5e9;
+            border-radius: 7px;
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #0b5ed7;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Enviar Candidatura</h1>
+
+    <div id="vaga">
+        Vaga selecionada
+    </div>
+
+    <form id="formCandidatura">
+
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" required>
+
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email">
+
+        <label for="mensagemCandidato">Mensagem</label>
+        <textarea
+            id="mensagemCandidato"
+            placeholder="Escreva uma breve apresentação"
+        ></textarea>
+
+        <button type="submit">
+            Enviar Candidatura
+        </button>
+
+    </form>
+
+    <div id="mensagem"></div>
+
+    <a href="vagas.html" class="voltar">
+        ← Voltar para Oportunidades
+    </a>
+
+</div>
+
+<script>
+
+const parametros = new URLSearchParams(window.location.search);
+
+const vagaSelecionada =
+    parametros.get("vaga") || "Vaga não identificada";
+
+document.getElementById("vaga").textContent =
+    vagaSelecionada;
+
+document
+    .getElementById("formCandidatura")
+    .addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        const mensagem =
+            document.getElementById("mensagem");
+
+        mensagem.style.display = "block";
+
+        mensagem.innerHTML =
+            "<strong>✅ Candidatura enviada com sucesso!</strong><br><br>" +
+            "Vaga: " + vagaSelecionada;
+
+        this.reset();
+    });
+
+</script>
+
+</body>
+</html>
