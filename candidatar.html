@@ -196,11 +196,12 @@ formulario.addEventListener("submit", async function(event) {
             {
                 method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json",
-                    "apikey": SUPABASE_KEY,
-                    "Prefer": "return=representation"
-                },
+               headers: {
+    "Content-Type": "application/json",
+    "apikey": SUPABASE_KEY,
+    "Content-Profile": "public",
+    "Prefer": "return=representation"
+},
 
                 body: JSON.stringify(dados)
             }
