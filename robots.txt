@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://leoprince084-stack.github.io/rno-platform/sitemap.xml
