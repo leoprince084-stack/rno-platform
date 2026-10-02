@@ -137,8 +137,9 @@
 
 const parametros = new URLSearchParams(window.location.search);
 
-const vagaSelecionada =
-    parametros.get("vaga") || "Vaga não identificada";
+<a href="candidatar.html?vaga=Assistente%20Administrativo" class="btn-candidatar">
+    Candidatar-se
+</a>
 
 document.getElementById("vaga").textContent =
     vagaSelecionada;
