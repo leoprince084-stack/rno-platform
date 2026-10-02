@@ -19,7 +19,7 @@
 
         .container {
             max-width: 600px;
-            margin: auto;
+            margin: 0 auto;
             background: white;
             padding: 30px;
             border-radius: 12px;
@@ -72,12 +72,8 @@
             cursor: pointer;
         }
 
-        .voltar {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #0b5ed7;
-            text-decoration: none;
+        button:disabled {
+            opacity: 0.7;
         }
 
         #mensagem {
@@ -88,6 +84,14 @@
             background: #eef4ff;
             line-height: 1.5;
             word-break: break-word;
+        }
+
+        .voltar {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #0b5ed7;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -102,18 +106,18 @@
         Crie o seu perfil profissional na RNO
     </p>
 
-   <form id="formCandidato" onsubmit="return testarFormulario(event)">
+    <form id="formCandidato">
 
-        <label>Nome completo</label>
+        <label for="nome">Nome completo</label>
         <input type="text" id="nome" required>
 
-        <label>Telefone</label>
+        <label for="telefone">Telefone</label>
         <input type="tel" id="telefone" required>
 
-        <label>Email</label>
+        <label for="email">Email</label>
         <input type="email" id="email">
 
-        <label>Província</label>
+        <label for="provincia">Província</label>
         <select id="provincia" required>
             <option value="">Selecione</option>
             <option>Maputo Cidade</option>
@@ -129,13 +133,21 @@
             <option>Niassa</option>
         </select>
 
-        <label>Área profissional</label>
-        <input type="text" id="area" required>
+        <label for="area">Área profissional</label>
+        <input
+            type="text"
+            id="area"
+            placeholder="Ex.: Informática"
+            required
+        >
 
-        <label>Experiência profissional</label>
-        <textarea id="experiencia"></textarea>
+        <label for="experiencia">Experiência profissional</label>
+        <textarea
+            id="experiencia"
+            placeholder="Descreva a sua experiência profissional"
+        ></textarea>
 
-        <button type="submit">
+        <button type="submit" id="botao">
             Criar Perfil
         </button>
 
@@ -150,94 +162,107 @@
 </div>
 
 <script>
-const SUPABASE_URL =
-    "https://bwkpmirlwrsbeiavzapm.supabase.co";
+    const SUPABASE_URL =
+        "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
-const SUPABASE_KEY =
-"sb_publishable_A_TUA_CHAVE_REAL";
-const formulario =
-    document.getElementById("formCandidato");
+    const SUPABASE_KEY =
+        "COLOQUE_AQUI_A_TUA_PUBLISHABLE_KEY";
 
-const mensagem =
-    document.getElementById("mensagem");
+    const formulario =
+        document.getElementById("formCandidato");
 
-formulario.addEventListener("submit", async function(event) {
+    const mensagem =
+        document.getElementById("mensagem");
 
-    event.preventDefault();
+    const botao =
+        document.getElementById("botao");
 
-    mensagem.style.display = "block";
-    mensagem.innerHTML = "A guardar o cadastro...";
+    formulario.addEventListener("submit", async function(event) {
 
-    const dados = {
-        nome_completo:
-            document.getElementById("nome").value.trim(),
+        event.preventDefault();
 
-        telefone:
-            document.getElementById("telefone").value.trim(),
+        mensagem.style.display = "block";
+        mensagem.innerHTML = "A guardar o cadastro...";
 
-        email:
-            document.getElementById("email").value.trim() || null,
+        botao.disabled = true;
+        botao.textContent = "A guardar...";
 
-        provincia:
-            document.getElementById("provincia").value,
+        const dados = {
+            nome_completo:
+                document.getElementById("nome").value.trim(),
 
-        area_profissional:
-            document.getElementById("area").value.trim(),
+            telefone:
+                document.getElementById("telefone").value.trim(),
 
-        experiencia:
-            document.getElementById("experiencia").value.trim()
-    };
+            email:
+                document.getElementById("email").value.trim() || null,
 
-    try {
+            provincia:
+                document.getElementById("provincia").value,
 
-        const resposta = await fetch(
-            SUPABASE_URL + "/rest/v1/candidatos",
-            {
-                method: "POST",
+            area_profissional:
+                document.getElementById("area").value.trim(),
 
-            headers: {
-    "Content-Type": "application/json",
-    "apikey": SUPABASE_KEY,
-    "Prefer": "return=minimal",
+            experiencia:
+                document.getElementById("experiencia").value.trim()
+        };
 
-                body: JSON.stringify(dados)
+        try {
+
+            const resposta = await fetch(
+                SUPABASE_URL + "/rest/v1/candidatos",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "apikey": SUPABASE_KEY,
+                        "Prefer": "return=minimal"
+                    },
+
+                    body: JSON.stringify(dados)
+                }
+            );
+
+            if (!resposta.ok) {
+
+                const erro = await resposta.text();
+
+                console.error("Erro Supabase:", erro);
+
+                mensagem.innerHTML =
+                    "<strong>Erro no cadastro:</strong><br><br>" +
+                    erro;
+
+                botao.disabled = false;
+                botao.textContent = "Criar Perfil";
+
+                return;
             }
-        );
-
-        if (!resposta.ok) {
-
-            const erro = await resposta.text();
 
             mensagem.innerHTML =
-                "<strong>Erro no cadastro:</strong><br><br>" +
-                erro;
+                "<strong>✅ Cadastro realizado com sucesso!</strong><br>" +
+                "O perfil foi guardado na RNO.";
 
-            return;
+            formulario.reset();
+
+            botao.disabled = false;
+            botao.textContent = "Criar Perfil";
+
+        } catch (erro) {
+
+            console.error("Erro de ligação:", erro);
+
+            mensagem.innerHTML =
+                "<strong>Erro de ligação:</strong><br><br>" +
+                erro.message;
+
+            botao.disabled = false;
+            botao.textContent = "Criar Perfil";
         }
 
-        mensagem.innerHTML =
-            "<strong>✅ Cadastro realizado com sucesso!</strong><br>" +
-            "O perfil foi guardado na RNO.";
-
-        formulario.reset();
-
-    } catch (erro) {
-
-        mensagem.innerHTML =
-            "<strong>Erro de ligação:</strong><br><br>" +
-            erro.message;
- <a href="index.html" class="voltar">
-    ← Voltar para a RNO
-</a>
-
-<script>
-function testarFormulario(event) {
-    event.preventDefault();
-
-    alert("O botão está funcionando corretamente!");
-
-    return false;
-}
+    });
 </script>
 
 </body>
+</html>
