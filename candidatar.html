@@ -147,7 +147,8 @@ const SUPABASE_URL =
     "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ;
+    "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ;"
+
 
 const parametros =
     new URLSearchParams(window.location.search);
@@ -179,17 +180,19 @@ formulario.addEventListener("submit", async function(event) {
 
     const dados = {
         vaga: vagaSelecionada,
+
         nome_completo:
             document.getElementById("nome").value.trim(),
+
         telefone:
             document.getElementById("telefone").value.trim(),
+
         email:
             document.getElementById("email").value.trim() || null,
-        mensagem:
-           mensagem:
-    document.getElementById("mensagemCandidato").value.trim()
-    };
 
+        mensagem:
+            document.getElementById("mensagemCandidato").value.trim()
+    };
     try {
 
         const resposta = await fetch(
