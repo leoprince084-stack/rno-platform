@@ -114,9 +114,14 @@
         <label for="telefone">Telefone</label>
         <input type="tel" id="telefone" required>
 
-        <label for="email">Email</label>
-        <input type="email" id="email">
+     <label for="email">Email</label>
+<input type="email" id="email" required>
 
+<label for="senha">Senha</label>
+<input type="password" id="senha" minlength="6" required>
+
+<label for="confirmarSenha">Confirmar senha</label>
+<input type="password" id="confirmarSenha" minlength="6" required>
         <label for="provincia">Província</label>
         <select id="provincia" required>
             <option value="">Selecione</option>
@@ -162,11 +167,12 @@
 </div>
 
 <script>
+   <script>
     const SUPABASE_URL =
         "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
     const SUPABASE_KEY =
-        "COLOQUE_AQUI_A_TUA_PUBLISHABLE_KEY";
+        "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
 
     const formulario =
         document.getElementById("formCandidato");
@@ -181,35 +187,126 @@
 
         event.preventDefault();
 
+        const nome =
+            document.getElementById("nome").value.trim();
+
+        const telefone =
+            document.getElementById("telefone").value.trim();
+
+        const email =
+            document.getElementById("email").value.trim();
+
+        const provincia =
+            document.getElementById("provincia").value;
+
+        const area =
+            document.getElementById("area").value.trim();
+
+        const experiencia =
+            document.getElementById("experiencia").value.trim();
+
+        const senha =
+            document.getElementById("senha").value;
+
+        const confirmarSenha =
+            document.getElementById("confirmarSenha").value;
+
+        if (senha !== confirmarSenha) {
+
+            mensagem.style.display = "block";
+
+            mensagem.innerHTML =
+                "<strong>As senhas não coincidem.</strong>";
+
+            return;
+        }
+
         mensagem.style.display = "block";
-        mensagem.innerHTML = "A guardar o cadastro...";
+        mensagem.innerHTML =
+            "A criar a sua conta...";
 
         botao.disabled = true;
-        botao.textContent = "A guardar...";
-
-        const dados = {
-            nome_completo:
-                document.getElementById("nome").value.trim(),
-
-            telefone:
-                document.getElementById("telefone").value.trim(),
-
-            email:
-                document.getElementById("email").value.trim() || null,
-
-            provincia:
-                document.getElementById("provincia").value,
-
-            area_profissional:
-                document.getElementById("area").value.trim(),
-
-            experiencia:
-                document.getElementById("experiencia").value.trim()
-        };
+        botao.textContent = "A criar conta...";
 
         try {
 
-            const resposta = await fetch(
+            /* 1. CRIAR CONTA NO SUPABASE AUTH */
+
+            const cadastroAuth = await fetch(
+                SUPABASE_URL + "/auth/v1/signup",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "apikey": SUPABASE_KEY
+                    },
+
+                    body: JSON.stringify({
+                        email: email,
+                        password: senha
+                    })
+                }
+            );
+
+            const resultadoAuth =
+                await cadastroAuth.json();
+
+            if (!cadastroAuth.ok) {
+
+                console.error(
+                    "Erro Auth:",
+                    resultadoAuth
+                );
+
+                mensagem.innerHTML =
+                    "<strong>Erro ao criar a conta:</strong><br><br>" +
+                    (resultadoAuth.msg ||
+                     resultadoAuth.message ||
+                     "Não foi possível criar a conta.");
+
+                botao.disabled = false;
+                botao.textContent = "Criar Perfil";
+
+                return;
+            }
+
+            /* 2. PEGAR O ID DO UTILIZADOR */
+
+            const userId =
+                resultadoAuth.user?.id;
+
+            if (!userId) {
+
+                mensagem.innerHTML =
+                    "<strong>Conta criada, mas não foi possível obter o ID do utilizador.</strong>";
+
+                botao.disabled = false;
+                botao.textContent = "Criar Perfil";
+
+                return;
+            }
+
+            /* 3. CRIAR O PERFIL DO CANDIDATO */
+
+            const dados = {
+
+                id: userId,
+
+                nome_completo: nome,
+
+                telefone: telefone,
+
+                email: email,
+
+                provincia: provincia,
+
+                area_profissional: area,
+
+                experiencia: experiencia
+            };
+
+            const respostaPerfil = await fetch(
                 SUPABASE_URL + "/rest/v1/candidatos",
                 {
                     method: "POST",
@@ -224,14 +321,18 @@
                 }
             );
 
-            if (!resposta.ok) {
+            if (!respostaPerfil.ok) {
 
-                const erro = await resposta.text();
+                const erro =
+                    await respostaPerfil.text();
 
-                console.error("Erro Supabase:", erro);
+                console.error(
+                    "Erro perfil:",
+                    erro
+                );
 
                 mensagem.innerHTML =
-                    "<strong>Erro no cadastro:</strong><br><br>" +
+                    "<strong>A conta foi criada, mas houve um problema ao guardar o perfil:</strong><br><br>" +
                     erro;
 
                 botao.disabled = false;
@@ -240,9 +341,11 @@
                 return;
             }
 
+            /* 4. SUCESSO */
+
             mensagem.innerHTML =
-                "<strong>✅ Cadastro realizado com sucesso!</strong><br>" +
-                "O perfil foi guardado na RNO.";
+                "<strong>✅ Conta criada com sucesso!</strong><br><br>" +
+                "O seu perfil foi registado na RNO.";
 
             formulario.reset();
 
@@ -251,7 +354,10 @@
 
         } catch (erro) {
 
-            console.error("Erro de ligação:", erro);
+            console.error(
+                "Erro de ligação:",
+                erro
+            );
 
             mensagem.innerHTML =
                 "<strong>Erro de ligação:</strong><br><br>" +
@@ -260,7 +366,6 @@
             botao.disabled = false;
             botao.textContent = "Criar Perfil";
         }
-
     });
 </script>
 
