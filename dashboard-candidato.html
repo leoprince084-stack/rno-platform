@@ -288,11 +288,11 @@ async function carregarPerfil() {
             {
                 method: "GET",
 
-                headers: {
-                    "apikey": SUPABASE_KEY,
-                    "Authorization": "Bearer " + accessToken
-                }
-            }
+              headers: {
+    "apikey": SUPABASE_KEY,
+    "Authorization": "Bearer " + accessToken,
+    "Accept-Profile": "public"
+}
         );
 
         if (!resposta.ok) {
