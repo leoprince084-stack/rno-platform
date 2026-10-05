@@ -229,9 +229,7 @@
 
         try {
 
-            /* 1. CRIAR CONTA NO SUPABASE AUTH */
-
-            const cadastroAuth = await fetch(
+            const resposta = await fetch(
                 SUPABASE_URL + "/auth/v1/signup",
                 {
                     method: "POST",
@@ -242,109 +240,57 @@
                     },
 
                     body: JSON.stringify({
+
                         email: email,
-                        password: senha
+
+                        password: senha,
+
+                        data: {
+
+                            nome_completo: nome,
+
+                            telefone: telefone,
+
+                            provincia: provincia,
+
+                            area_profissional: area,
+
+                            experiencia: experiencia
+                        }
                     })
                 }
             );
 
-            const resultadoAuth =
-                await cadastroAuth.json();
+            const resultado =
+                await resposta.json();
 
-            if (!cadastroAuth.ok) {
+            console.log(
+                "Resposta do Supabase:",
+                resultado
+            );
 
-                console.error(
-                    "Erro Auth:",
-                    resultadoAuth
-                );
+            if (!resposta.ok) {
 
                 mensagem.innerHTML =
                     "<strong>Erro ao criar a conta:</strong><br><br>" +
-                    (resultadoAuth.msg ||
-                     resultadoAuth.message ||
-                     "Não foi possível criar a conta.");
+                    (
+                        resultado.msg ||
+                        resultado.message ||
+                        "Não foi possível criar a conta."
+                    );
 
                 botao.disabled = false;
                 botao.textContent = "Criar Perfil";
 
                 return;
             }
-
-            /* 2. PEGAR O ID DO UTILIZADOR */
-
-            const userId =
-                resultadoAuth.user?.id;
-
-            if (!userId) {
-
-                mensagem.innerHTML =
-                    "<strong>Conta criada, mas não foi possível obter o ID do utilizador.</strong>";
-
-                botao.disabled = false;
-                botao.textContent = "Criar Perfil";
-
-                return;
-            }
-
-            /* 3. CRIAR O PERFIL DO CANDIDATO */
-
-            const dados = {
-
-                id: userId,
-
-                nome_completo: nome,
-
-                telefone: telefone,
-
-                email: email,
-
-                provincia: provincia,
-
-                area_profissional: area,
-
-                experiencia: experiencia
-            };
-
-            const respostaPerfil = await fetch(
-                SUPABASE_URL + "/rest/v1/candidatos",
-                {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json",
-                        "apikey": SUPABASE_KEY,
-                        "Prefer": "return=minimal"
-                    },
-
-                    body: JSON.stringify(dados)
-                }
-            );
-
-            if (!respostaPerfil.ok) {
-
-                const erro =
-                    await respostaPerfil.text();
-
-                console.error(
-                    "Erro perfil:",
-                    erro
-                );
-
-                mensagem.innerHTML =
-                    "<strong>A conta foi criada, mas houve um problema ao guardar o perfil:</strong><br><br>" +
-                    erro;
-
-                botao.disabled = false;
-                botao.textContent = "Criar Perfil";
-
-                return;
-            }
-
-            /* 4. SUCESSO */
 
             mensagem.innerHTML =
                 "<strong>✅ Conta criada com sucesso!</strong><br><br>" +
-                "O seu perfil foi registado na RNO.";
+                "Enviámos um e-mail de confirmação para <strong>" +
+                email +
+                "</strong>.<br><br>" +
+                "Abra o seu e-mail e confirme a sua conta para continuar.";
 
             formulario.reset();
 
@@ -365,8 +311,8 @@
             botao.disabled = false;
             botao.textContent = "Criar Perfil";
         }
+
     });
 </script>
-
 </body>
 </html>
