@@ -193,131 +193,8 @@
                 <option value="Estágio">Estágio</option>
                 <option value="Freelancer">Freelancer</option>
             </select>
-
-        </div>
-
-    </div>
-
-    <div id="contador"></div>
-
-    <div class="vagas">
-
-        <div class="vaga"
-             data-titulo="Assistente Administrativo"
-             data-provincia="Maputo"
-             data-tipo="Tempo inteiro">
-
-            <h2>Assistente Administrativo</h2>
-
-            <p class="empresa">
-                Empresa: Empresa Exemplo
-            </p>
-
-            <p class="info">📍 Maputo</p>
-            <p class="info">💼 Tempo inteiro</p>
-            <p class="info">🎓 Experiência: 1 ano</p>
-
-            <a
-                href="candidatar.html?vaga=Assistente%20Administrativo"
-                class="btn-candidatar">
-                Candidatar-se
-            </a>
-
-        </div>
-
-        <div class="vaga"
-             data-titulo="Técnico de Informática"
-             data-provincia="Maputo"
-             data-tipo="Tempo inteiro">
-
-            <h2>Técnico de Informática</h2>
-
-            <p class="empresa">
-                Empresa: Empresa Exemplo
-            </p>
-
-            <p class="info">📍 Maputo</p>
-            <p class="info">💼 Tempo inteiro</p>
-            <p class="info">🎓 Experiência: 2 anos</p>
-
-            <a
-                href="candidatar.html?vaga=Tecnico%20de%20Informatica"
-                class="btn-candidatar">
-                Candidatar-se
-            </a>
-
-        </div>
-
-        <div class="vaga"
-             data-titulo="Assistente de Vendas"
-             data-provincia="Gaza"
-             data-tipo="Tempo parcial">
-
-            <h2>Assistente de Vendas</h2>
-
-            <p class="empresa">
-                Empresa: Empresa Exemplo
-            </p>
-
-            <p class="info">📍 Gaza</p>
-            <p class="info">💼 Tempo parcial</p>
-            <p class="info">🎓 Experiência: Não obrigatória</p>
-
-            <a
-                href="candidatar.html?vaga=Assistente%20de%20Vendas"
-                class="btn-candidatar">
-                Candidatar-se
-            </a>
-
-        </div>
-
-        <div class="vaga"
-             data-titulo="Motorista"
-             data-provincia="Sofala"
-             data-tipo="Tempo inteiro">
-
-            <h2>Motorista</h2>
-
-            <p class="empresa">
-                Empresa: Empresa Exemplo
-            </p>
-
-            <p class="info">📍 Sofala</p>
-            <p class="info">💼 Tempo inteiro</p>
-            <p class="info">🎓 Carta de condução válida</p>
-
-            <a
-                href="candidatar.html?vaga=Motorista"
-                class="btn-candidatar">
-                Candidatar-se
-            </a>
-
-        </div>
-
-        <div class="vaga"
-             data-titulo="Estágio de Marketing"
-             data-provincia="Maputo"
-             data-tipo="Estágio">
-
-            <h2>Estágio de Marketing</h2>
-
-            <p class="empresa">
-                Empresa: Empresa Exemplo
-            </p>
-
-            <p class="info">📍 Maputo</p>
-            <p class="info">💼 Estágio</p>
-            <p class="info">🎓 Recém-formado</p>
-
-            <a
-                href="candidatar.html?vaga=Estagio%20de%20Marketing"
-                class="btn-candidatar">
-                Candidatar-se
-            </a>
-
-        </div>
-
-    </div>
+<div class="vagas" id="listaVagas">
+</div>
 
     <div id="semResultados" class="sem-resultados">
         <h2>Nenhuma oportunidade encontrada</h2>
@@ -336,6 +213,12 @@
 
 <script>
 
+const SUPABASE_URL =
+    "https://bwkpmirlwrsbeiavzapm.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
+
 const pesquisa =
     document.getElementById("pesquisa");
 
@@ -345,10 +228,67 @@ const provincia =
 const tipo =
     document.getElementById("tipo");
 
-function filtrarVagas() {
+const listaVagas =
+    document.getElementById("listaVagas");
+
+let todasAsVagas = [];
+
+async function carregarVagas() {
+
+    try {
+
+        const resposta = await fetch(
+            SUPABASE_URL +
+            "/rest/v1/vagas?select=*&order=created_at.desc",
+            {
+                method: "GET",
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Accept-Profile": "public"
+                }
+            }
+        );
+
+        const texto =
+            await resposta.text();
+
+        console.log("STATUS:", resposta.status);
+        console.log("RESPOSTA:", texto);
+
+        if (!resposta.ok) {
+            throw new Error(
+                "Erro ao carregar vagas. Status: " +
+                resposta.status
+            );
+        }
+
+        todasAsVagas =
+            JSON.parse(texto);
+
+        mostrarVagas();
+
+    } catch (erro) {
+
+        console.error(
+            "ERRO DAS VAGAS:",
+            erro
+        );
+
+        listaVagas.innerHTML =
+            "<p style='text-align:center;'>" +
+            "Não foi possível carregar as oportunidades." +
+            "</p>";
+
+    }
+
+}
+
+function mostrarVagas() {
 
     const texto =
-        pesquisa.value.toLowerCase().trim();
+        pesquisa.value
+        .toLowerCase()
+        .trim();
 
     const provinciaSelecionada =
         provincia.value;
@@ -356,75 +296,120 @@ function filtrarVagas() {
     const tipoSelecionado =
         tipo.value;
 
-    const vagas =
-        document.querySelectorAll(".vaga");
+    const resultados =
+        todasAsVagas.filter(function(vaga) {
 
-    let total = 0;
+            const titulo =
+                (vaga.titulo || "")
+                .toLowerCase();
 
-    vagas.forEach(function(vaga) {
+            const empresa =
+                (vaga.empresa || "")
+                .toLowerCase();
 
-        const titulo =
-            vaga.dataset.titulo.toLowerCase();
+            const localizacao =
+                vaga.localizacao || "";
 
-        const vagaProvincia =
-            vaga.dataset.provincia;
+            const tipoVaga =
+                vaga.tipo || "";
 
-        const vagaTipo =
-            vaga.dataset.tipo;
+            const encontrouTexto =
+                titulo.includes(texto) ||
+                empresa.includes(texto);
 
-        const encontrouTexto =
-            titulo.includes(texto);
+            const encontrouProvincia =
+                provinciaSelecionada === "" ||
+                localizacao === provinciaSelecionada;
 
-        const encontrouProvincia =
-            provinciaSelecionada === "" ||
-            vagaProvincia === provinciaSelecionada;
+            const encontrouTipo =
+                tipoSelecionado === "" ||
+                tipoVaga === tipoSelecionado;
 
-        const encontrouTipo =
-            tipoSelecionado === "" ||
-            vagaTipo === tipoSelecionado;
+            return (
+                encontrouTexto &&
+                encontrouProvincia &&
+                encontrouTipo
+            );
 
-        if (
-            encontrouTexto &&
-            encontrouProvincia &&
-            encontrouTipo
-        ) {
+        });
 
-            vaga.style.display = "block";
-            total++;
+    listaVagas.innerHTML = "";
 
-        } else {
+    resultados.forEach(function(vaga) {
 
-            vaga.style.display = "none";
+        const cartao =
+            document.createElement("div");
 
-        }
+        cartao.className = "vaga";
+
+        cartao.innerHTML = `
+
+            <h2>${vaga.titulo || "Sem título"}</h2>
+
+            <p class="empresa">
+                Empresa: ${vaga.empresa || "Não informado"}
+            </p>
+
+            <p class="info">
+                📍 ${vaga.localizacao || "Não informado"}
+            </p>
+
+            <p class="info">
+                💼 ${vaga.tipo || "Não informado"}
+            </p>
+
+            <p class="info">
+                💰 ${vaga.salario || "A combinar"}
+            </p>
+
+            <p class="info">
+                ${vaga.descricao || ""}
+            </p>
+
+            <a
+                href="candidatar.html?vaga=${encodeURIComponent(vaga.titulo || "")}"
+                class="btn-candidatar">
+                Candidatar-se
+            </a>
+
+        `;
+
+        listaVagas.appendChild(cartao);
 
     });
 
-    document.getElementById("contador").textContent =
-        total + " oportunidade(s) encontrada(s)";
+    document.getElementById(
+        "contador"
+    ).textContent =
+        resultados.length +
+        " oportunidade(s) encontrada(s)";
 
-    document.getElementById("semResultados").style.display =
-        total === 0 ? "block" : "none";
+    document.getElementById(
+        "semResultados"
+    ).style.display =
+        resultados.length === 0
+        ? "block"
+        : "none";
+
 }
 
 pesquisa.addEventListener(
     "input",
-    filtrarVagas
+    mostrarVagas
 );
 
 provincia.addEventListener(
     "change",
-    filtrarVagas
+    mostrarVagas
 );
 
 tipo.addEventListener(
     "change",
-    filtrarVagas
+    mostrarVagas
 );
 
-filtrarVagas();
+carregarVagas();
 
 </script>
-
 </body>
 </html>
