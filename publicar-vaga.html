@@ -275,17 +275,11 @@ formulario.addEventListener("submit", async function(event) {
     }
 
 
-    const dados = {
-
-        titulo:
-            document.getElementById("titulo").value.trim(),
-
-        empresa:
-            "RNO",
-
-        localizacao:
-            document.getElementById("localizacao").value.trim(),
-
+   const dados = {
+    titulo: document.getElementById("titulo").value.trim(),
+    empresa: "RNO",
+    empresa_id: localStorage.getItem("rno_user_id"),
+    localizacao: document.getElementById("localizacao").value.trim(),
         tipo:
             document.getElementById("tipo").value,
 
