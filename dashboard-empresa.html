@@ -536,7 +536,70 @@ async function carregarEmpresa() {
 
 
 carregarEmpresa();
+async function carregarTotalVagas() {
 
+    try {
+
+        const resposta =
+            await fetch(
+                SUPABASE_URL +
+                "/rest/v1/vagas?select=id&empresa=eq.RNO",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            accessToken,
+
+                        "Accept-Profile":
+                            "public"
+                    }
+                }
+            );
+
+
+        const vagas =
+            await resposta.json();
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                vagas.message ||
+                "Não foi possível carregar as vagas."
+            );
+
+        }
+
+
+        document.getElementById(
+            "totalVagas"
+        ).textContent =
+            vagas.length;
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar vagas:",
+            erro
+        );
+
+        document.getElementById(
+            "totalVagas"
+        ).textContent =
+            "0";
+
+    }
+
+}
+
+
+carregarTotalVagas();
 
 /*
  * Terminar sessão
