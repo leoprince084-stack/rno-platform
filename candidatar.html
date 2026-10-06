@@ -152,7 +152,7 @@ const parametros =
     new URLSearchParams(window.location.search);
 
 const vagaId = parametros.get("vaga_id");
-
+console.log("VAGA ID:", vagaId);
 const vagaSelecionada =
     parametros.get("vaga") || "Vaga não identificada";
 document.getElementById("vaga").textContent =
