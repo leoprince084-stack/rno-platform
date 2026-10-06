@@ -245,6 +245,17 @@ formulario.addEventListener("submit", async function(event) {
         document.getElementById("descricao").value.trim();
 
 
+    if (senha.length < 6) {
+
+        mensagem.style.display = "block";
+
+        mensagem.innerHTML =
+            "<strong>A senha deve ter pelo menos 6 caracteres.</strong>";
+
+        return;
+    }
+
+
     if (senha !== confirmarSenha) {
 
         mensagem.style.display = "block";
@@ -286,15 +297,15 @@ formulario.addEventListener("submit", async function(event) {
 
                         password: senha,
 
-                       data: {
-    tipo_conta: "empresa",
-    nome_empresa: nomeEmpresa,
-    responsavel: responsavel,
-    telefone: telefone,
-    provincia: provincia,
-    area_atuacao: area,
-    descricao: descricao
-}
+                        data: {
+                            tipo_conta: "empresa",
+                            nome_empresa: nomeEmpresa,
+                            responsavel: responsavel,
+                            telefone: telefone,
+                            provincia: provincia,
+                            area_atuacao: area,
+                            descricao: descricao
+                        }
 
                     })
                 }
@@ -331,118 +342,6 @@ formulario.addEventListener("submit", async function(event) {
         }
 
 
-        /*
-         * O Supabase criou a conta.
-         * Agora precisamos do ID do utilizador.
-         */
-
-        const userId =
-            resultado.user?.id;
-
-
-        if (!userId) {
-
-            mensagem.innerHTML =
-                "<strong>Conta criada.</strong><br><br>" +
-                "Confirme o seu email para continuar.";
-
-            formulario.reset();
-
-            botao.disabled = false;
-
-            botao.textContent =
-                "Criar Conta da Empresa";
-
-            return;
-        }
-
-
-        /*
-         * Criar o perfil da empresa
-         * usando o mesmo ID do Auth.
-         */
-
-        const respostaEmpresa =
-            await fetch(
-                SUPABASE_URL +
-                "/rest/v1/empresas",
-                {
-                    method: "POST",
-
-                    headers: {
-
-                        "Content-Type":
-                            "application/json",
-
-                        "apikey":
-                            SUPABASE_KEY,
-
-                        "Authorization":
-                            "Bearer " +
-                            SUPABASE_KEY,
-
-                        "Content-Profile":
-                            "public",
-
-                        "Prefer":
-                            "return=minimal"
-
-                    },
-
-                    body: JSON.stringify({
-
-                        id: userId,
-
-                        nome_empresa:
-                            nomeEmpresa,
-
-                        responsavel:
-                            responsavel,
-
-                        telefone:
-                            telefone,
-
-                        email:
-                            email,
-
-                        provincia:
-                            provincia,
-
-                        area_atuacao:
-                            area,
-
-                        descricao:
-                            descricao || null
-
-                    })
-                }
-            );
-
-
-        const resultadoEmpresa =
-            await respostaEmpresa.text();
-
-
-        if (!respostaEmpresa.ok) {
-
-            console.error(
-                "Erro ao criar perfil:",
-                resultadoEmpresa
-            );
-
-            mensagem.innerHTML =
-                "<strong>Conta criada, mas houve um problema ao guardar o perfil da empresa.</strong><br><br>" +
-                resultadoEmpresa;
-
-            botao.disabled = false;
-
-            botao.textContent =
-                "Criar Conta da Empresa";
-
-            return;
-        }
-
-
         mensagem.innerHTML =
             "<strong>✅ CONTA DA EMPRESA CRIADA!</strong><br><br>" +
             "Enviámos um email de confirmação para <strong>" +
@@ -457,6 +356,7 @@ formulario.addEventListener("submit", async function(event) {
 
         botao.textContent =
             "Criar Conta da Empresa";
+
 
     } catch (erro) {
 
@@ -477,7 +377,6 @@ formulario.addEventListener("submit", async function(event) {
     }
 
 });
-
 </script>
 
 </body>
