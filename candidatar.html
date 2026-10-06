@@ -177,9 +177,10 @@ formulario.addEventListener("submit", async function(event) {
     botao.disabled = true;
     botao.textContent = "A enviar...";
 
-    const dados = {
-        vaga: vagaSelecionada,
-        nome_completo:
+   const dados = {
+    vaga_id: vagaId,
+    vaga: vagaSelecionada,
+    nome_completo: ...
             document.getElementById("nome").value.trim(),
         telefone:
             document.getElementById("telefone").value.trim(),
