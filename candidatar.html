@@ -174,7 +174,9 @@ formulario.addEventListener("submit", async function(event) {
     mensagem.style.display = "block";
     mensagem.innerHTML = "A enviar candidatura...";
 
-  const dados = {
+ const vagaId = parametros.get("vaga_id");
+
+const dados = {
     vaga_id: vagaId,
     vaga: vagaSelecionada,
     nome_completo:
@@ -182,9 +184,9 @@ formulario.addEventListener("submit", async function(event) {
     telefone:
         document.getElementById("telefone").value.trim(),
     email:
-        document.getElementById("email").value.trim(),
+        document.getElementById("email").value.trim() || null,
     mensagem:
-        document.getElementById("mensagem").value.trim()
+    document.getElementById("mensagemCandidato").value.trim()
 };
 
     try {
