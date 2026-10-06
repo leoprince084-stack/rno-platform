@@ -200,7 +200,7 @@ formulario.addEventListener("submit", async function(event) {
     "Content-Type": "application/json",
     "apikey": SUPABASE_KEY,
     "Content-Profile": "public",
-    "Prefer": "return=representation"
+    "Prefer": "return=minimal"
 },
                 body: JSON.stringify(dados)
             }
