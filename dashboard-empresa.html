@@ -607,11 +607,12 @@ async function carregarTotalCandidaturas() {
 
     try {
 
-        const resposta =
-            await fetch(
-                SUPABASE_URL +
-                "/rest/v1/candidaturas?select=id",
-                {
+     const resposta =
+    await fetch(
+        SUPABASE_URL +
+        "/rest/v1/candidaturas?select=id,vagas!inner(empresa_id)&vagas.empresa_id=eq." +
+        localStorage.getItem("rno_user_id"),
+        {
                     method: "GET",
 
                     headers: {
