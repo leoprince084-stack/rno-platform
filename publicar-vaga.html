@@ -33,7 +33,6 @@
 
         header p {
             font-size: 15px;
-            opacity: 0.9;
         }
 
         .container {
@@ -49,7 +48,7 @@
             box-shadow: 0 5px 20px rgba(0,0,0,0.08);
         }
 
-        .card h2 {
+        h2 {
             color: #0b1f3a;
             margin-bottom: 8px;
         }
@@ -74,13 +73,6 @@
             border: 1px solid #ccc;
             border-radius: 8px;
             font-size: 15px;
-            outline: none;
-        }
-
-        input:focus,
-        textarea:focus,
-        select:focus {
-            border-color: #0b1f3a;
         }
 
         textarea {
@@ -101,10 +93,6 @@
             cursor: pointer;
         }
 
-        button:hover {
-            opacity: 0.9;
-        }
-
         button:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -114,9 +102,9 @@
             margin-top: 18px;
             padding: 12px;
             border-radius: 8px;
-            display: none;
             text-align: center;
             font-weight: bold;
+            display: none;
         }
 
         .sucesso {
@@ -161,16 +149,14 @@
         <form id="formVaga">
 
             <label for="titulo">Título da vaga *</label>
-
             <input
                 type="text"
                 id="titulo"
-                placeholder="Ex.: Editor de Vídeo"
+                placeholder="Ex.: Assistente Administrativo"
                 required
             >
 
             <label for="localizacao">Localização *</label>
-
             <input
                 type="text"
                 id="localizacao"
@@ -181,14 +167,12 @@
             <label for="tipo">Tipo de trabalho *</label>
 
             <select id="tipo" required>
-
                 <option value="">Selecione</option>
                 <option value="Tempo inteiro">Tempo inteiro</option>
                 <option value="Tempo parcial">Tempo parcial</option>
                 <option value="Estágio">Estágio</option>
                 <option value="Freelance">Freelance</option>
                 <option value="Trabalho remoto">Trabalho remoto</option>
-
             </select>
 
             <label for="descricao">Descrição da vaga *</label>
@@ -203,7 +187,7 @@
 
             <textarea
                 id="requisitos"
-                placeholder="Indique experiência, formação, conhecimentos e outras exigências..."
+                placeholder="Indique os requisitos necessários..."
                 required
             ></textarea>
 
@@ -220,7 +204,7 @@
             <input
                 type="text"
                 id="contacto"
-                placeholder="Ex.: 84 000 0000"
+                placeholder="Ex.: 879395804"
                 required
             >
 
@@ -232,7 +216,10 @@
 
         <div id="mensagem"></div>
 
-        <a class="voltar" href="dashboard-empresa.html">
+        <a
+            class="voltar"
+            href="dashboard-empresa.html"
+        >
             ← Voltar para o painel da empresa
         </a>
 
@@ -270,6 +257,24 @@ formulario.addEventListener("submit", async function(event) {
     botao.textContent = "A PUBLICAR...";
 
 
+    const accessToken =
+        localStorage.getItem("rno_access_token");
+
+
+    if (!accessToken) {
+
+        mensagem.textContent =
+            "❌ A sessão da empresa expirou. Faça login novamente.";
+
+        mensagem.className = "erro";
+
+        botao.disabled = false;
+        botao.textContent = "PUBLICAR VAGA";
+
+        return;
+    }
+
+
     const dados = {
 
         titulo:
@@ -304,27 +309,17 @@ formulario.addEventListener("submit", async function(event) {
         const resposta = await fetch(
             SUPABASE_URL + "/rest/v1/vagas",
             {
-
                 method: "POST",
 
                 headers: {
-
                     "Content-Type": "application/json",
-
                     "apikey": SUPABASE_KEY,
-
-                    "Authorization":
-                        "Bearer " +
-                        (localStorage.getItem("rno_access_token") || ""),
-
+                    "Authorization": "Bearer " + accessToken,
                     "Content-Profile": "public",
-
                     "Prefer": "return=minimal"
-
                 },
 
                 body: JSON.stringify(dados)
-
             }
         );
 
@@ -334,10 +329,17 @@ formulario.addEventListener("submit", async function(event) {
             const erro =
                 await resposta.text();
 
-            console.error(erro);
+            console.error(
+                "Erro Supabase:",
+                erro
+            );
 
-           throw new Error(
-    "Erro " + resposta.status + ": " + erro
+            throw new Error(
+                "Erro " +
+                resposta.status +
+                ": " +
+                erro
+            );
         }
 
 
@@ -347,16 +349,19 @@ formulario.addEventListener("submit", async function(event) {
         mensagem.className =
             "sucesso";
 
-
         formulario.reset();
 
 
     } catch (erro) {
 
-        console.error(erro);
+        console.error(
+            "Erro:",
+            erro
+        );
 
         mensagem.textContent =
-            "❌ " + erro.message;
+            "❌ " +
+            erro.message;
 
         mensagem.className =
             "erro";
