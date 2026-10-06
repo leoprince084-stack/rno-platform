@@ -151,7 +151,7 @@ const SUPABASE_KEY =
 
 const parametros =
     new URLSearchParams(window.location.search);
-
+const vagaId = params.get("vaga_id");
 const vagaSelecionada =
     parametros.get("vaga") || "Vaga não identificada";
 
