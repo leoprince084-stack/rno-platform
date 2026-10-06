@@ -336,10 +336,8 @@ formulario.addEventListener("submit", async function(event) {
 
             console.error(erro);
 
-            throw new Error(
-                "Não foi possível publicar a vaga."
-            );
-
+           throw new Error(
+    "Erro " + resposta.status + ": " + erro
         }
 
 
