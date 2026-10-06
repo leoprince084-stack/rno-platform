@@ -9,21 +9,20 @@
     <style>
         * {
             box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
         }
 
         body {
+            margin: 0;
+            font-family: Arial, sans-serif;
             background: #f5f7fa;
             padding: 30px 15px;
         }
 
         .container {
             max-width: 600px;
-            margin: auto;
+            margin: 0 auto;
             background: white;
-            padding: 35px;
+            padding: 30px;
             border-radius: 12px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
@@ -31,7 +30,6 @@
         h1 {
             text-align: center;
             color: #0b5ed7;
-            margin-bottom: 10px;
         }
 
         .subtitulo {
@@ -43,7 +41,7 @@
         label {
             display: block;
             margin-top: 15px;
-            margin-bottom: 7px;
+            margin-bottom: 6px;
             font-weight: bold;
         }
 
@@ -58,7 +56,7 @@
         }
 
         textarea {
-            min-height: 100px;
+            min-height: 110px;
             resize: vertical;
         }
 
@@ -77,7 +75,16 @@
 
         button:disabled {
             opacity: 0.7;
-            cursor: not-allowed;
+        }
+
+        #mensagem {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 7px;
+            background: #eef4ff;
+            line-height: 1.5;
+            word-break: break-word;
         }
 
         .voltar {
@@ -86,12 +93,6 @@
             margin-top: 20px;
             color: #0b5ed7;
             text-decoration: none;
-        }
-
-        #mensagem {
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -103,24 +104,56 @@
     <h1>Cadastro de Empresa</h1>
 
     <p class="subtitulo">
-        Crie o perfil da sua empresa na RNO
+        Crie a conta e o perfil da sua empresa na RNO
     </p>
 
     <form id="formEmpresa">
 
-        <label>Nome da empresa</label>
-        <input type="text" id="nomeEmpresa" required>
+        <label for="nomeEmpresa">Nome da empresa</label>
+        <input
+            type="text"
+            id="nomeEmpresa"
+            required
+        >
 
-        <label>Nome do responsável</label>
-        <input type="text" id="responsavel" required>
+        <label for="responsavel">Nome do responsável</label>
+        <input
+            type="text"
+            id="responsavel"
+            required
+        >
 
-        <label>Telefone</label>
-        <input type="tel" id="telefone" required>
+        <label for="telefone">Telefone</label>
+        <input
+            type="tel"
+            id="telefone"
+            required
+        >
 
-        <label>Email</label>
-        <input type="email" id="email">
+        <label for="email">Email</label>
+        <input
+            type="email"
+            id="email"
+            required
+        >
 
-        <label>Província</label>
+        <label for="senha">Senha</label>
+        <input
+            type="password"
+            id="senha"
+            minlength="6"
+            required
+        >
+
+        <label for="confirmarSenha">Confirmar senha</label>
+        <input
+            type="password"
+            id="confirmarSenha"
+            minlength="6"
+            required
+        >
+
+        <label for="provincia">Província</label>
         <select id="provincia" required>
             <option value="">Selecione</option>
             <option>Maputo Cidade</option>
@@ -136,15 +169,22 @@
             <option>Niassa</option>
         </select>
 
-        <label>Área de atuação</label>
-        <input type="text" id="areaAtuacao" required>
+        <label for="area">Área de atuação</label>
+        <input
+            type="text"
+            id="area"
+            placeholder="Ex.: Construção, Tecnologia, Comércio"
+            required
+        >
 
-        <label>Descrição da empresa</label>
-        <textarea id="descricao"
-            placeholder="Descreva brevemente a sua empresa"></textarea>
+        <label for="descricao">Descrição da empresa</label>
+        <textarea
+            id="descricao"
+            placeholder="Descreva brevemente a sua empresa"
+        ></textarea>
 
         <button type="submit" id="botao">
-            Criar Perfil da Empresa
+            Criar Conta da Empresa
         </button>
 
     </form>
@@ -157,8 +197,6 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 
 const SUPABASE_URL =
@@ -167,112 +205,288 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
 
-const supabaseClient =
-    window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-    );
+const formulario =
+    document.getElementById("formEmpresa");
+
+const mensagem =
+    document.getElementById("mensagem");
+
+const botao =
+    document.getElementById("botao");
 
 
-document
-    .getElementById("formEmpresa")
-    .addEventListener("submit", async function(event) {
+formulario.addEventListener("submit", async function(event) {
 
-        event.preventDefault();
+    event.preventDefault();
 
-        const mensagem =
-            document.getElementById("mensagem");
+    const nomeEmpresa =
+        document.getElementById("nomeEmpresa").value.trim();
 
-        const botao =
-            document.getElementById("botao");
+    const responsavel =
+        document.getElementById("responsavel").value.trim();
 
-        mensagem.textContent =
-            "A guardar o cadastro da empresa...";
+    const telefone =
+        document.getElementById("telefone").value.trim();
 
-        botao.disabled = true;
+    const email =
+        document.getElementById("email").value.trim();
 
-        try {
+    const senha =
+        document.getElementById("senha").value;
 
-            const {
-                data: {
-                    user
-                },
-                error: erroUsuario
-            } = await supabaseClient.auth.getUser();
+    const confirmarSenha =
+        document.getElementById("confirmarSenha").value;
 
-            if (erroUsuario || !user) {
+    const provincia =
+        document.getElementById("provincia").value;
 
-                mensagem.textContent =
-                    "É necessário iniciar sessão antes de criar o perfil da empresa.";
+    const area =
+        document.getElementById("area").value.trim();
 
-                botao.disabled = false;
-
-                return;
-            }
+    const descricao =
+        document.getElementById("descricao").value.trim();
 
 
-            const { error } =
-                await supabaseClient
-                    .from("empresas")
-                    .insert({
-                        id: user.id,
+    if (senha !== confirmarSenha) {
 
-                        nome_empresa:
-                            document.getElementById("nomeEmpresa").value.trim(),
+        mensagem.style.display = "block";
 
-                        responsavel:
-                            document.getElementById("responsavel").value.trim(),
+        mensagem.innerHTML =
+            "<strong>As senhas não coincidem.</strong>";
 
-                        telefone:
-                            document.getElementById("telefone").value.trim(),
-
-                        email:
-                            document.getElementById("email").value.trim() || null,
-
-                        provincia:
-                            document.getElementById("provincia").value,
-
-                        area_atuacao:
-                            document.getElementById("areaAtuacao").value.trim(),
-
-                        descricao:
-                            document.getElementById("descricao").value.trim() || null
-                    });
+        return;
+    }
 
 
-            if (error) {
+    mensagem.style.display = "block";
 
-                console.error(error);
+    mensagem.innerHTML =
+        "A criar a conta da empresa...";
 
-                mensagem.textContent =
-                    "Não foi possível concluir o cadastro da empresa.";
+    botao.disabled = true;
 
-                botao.disabled = false;
-
-                return;
-            }
+    botao.textContent =
+        "A criar conta...";
 
 
-            mensagem.textContent =
-                "Cadastro da empresa realizado com sucesso!";
+    try {
 
-            document
-                .getElementById("formEmpresa")
-                .reset();
+        const resposta =
+            await fetch(
+                SUPABASE_URL + "/auth/v1/signup",
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "apikey": SUPABASE_KEY
+                    },
+
+                    body: JSON.stringify({
+
+                        email: email,
+
+                        password: senha,
+
+                        data: {
+
+                            tipo_conta: "empresa",
+
+                            nome_empresa: nomeEmpresa,
+
+                            responsavel: responsavel,
+
+                            telefone: telefone,
+
+                            provincia: provincia,
+
+                            area_atuacao: area,
+
+                            descricao: descricao
+
+                        }
+
+                    })
+                }
+            );
+
+
+        const resultado =
+            await resposta.json();
+
+
+        console.log(
+            "Resposta do Supabase:",
+            resultado
+        );
+
+
+        if (!resposta.ok) {
+
+            mensagem.innerHTML =
+                "<strong>Erro ao criar a conta:</strong><br><br>" +
+                (
+                    resultado.msg ||
+                    resultado.message ||
+                    resultado.error_description ||
+                    "Não foi possível criar a conta."
+                );
 
             botao.disabled = false;
 
-        } catch (erro) {
+            botao.textContent =
+                "Criar Conta da Empresa";
 
-            console.error(erro);
-
-            mensagem.textContent =
-                "Ocorreu um erro. Tente novamente.";
-
-            botao.disabled = false;
+            return;
         }
 
-    });
+
+        /*
+         * O Supabase criou a conta.
+         * Agora precisamos do ID do utilizador.
+         */
+
+        const userId =
+            resultado.user?.id;
+
+
+        if (!userId) {
+
+            mensagem.innerHTML =
+                "<strong>Conta criada.</strong><br><br>" +
+                "Confirme o seu email para continuar.";
+
+            formulario.reset();
+
+            botao.disabled = false;
+
+            botao.textContent =
+                "Criar Conta da Empresa";
+
+            return;
+        }
+
+
+        /*
+         * Criar o perfil da empresa
+         * usando o mesmo ID do Auth.
+         */
+
+        const respostaEmpresa =
+            await fetch(
+                SUPABASE_URL +
+                "/rest/v1/empresas",
+                {
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            SUPABASE_KEY,
+
+                        "Content-Profile":
+                            "public",
+
+                        "Prefer":
+                            "return=minimal"
+
+                    },
+
+                    body: JSON.stringify({
+
+                        id: userId,
+
+                        nome_empresa:
+                            nomeEmpresa,
+
+                        responsavel:
+                            responsavel,
+
+                        telefone:
+                            telefone,
+
+                        email:
+                            email,
+
+                        provincia:
+                            provincia,
+
+                        area_atuacao:
+                            area,
+
+                        descricao:
+                            descricao || null
+
+                    })
+                }
+            );
+
+
+        const resultadoEmpresa =
+            await respostaEmpresa.text();
+
+
+        if (!respostaEmpresa.ok) {
+
+            console.error(
+                "Erro ao criar perfil:",
+                resultadoEmpresa
+            );
+
+            mensagem.innerHTML =
+                "<strong>Conta criada, mas houve um problema ao guardar o perfil da empresa.</strong><br><br>" +
+                resultadoEmpresa;
+
+            botao.disabled = false;
+
+            botao.textContent =
+                "Criar Conta da Empresa";
+
+            return;
+        }
+
+
+        mensagem.innerHTML =
+            "<strong>✅ CONTA DA EMPRESA CRIADA!</strong><br><br>" +
+            "Enviámos um email de confirmação para <strong>" +
+            email +
+            "</strong>.<br><br>" +
+            "Abra o seu email e confirme a conta para continuar.";
+
+
+        formulario.reset();
+
+        botao.disabled = false;
+
+        botao.textContent =
+            "Criar Conta da Empresa";
+
+    } catch (erro) {
+
+        console.error(
+            "Erro de ligação:",
+            erro
+        );
+
+        mensagem.innerHTML =
+            "<strong>Erro de ligação:</strong><br><br>" +
+            erro.message;
+
+        botao.disabled = false;
+
+        botao.textContent =
+            "Criar Conta da Empresa";
+
+    }
+
+});
 
 </script>
 
