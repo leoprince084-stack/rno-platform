@@ -242,6 +242,7 @@ async function carregarVagas() {
             "/rest/v1/vagas?select=*&order=created_at.desc",
             {
                 method: "GET",
+
                 headers: {
                     "apikey": SUPABASE_KEY,
                     "Accept-Profile": "public"
@@ -256,10 +257,12 @@ async function carregarVagas() {
         console.log("RESPOSTA:", texto);
 
         if (!resposta.ok) {
+
             throw new Error(
                 "Erro ao carregar vagas. Status: " +
                 resposta.status
             );
+
         }
 
         todasAsVagas =
