@@ -174,21 +174,18 @@ formulario.addEventListener("submit", async function(event) {
     mensagem.style.display = "block";
     mensagem.innerHTML = "A enviar candidatura...";
 
-    botao.disabled = true;
-    botao.textContent = "A enviar...";
-
-   const dados = {
+  const dados = {
     vaga_id: vagaId,
     vaga: vagaSelecionada,
-    nome_completo: ...
-            document.getElementById("nome").value.trim(),
-        telefone:
-            document.getElementById("telefone").value.trim(),
-        email:
-            document.getElementById("email").value.trim() || null,
-        mensagem:
-            document.getElementById("mensagemCandidato").value.trim()
-    };
+    nome_completo:
+        document.getElementById("nome").value.trim(),
+    telefone:
+        document.getElementById("telefone").value.trim(),
+    email:
+        document.getElementById("email").value.trim(),
+    mensagem:
+        document.getElementById("mensagem").value.trim()
+};
 
     try {
 
