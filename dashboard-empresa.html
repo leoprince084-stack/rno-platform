@@ -603,7 +603,70 @@ async function carregarTotalVagas() {
 
 
 carregarTotalVagas();
+async function carregarTotalCandidaturas() {
 
+    try {
+
+        const resposta =
+            await fetch(
+                SUPABASE_URL +
+                "/rest/v1/candidaturas?select=id",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            accessToken,
+
+                        "Accept-Profile":
+                            "public"
+                    }
+                }
+            );
+
+
+        const candidaturas =
+            await resposta.json();
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                candidaturas.message ||
+                "Não foi possível carregar as candidaturas."
+            );
+
+        }
+
+
+        document.getElementById(
+            "totalCandidaturas"
+        ).textContent =
+            candidaturas.length;
+
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar candidaturas:",
+            erro
+        );
+
+        document.getElementById(
+            "totalCandidaturas"
+        ).textContent =
+            "0";
+
+    }
+
+}
+
+
+carregarTotalCandidaturas();
 /*
  * Terminar sessão
  */
