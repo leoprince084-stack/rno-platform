@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Entrar como Empresa - RNO</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(135deg, #0b1f3a, #123d68);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .logo {
+            text-align: center;
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .logo h1 {
+            margin: 0;
+            font-size: 38px;
+        }
+
+        .logo p {
+            margin-top: 8px;
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        .card h2 {
+            text-align: center;
+            margin-top: 0;
+            margin-bottom: 8px;
+            color: #0b1f3a;
+        }
+
+        .subtitulo {
+            text-align: center;
+            color: #666;
+            margin-bottom: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #123d68;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #0b1f3a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #123d68;
+        }
+
+        button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        #mensagem {
+            display: none;
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 22px;
+            line-height: 1.8;
+        }
+
+        .links a {
+            color: #123d68;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .voltar {
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .voltar a {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        <h1>RNO</h1>
+        <p>Rede Nacional de Oportunidades</p>
+    </div>
+
+    <div class="card">
+
+        <h2>Entrar como Empresa</h2>
+
+        <p class="subtitulo">
+            Aceda à sua conta empresarial
+        </p>
+
+        <form id="formLoginEmpresa">
+
+            <label for="email">
+                E-mail
+            </label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Digite o e-mail da empresa"
+                required
+            >
+
+            <label for="senha">
+                Senha
+            </label>
+
+            <input
+                type="password"
+                id="senha"
+                placeholder="Digite a sua senha"
+                required
+            >
+
+            <button
+                type="submit"
+                id="botao"
+            >
+                ENTRAR
+            </button>
+
+        </form>
+
+        <div id="mensagem"></div>
+
+        <div class="links">
+
+            <div>
+                Ainda não tem uma conta?
+                <a href="cadastro-empresa.html">
+                    Criar conta da empresa
+                </a>
+            </div>
+
+        </div>
+
+        <div class="voltar">
+            <a href="index.html">
+                ← Voltar para a página inicial
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+    "https://bwkpmirlwrsbeiavzapm.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
+
+
+const formulario =
+    document.getElementById("formLoginEmpresa");
+
+const mensagem =
+    document.getElementById("mensagem");
+
+const botao =
+    document.getElementById("botao");
+
+
+formulario.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        const email =
+            document.getElementById("email")
+            .value
+            .trim();
+
+        const senha =
+            document.getElementById("senha")
+            .value;
+
+
+        mensagem.style.display = "block";
+
+        mensagem.innerHTML =
+            "A entrar na conta...";
+
+        botao.disabled = true;
+
+        botao.textContent =
+            "A ENTRAR...";
+
+
+        try {
+
+            const resposta =
+                await fetch(
+                    SUPABASE_URL +
+                    "/auth/v1/token?grant_type=password",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type":
+                                "application/json",
+
+                            "apikey":
+                                SUPABASE_KEY
+                        },
+
+                        body:
+                            JSON.stringify({
+                                email: email,
+                                password: senha
+                            })
+                    }
+                );
+
+
+            const resultado =
+                await resposta.json();
+
+
+            console.log(
+                "Resposta do Supabase:",
+                resultado
+            );
+
+
+            if (!resposta.ok) {
+
+                mensagem.innerHTML =
+                    "<strong>Não foi possível entrar.</strong><br><br>" +
+                    (
+                        resultado.error_description ||
+                        resultado.msg ||
+                        resultado.message ||
+                        "E-mail ou senha incorretos."
+                    );
+
+                botao.disabled = false;
+
+                botao.textContent =
+                    "ENTRAR";
+
+                return;
+            }
+
+
+            /*
+             * Guardar os dados da sessão
+             */
+
+            localStorage.setItem(
+                "rno_access_token",
+                resultado.access_token
+            );
+
+            localStorage.setItem(
+                "rno_refresh_token",
+                resultado.refresh_token || ""
+            );
+
+            localStorage.setItem(
+                "rno_user_id",
+                resultado.user.id
+            );
+
+            localStorage.setItem(
+                "rno_tipo_conta",
+                "empresa"
+            );
+
+
+            mensagem.innerHTML =
+                "<strong>✅ LOGIN REALIZADO COM SUCESSO!</strong><br><br>" +
+                "A entrar no painel da empresa...";
+
+
+            setTimeout(
+                function() {
+
+                    window.location.href =
+                        "dashboard-empresa.html";
+
+                },
+                1000
+            );
+
+
+        } catch (erro) {
+
+            console.error(
+                "Erro de ligação:",
+                erro
+            );
+
+            mensagem.innerHTML =
+                "<strong>Erro de ligação.</strong><br><br>" +
+                erro.message;
+
+            botao.disabled = false;
+
+            botao.textContent =
+                "ENTRAR";
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
