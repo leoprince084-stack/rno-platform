@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Publicar Vaga | RNO</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #222;
+        }
+
+        header {
+            background: #0b1f3a;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        header p {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            color: #0b1f3a;
+            margin-bottom: 8px;
+        }
+
+        .intro {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 7px;
+        }
+
+        input,
+        textarea,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            border-color: #0b1f3a;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            background: #0b1f3a;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        #mensagem {
+            margin-top: 18px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .sucesso {
+            display: block !important;
+            background: #e8f7ee;
+            color: #167a3f;
+        }
+
+        .erro {
+            display: block !important;
+            background: #fdeaea;
+            color: #b42318;
+        }
+
+        .voltar {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0b1f3a;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>RNO</h1>
+    <p>Rede Nacional de Oportunidades</p>
+</header>
+
+<div class="container">
+
+    <div class="card">
+
+        <h2>📢 Publicar uma vaga</h2>
+
+        <p class="intro">
+            Encontre profissionais através da Rede Nacional de Oportunidades.
+        </p>
+
+        <form id="formVaga">
+
+            <label for="titulo">Título da vaga *</label>
+
+            <input
+                type="text"
+                id="titulo"
+                placeholder="Ex.: Editor de Vídeo"
+                required
+            >
+
+            <label for="localizacao">Localização *</label>
+
+            <input
+                type="text"
+                id="localizacao"
+                placeholder="Ex.: Maputo"
+                required
+            >
+
+            <label for="tipo">Tipo de trabalho *</label>
+
+            <select id="tipo" required>
+
+                <option value="">Selecione</option>
+                <option value="Tempo inteiro">Tempo inteiro</option>
+                <option value="Tempo parcial">Tempo parcial</option>
+                <option value="Estágio">Estágio</option>
+                <option value="Freelance">Freelance</option>
+                <option value="Trabalho remoto">Trabalho remoto</option>
+
+            </select>
+
+            <label for="descricao">Descrição da vaga *</label>
+
+            <textarea
+                id="descricao"
+                placeholder="Explique as principais funções da vaga..."
+                required
+            ></textarea>
+
+            <label for="requisitos">Requisitos *</label>
+
+            <textarea
+                id="requisitos"
+                placeholder="Indique experiência, formação, conhecimentos e outras exigências..."
+                required
+            ></textarea>
+
+            <label for="salario">Salário</label>
+
+            <input
+                type="text"
+                id="salario"
+                placeholder="Ex.: 20.000 MT ou A combinar"
+            >
+
+            <label for="contacto">Contacto *</label>
+
+            <input
+                type="text"
+                id="contacto"
+                placeholder="Ex.: 84 000 0000"
+                required
+            >
+
+            <button type="submit" id="botao">
+                PUBLICAR VAGA
+            </button>
+
+        </form>
+
+        <div id="mensagem"></div>
+
+        <a class="voltar" href="dashboard-empresa.html">
+            ← Voltar para o painel da empresa
+        </a>
+
+    </div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL =
+    "https://bwkpmirlwrsbeiavzapm.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
+
+
+const formulario =
+    document.getElementById("formVaga");
+
+const mensagem =
+    document.getElementById("mensagem");
+
+const botao =
+    document.getElementById("botao");
+
+
+formulario.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    mensagem.className = "";
+    mensagem.style.display = "none";
+
+    botao.disabled = true;
+    botao.textContent = "A PUBLICAR...";
+
+
+    const dados = {
+
+        titulo:
+            document.getElementById("titulo").value.trim(),
+
+        empresa:
+            "RNO",
+
+        localizacao:
+            document.getElementById("localizacao").value.trim(),
+
+        tipo:
+            document.getElementById("tipo").value,
+
+        descricao:
+            document.getElementById("descricao").value.trim(),
+
+        requisitos:
+            document.getElementById("requisitos").value.trim(),
+
+        salario:
+            document.getElementById("salario").value.trim() || null,
+
+        contacto:
+            document.getElementById("contacto").value.trim()
+
+    };
+
+
+    try {
+
+        const resposta = await fetch(
+            SUPABASE_URL + "/rest/v1/vagas",
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    "apikey": SUPABASE_KEY,
+
+                    "Authorization":
+                        "Bearer " +
+                        (localStorage.getItem("rno_access_token") || ""),
+
+                    "Content-Profile": "public",
+
+                    "Prefer": "return=minimal"
+
+                },
+
+                body: JSON.stringify(dados)
+
+            }
+        );
+
+
+        if (!resposta.ok) {
+
+            const erro =
+                await resposta.text();
+
+            console.error(erro);
+
+            throw new Error(
+                "Não foi possível publicar a vaga."
+            );
+
+        }
+
+
+        mensagem.textContent =
+            "✅ VAGA PUBLICADA COM SUCESSO!";
+
+        mensagem.className =
+            "sucesso";
+
+
+        formulario.reset();
+
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        mensagem.textContent =
+            "❌ " + erro.message;
+
+        mensagem.className =
+            "erro";
+
+    }
+
+
+    botao.disabled = false;
+
+    botao.textContent =
+        "PUBLICAR VAGA";
+
+});
+
+</script>
+
+</body>
+</html>
