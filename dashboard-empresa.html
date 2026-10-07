@@ -535,7 +535,7 @@ async function carregarListaCandidaturas() {
         const respostaCandidaturas =
             await fetch(
                 SUPABASE_URL +
-              "/rest/v1/candidaturas?select=nome_completo,telefone,email,mensagem,vaga,vaga_id,status&vaga_id=in.(" +
+            "/rest/v1/candidaturas?select=id,nome_completo,telefone,email,mensagem,vaga,vaga_id,status&vaga_id=in.(" +
                 idsVagas.join(",") +
                 ")",
                 {
@@ -594,9 +594,35 @@ async function carregarListaCandidaturas() {
                             💬 ${candidato.mensagem || "Sem mensagem"}
                         </p>
 <p>
-    🟡 Estado:
-    <strong>${candidato.status || "Em análise"}</strong>
+    📌 Estado da candidatura:
 </p>
+
+<select
+    onchange="alterarEstadoCandidatura(this, '${candidato.id}')"
+    style="
+        width:100%;
+        padding:10px;
+        border:1px solid #ddd;
+        border-radius:8px;
+        margin-bottom:10px;
+    "
+>
+    <option value="Em análise" ${candidato.status === "Em análise" ? "selected" : ""}>
+        🟡 Em análise
+    </option>
+
+    <option value="Pré-selecionado" ${candidato.status === "Pré-selecionado" ? "selected" : ""}>
+        🔵 Pré-selecionado
+    </option>
+
+    <option value="Aprovado" ${candidato.status === "Aprovado" ? "selected" : ""}>
+        🟢 Aprovado
+    </option>
+
+    <option value="Rejeitado" ${candidato.status === "Rejeitado" ? "selected" : ""}>
+        🔴 Rejeitado
+    </option>
+</select>
                     </div>
                 `;
 
@@ -614,7 +640,73 @@ async function carregarListaCandidaturas() {
     }
 
 }
+async function alterarEstadoCandidatura(select, candidaturaId) {
 
+    const novoEstado = select.value;
+
+    const accessToken =
+        localStorage.getItem("rno_access_token");
+
+    if (!accessToken) {
+        alert("Sessão expirada. Faça login novamente.");
+        return;
+    }
+
+    try {
+
+        const resposta =
+            await fetch(
+                SUPABASE_URL +
+                "/rest/v1/candidaturas?id=eq." +
+                encodeURIComponent(candidaturaId),
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "apikey": SUPABASE_KEY,
+                        "Authorization": "Bearer " + accessToken,
+                        "Content-Type": "application/json",
+                        "Prefer": "return=minimal",
+                        "Accept-Profile": "public"
+                    },
+
+                    body: JSON.stringify({
+                        status: novoEstado
+                    })
+                }
+            );
+
+        if (!resposta.ok) {
+
+            const erro =
+                await resposta.text();
+
+            console.error(
+                "ERRO AO ALTERAR ESTADO:",
+                erro
+            );
+
+            throw new Error(
+                "Não foi possível alterar o estado."
+            );
+        }
+
+        alert(
+            "Estado da candidatura atualizado com sucesso."
+        );
+
+    } catch (erro) {
+
+        console.error(
+            "ERRO:",
+            erro
+        );
+
+        alert(
+            "❌ Não foi possível atualizar o estado."
+        );
+    }
+}
 carregarListaCandidaturas();
 </script>
 
