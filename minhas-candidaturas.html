@@ -154,7 +154,7 @@ async function carregarCandidaturas() {
 
           SUPABASE_URL +
 "/rest/v1/candidaturas" +
-"?select=id,nome_completo,email,vaga,candidato_id" +
+"?select=id,nome_completo,email,vaga,candidato_id,status" +
             "&candidato_id=eq." +
             encodeURIComponent(candidatoId),
 
@@ -245,9 +245,9 @@ async function carregarCandidaturas() {
 
                    
 
-                    <span class="estado">
-                        🟡 Em análise
-                    </span>
+              <span class="estado">
+    🟡 ${candidatura.status || "Em análise"}
+</span>
 
                 </div>
 
