@@ -535,7 +535,7 @@ async function carregarListaCandidaturas() {
         const respostaCandidaturas =
             await fetch(
                 SUPABASE_URL +
-                "/rest/v1/candidaturas?select=nome_completo,telefone,email,mensagem,vaga,vaga_id&vaga_id=in.(" +
+              "/rest/v1/candidaturas?select=nome_completo,telefone,email,mensagem,vaga,vaga_id,status&vaga_id=in.(" +
                 idsVagas.join(",") +
                 ")",
                 {
@@ -593,7 +593,10 @@ async function carregarListaCandidaturas() {
                         <p>
                             💬 ${candidato.mensagem || "Sem mensagem"}
                         </p>
-
+<p>
+    🟡 Estado:
+    <strong>${candidato.status || "Em análise"}</strong>
+</p>
                     </div>
                 `;
 
