@@ -136,6 +136,7 @@ async function carregarCandidaturas() {
     const container =
         document.getElementById("listaCandidaturas");
 
+
     if (!candidatoId || !accessToken) {
 
         container.className = "erro";
@@ -146,121 +147,141 @@ async function carregarCandidaturas() {
         return;
     }
 
+
     try {
 
         const resposta = await fetch(
+
             SUPABASE_URL +
-            "/rest/v1/candidaturas" +
-            "?select=nome_completo,email,telefone,vaga,mensagem,created_at,vaga_id" +
+            "/rest/v1/candidatura" +
+            "?select=id,nome_completo,email,vaga,candidato_id" +
             "&candidato_id=eq." +
-            candidatoId +
-            "&order=created_at.desc",
+            encodeURIComponent(candidatoId),
+
             {
+                method: "GET",
+
                 headers: {
                     "apikey": SUPABASE_KEY,
-                    "Authorization": "Bearer " + accessToken,
+                    "Authorization":
+                        "Bearer " + accessToken,
                     "Accept-Profile": "public"
                 }
             }
         );
 
-        const dados = await resposta.json();
+
+        const texto =
+            await resposta.text();
+
+
+        console.log(
+            "RESPOSTA SUPABASE:",
+            texto
+        );
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Erro " +
+                resposta.status +
+                ": " +
+                texto
+            );
+        }
+
+
+        const dados =
+            JSON.parse(texto);
+
 
         console.log(
             "MINHAS CANDIDATURAS:",
             dados
         );
 
-        if (!resposta.ok) {
 
-            throw new Error(
-                dados.message ||
-                "Erro ao carregar candidaturas."
-            );
-        }
-
-        if (dados.length === 0) {
+        if (!dados || dados.length === 0) {
 
             container.className = "vazio";
 
             container.innerHTML = `
+
                 <h2>📄 Nenhuma candidatura encontrada</h2>
+
                 <p>
-                    Ainda não enviou nenhuma candidatura.
+                    Ainda não existe nenhuma candidatura associada à sua conta.
                 </p>
+
             `;
 
             return;
         }
 
+
         container.className = "";
 
-        container.innerHTML =
-            dados.map(candidatura => {
 
-                const data =
-                    candidatura.created_at
-                    ? new Date(
-                        candidatura.created_at
-                      ).toLocaleDateString(
-                        "pt-PT"
-                      )
-                    : "Não disponível";
+        container.innerHTML = dados.map(
 
-                return `
-                    <div class="candidatura">
+            candidatura => `
 
-                        <h2>
-                            📢 ${candidatura.vaga || "Vaga não identificada"}
-                        </h2>
+                <div class="candidatura">
 
-                        <p>
-                            <strong>👤 Candidato:</strong>
-                            ${candidatura.nome_completo || "Não informado"}
-                        </p>
+                    <h2>
+                        📢 ${candidatura.vaga || "Vaga não identificada"}
+                    </h2>
 
-                        <p>
-                            <strong>📧 E-mail:</strong>
-                            ${candidatura.email || "Não informado"}
-                        </p>
+                    <p>
+                        <strong>👤 Candidato:</strong>
+                        ${candidatura.nome_completo || "Não informado"}
+                    </p>
 
-                        <p>
-                            <strong>📱 Telefone:</strong>
-                            ${candidatura.telefone || "Não informado"}
-                        </p>
+                    <p>
+                        <strong>📧 E-mail:</strong>
+                        ${candidatura.email || "Não informado"}
+                    </p>
 
-                        <p>
-                            <strong>📅 Data da candidatura:</strong>
-                            ${data}
-                        </p>
+                    <p>
+                        <strong>🆔 Candidatura:</strong>
+                        ${candidatura.id || "Não disponível"}
+                    </p>
 
-                        <p>
-                            <strong>💬 Mensagem:</strong><br>
-                            ${candidatura.mensagem || "Sem mensagem"}
-                        </p>
+                    <p>
+                        <strong>🔐 Candidato ID:</strong>
+                        ${candidatura.candidato_id || "Não disponível"}
+                    </p>
 
-                        <span class="estado">
-                            🟡 Em análise
-                        </span>
+                    <span class="estado">
+                        🟡 Em análise
+                    </span>
 
-                    </div>
-                `;
+                </div>
 
-            }).join("");
+            `
+
+        ).join("");
+
 
     } catch (erro) {
 
         console.error(
-            "Erro ao carregar candidaturas:",
+            "ERRO AO CARREGAR CANDIDATURAS:",
             erro
         );
+
 
         container.className = "erro";
 
         container.innerHTML =
-            "❌ Não foi possível carregar as suas candidaturas.";
+            "❌ Não foi possível carregar as suas candidaturas.<br><br>" +
+            "<small>" +
+            erro.message +
+            "</small>";
     }
 }
+
 
 carregarCandidaturas();
 
