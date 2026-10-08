@@ -524,16 +524,13 @@ guardarPerfil.addEventListener("click", async function () {
 
             method: "PATCH",
 
-           headers: {
+    headers: {
     "apikey": SUPABASE_KEY,
-    "Authorization":
-        "Bearer " + accessToken,
-    "Content-Type":
-        "application/json",
-    "Content-Profile":
-        "public",
-    "Prefer":
-        "return=representation"
+    "Authorization": "Bearer " + accessToken,
+    "Content-Type": "application/json",
+    "Content-Profile": "public",
+    "Accept-Profile": "public",
+    "Prefer": "return=representation"
 },
             body:
                 JSON.stringify(dadosAtualizados)
