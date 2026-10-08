@@ -3,146 +3,627 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Candidatura - RNO</title>
+
+    <title>Enviar Candidatura - RNO</title>
 
     <style>
+
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f7fa;
-            padding: 30px 15px;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* ================================
+           CABEÇALHO
+        ================================= */
+
+        header {
+            background: linear-gradient(
+                135deg,
+                #0b5ed7,
+                #084298
+            );
+
+            color: white;
+            padding: 18px 20px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            display: block;
+            font-size: 12px;
+            font-weight: normal;
+            opacity: 0.9;
+            margin-top: 3px;
+        }
+
+        .header-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            padding: 9px 15px;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 7px;
+            transition: 0.2s;
+        }
+
+        .header-link:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+
+        /* ================================
+           ÁREA PRINCIPAL
+        ================================= */
+
+        main {
+            min-height: calc(100vh - 150px);
+            padding: 45px 15px;
         }
 
         .container {
-            max-width: 600px;
+            max-width: 720px;
             margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
         }
 
-        h1 {
+
+        /* ================================
+           TÍTULO
+        ================================= */
+
+        .intro {
             text-align: center;
-            color: #0b5ed7;
+            margin-bottom: 25px;
+        }
+
+        .intro h1 {
+            margin: 0 0 10px;
+            font-size: 32px;
+            color: #123a63;
+        }
+
+        .intro p {
+            margin: 0;
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+
+        /* ================================
+           CARTÃO
+        ================================= */
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e5eaf1;
+        }
+
+
+        /* ================================
+           VAGA
+        ================================= */
+
+        .vaga-box {
+            background: linear-gradient(
+                135deg,
+                #eef5ff,
+                #f7faff
+            );
+
+            border: 1px solid #cfe0ff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 28px;
+        }
+
+        .vaga-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: #64748b;
+            font-weight: bold;
+            margin-bottom: 8px;
         }
 
         .vaga {
-            text-align: center;
-            font-size: 22px;
+            font-size: 23px;
             font-weight: bold;
-            color: #333;
-            margin: 20px 0 30px;
+            color: #0b5ed7;
+            line-height: 1.3;
+        }
+
+
+        /* ================================
+           FORMULÁRIO
+        ================================= */
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .campo {
+            margin-bottom: 2px;
+        }
+
+        .campo-full {
+            grid-column: 1 / -1;
         }
 
         label {
             display: block;
-            margin-top: 15px;
-            margin-bottom: 6px;
+            margin-bottom: 7px;
+            color: #334155;
+            font-size: 14px;
             font-weight: bold;
+        }
+
+        .obrigatorio {
+            color: #dc2626;
         }
 
         input,
         textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
+            padding: 13px 14px;
+
+            border: 1px solid #d5dce6;
+            border-radius: 9px;
+
+            background: #fff;
+            color: #1f2937;
+
             font-size: 15px;
+
+            outline: none;
+
+            transition:
+                border-color 0.2s,
+                box-shadow 0.2s;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #0b5ed7;
+
+            box-shadow:
+                0 0 0 3px rgba(
+                    11,
+                    94,
+                    215,
+                    0.10
+                );
         }
 
         textarea {
-            min-height: 110px;
+            min-height: 135px;
             resize: vertical;
+            line-height: 1.5;
         }
+
+        .ajuda {
+            display: block;
+            margin-top: 6px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+
+        /* ================================
+           BOTÃO
+        ================================= */
 
         button {
             width: 100%;
-            margin-top: 25px;
-            padding: 14px;
+
+            margin-top: 26px;
+            padding: 15px;
+
             border: none;
-            border-radius: 7px;
-            background: #0b5ed7;
+            border-radius: 9px;
+
+            background: linear-gradient(
+                135deg,
+                #0b5ed7,
+                #084298
+            );
+
             color: white;
-            font-size: 17px;
+
+            font-size: 16px;
             font-weight: bold;
+
             cursor: pointer;
+
+            transition:
+                transform 0.2s,
+                box-shadow 0.2s,
+                opacity 0.2s;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-1px);
+
+            box-shadow:
+                0 7px 18px rgba(
+                    11,
+                    94,
+                    215,
+                    0.25
+                );
         }
 
         button:disabled {
-            opacity: 0.7;
+            opacity: 0.65;
             cursor: not-allowed;
         }
 
+
+        /* ================================
+           MENSAGEM
+        ================================= */
+
         #mensagem {
             display: none;
+
             margin-top: 20px;
-            padding: 15px;
-            border-radius: 7px;
-            background: #eef4ff;
-            line-height: 1.5;
+
+            padding: 17px;
+
+            border-radius: 10px;
+
+            background: #f0f7ff;
+            border: 1px solid #cfe0ff;
+
+            color: #1e3a5f;
+
+            line-height: 1.6;
+
             word-break: break-word;
         }
 
+        #mensagem strong {
+            color: #0b5ed7;
+        }
+
+        #mensagem a {
+            color: #0b5ed7;
+            font-weight: bold;
+        }
+
+
+        /* ================================
+           LINK VOLTAR
+        ================================= */
+
         .voltar {
             display: block;
+
             text-align: center;
-            margin-top: 20px;
+
+            margin-top: 22px;
+
             color: #0b5ed7;
+
             text-decoration: none;
+
+            font-size: 14px;
+            font-weight: bold;
         }
+
+        .voltar:hover {
+            text-decoration: underline;
+        }
+
+
+        /* ================================
+           RODAPÉ
+        ================================= */
+
+        footer {
+            text-align: center;
+
+            padding: 22px 15px;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            border-top: 1px solid #e5eaf1;
+
+            background: white;
+        }
+
+
+        /* ================================
+           RESPONSIVO
+        ================================= */
+
+        @media (max-width: 650px) {
+
+            header {
+                padding: 16px;
+            }
+
+            .header-content {
+                align-items: flex-start;
+            }
+
+            .logo {
+                font-size: 22px;
+            }
+
+            .header-link {
+                font-size: 12px;
+                padding: 8px 11px;
+            }
+
+            main {
+                padding: 30px 12px;
+            }
+
+            .intro h1 {
+                font-size: 26px;
+            }
+
+            .card {
+                padding: 22px 17px;
+                border-radius: 13px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 17px;
+            }
+
+            .campo-full {
+                grid-column: auto;
+            }
+
+            .vaga {
+                font-size: 20px;
+            }
+        }
+
     </style>
 </head>
 
 <body>
 
-<div class="container">
 
-    <h1>Enviar Candidatura</h1>
+<!-- =====================================
+     CABEÇALHO
+====================================== -->
 
-    <div class="vaga" id="vaga">
-        Vaga selecionada
+<header>
+
+    <div class="header-content">
+
+        <div class="logo">
+
+            RNO
+
+            <span>
+                Rede Nacional de Oportunidades
+            </span>
+
+        </div>
+
+        <a
+            href="vagas.html"
+            class="header-link"
+        >
+            Ver oportunidades
+        </a>
+
     </div>
 
-    <form id="formCandidatura">
+</header>
 
-        <label for="nome">Nome completo</label>
-        <input type="text" id="nome" required>
 
-        <label for="telefone">Telefone</label>
-        <input type="tel" id="telefone" required>
+<!-- =====================================
+     CONTEÚDO
+====================================== -->
 
-        <label for="email">Email</label>
-        <input type="email" id="email">
+<main>
 
-        <label for="mensagemCandidato">
-            Mensagem
-        </label>
+    <div class="container">
 
-        <textarea
-            id="mensagemCandidato"
-            name="mensagem"
-            placeholder="Faça uma breve apresentação"
-            required
-        ></textarea>
 
-        <button type="submit" id="botao">
-            Enviar Candidatura
-        </button>
+        <div class="intro">
 
-    </form>
+            <h1>
+                Enviar Candidatura
+            </h1>
 
-    <div id="mensagem"></div>
+            <p>
+                Preencha os seus dados e envie a sua candidatura
+                para a oportunidade selecionada.
+            </p>
 
-    <a href="vagas.html" class="voltar">
-        ← Voltar para Oportunidades
-    </a>
+        </div>
 
-</div>
+
+        <div class="card">
+
+
+            <!-- ============================
+                 VAGA SELECIONADA
+            ============================= -->
+
+            <div class="vaga-box">
+
+                <div class="vaga-label">
+                    Oportunidade selecionada
+                </div>
+
+                <div
+                    class="vaga"
+                    id="vaga"
+                >
+                    Vaga selecionada
+                </div>
+
+            </div>
+
+
+            <!-- ============================
+                 FORMULÁRIO
+            ============================= -->
+
+            <form id="formCandidatura">
+
+
+                <div class="form-grid">
+
+
+                    <div class="campo">
+
+                        <label for="nome">
+                            Nome completo
+                            <span class="obrigatorio">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nome"
+                            placeholder="Digite o seu nome completo"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label for="telefone">
+                            Telefone
+                            <span class="obrigatorio">*</span>
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="telefone"
+                            placeholder="Ex.: 84 000 0000"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="campo campo-full">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            placeholder="exemplo@email.com"
+                        >
+
+                    </div>
+
+
+                    <div class="campo campo-full">
+
+                        <label for="mensagemCandidato">
+
+                            Mensagem
+                            <span class="obrigatorio">*</span>
+
+                        </label>
+
+                        <textarea
+                            id="mensagemCandidato"
+                            name="mensagem"
+                            placeholder="Faça uma breve apresentação. Fale sobre a sua experiência, competências e por que está interessado nesta oportunidade."
+                            required
+                        ></textarea>
+
+                        <span class="ajuda">
+                            Uma apresentação clara pode ajudar a destacar a sua candidatura.
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="botao"
+                >
+                    Enviar Candidatura
+                </button>
+
+
+            </form>
+
+
+            <!-- ============================
+                 MENSAGEM
+            ============================= -->
+
+            <div id="mensagem"></div>
+
+
+            <a
+                href="vagas.html"
+                class="voltar"
+            >
+                ← Voltar para Oportunidades
+            </a>
+
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- =====================================
+     RODAPÉ
+====================================== -->
+
+<footer>
+
+    © 2026 RNO — Rede Nacional de Oportunidades.
+    Todos os direitos reservados.
+
+</footer>
+
 
 <script>
 
@@ -155,7 +636,7 @@ const SUPABASE_KEY =
 
 /* ==========================================
    DADOS DA VAGA
-   ========================================== */
+========================================== */
 
 const parametros =
     new URLSearchParams(window.location.search);
@@ -174,7 +655,7 @@ document.getElementById("vaga").textContent =
 
 /* ==========================================
    ELEMENTOS DO FORMULÁRIO
-   ========================================== */
+========================================== */
 
 const formulario =
     document.getElementById("formCandidatura");
@@ -188,7 +669,7 @@ const botao =
 
 /* ==========================================
    OBTER UTILIZADOR AUTENTICADO
-   ========================================== */
+========================================== */
 
 async function obterUtilizador() {
 
@@ -222,7 +703,7 @@ async function obterUtilizador() {
 
 /* ==========================================
    ENVIAR CANDIDATURA
-   ========================================== */
+========================================== */
 
 formulario.addEventListener(
     "submit",
@@ -243,7 +724,7 @@ formulario.addEventListener(
 
         /* ======================================
            VERIFICAR LOGIN
-           ====================================== */
+        ====================================== */
 
         const utilizador =
             await obterUtilizador();
@@ -273,7 +754,7 @@ formulario.addEventListener(
 
         /* ======================================
            TOKEN E ID DO CANDIDATO
-           ====================================== */
+        ====================================== */
 
         const accessToken =
             localStorage.getItem("rno_access_token");
@@ -300,7 +781,7 @@ formulario.addEventListener(
         /* ======================================
            GARANTIR QUE O ID DO LOGIN
            É O ID DO UTILIZADOR AUTENTICADO
-           ====================================== */
+        ====================================== */
 
         if (candidatoId !== utilizador.id) {
 
@@ -329,7 +810,7 @@ formulario.addEventListener(
 
         /* ======================================
            DADOS DA CANDIDATURA
-           ====================================== */
+        ====================================== */
 
         const dados = {
 
@@ -376,7 +857,7 @@ formulario.addEventListener(
 
         /* ======================================
            ENVIAR PARA SUPABASE
-           ====================================== */
+        ====================================== */
 
         try {
 
@@ -417,7 +898,7 @@ formulario.addEventListener(
 
             /* ==================================
                ERRO DO SUPABASE
-               ================================== */
+            ================================== */
 
             if (!resposta.ok) {
 
@@ -441,7 +922,7 @@ formulario.addEventListener(
 
             /* ==================================
                SUCESSO
-               ================================== */
+            ================================== */
 
             mensagem.innerHTML =
                 "<strong>✅ CANDIDATURA GRAVADA!</strong><br><br>" +
