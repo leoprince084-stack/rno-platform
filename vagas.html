@@ -1,168 +1,457 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Oportunidades de Emprego - RNO</title>
+    <title>Oportunidades | RNO</title>
 
     <style>
+
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f7fa;
-            color: #222;
+            background: #f1f5f9;
+            color: #1e293b;
         }
 
+        /* =========================
+           CABEÇALHO
+        ========================= */
+
         header {
-            background: #0b5ed7;
+            background: linear-gradient(135deg, #0b3d91, #0b5ed7);
             color: white;
-            padding: 20px 8%;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+
+        .topo {
+            max-width: 1100px;
+            margin: auto;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+        }
+
+        .marca {
+            display: flex;
+            align-items: center;
+            gap: 13px;
         }
 
         .logo {
-            font-size: 28px;
+            width: 48px;
+            height: 48px;
+            background: white;
+            color: #0b3d91;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
             font-weight: bold;
+        }
+
+        .marca h1 {
+            font-size: 21px;
+            margin-bottom: 3px;
+        }
+
+        .marca p {
+            font-size: 13px;
+            opacity: 0.9;
         }
 
         .inicio {
             color: white;
             text-decoration: none;
             font-weight: bold;
+            padding: 10px 16px;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 8px;
+            transition: 0.2s;
         }
+
+        .inicio:hover {
+            background: rgba(255,255,255,0.12);
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
 
         .container {
             max-width: 1100px;
-            margin: 40px auto;
+            margin: 35px auto;
             padding: 0 20px;
         }
 
-        h1 {
+        /* =========================
+           TÍTULO
+        ========================= */
+
+        .hero {
             text-align: center;
-            color: #0b5ed7;
+            margin-bottom: 30px;
+        }
+
+        .hero h2 {
+            color: #0b3d91;
+            font-size: 30px;
+            margin-bottom: 10px;
         }
 
         .subtitulo {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
+            color: #64748b;
+            font-size: 15px;
+            line-height: 1.6;
         }
+
+        /* =========================
+           FILTROS
+        ========================= */
 
         .filtros {
             background: white;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 22px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 20px rgba(15,23,42,0.06);
+        }
+
+        .filtros-titulo {
+            color: #0f172a;
+            font-size: 17px;
+            font-weight: bold;
+            margin-bottom: 15px;
         }
 
         .filtros-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
         }
 
         input,
         select {
             width: 100%;
-            padding: 13px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
-            font-size: 15px;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 14px;
+            background: white;
+            color: #1e293b;
+            outline: none;
+            transition: 0.2s;
         }
+
+        input:focus,
+        select:focus {
+            border-color: #0b5ed7;
+            box-shadow: 0 0 0 3px rgba(11,94,215,0.10);
+        }
+
+        /* =========================
+           CONTADOR
+        ========================= */
+
+        .contador {
+            margin-bottom: 18px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .contador strong {
+            color: #0b3d91;
+        }
+
+        /* =========================
+           VAGAS
+        ========================= */
 
         .vagas {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
         }
 
         .vaga {
             background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 24px;
+            border-radius: 17px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 20px rgba(15,23,42,0.06);
+            transition: 0.25s;
+        }
+
+        .vaga:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(15,23,42,0.11);
         }
 
         .vaga h2 {
-            color: #0b5ed7;
-            margin-top: 0;
+            color: #0b3d91;
+            font-size: 21px;
+            margin-bottom: 10px;
         }
 
         .empresa {
+            color: #1e293b;
             font-weight: bold;
+            margin-bottom: 15px;
         }
 
         .info {
-            color: #666;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
             margin: 8px 0;
         }
 
+        .descricao {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eef2f7;
+            color: #475569;
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* =========================
+           ETIQUETAS
+        ========================= */
+
+        .etiquetas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .etiqueta {
+            background: #eef5ff;
+            color: #0b5ed7;
+            padding: 7px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           BOTÃO
+        ========================= */
+
         .btn-candidatar {
             display: inline-block;
-            margin-top: 15px;
-            padding: 12px 20px;
+            width: 100%;
+            margin-top: 20px;
+            padding: 13px 18px;
             background: #0b5ed7;
             color: white;
             text-decoration: none;
-            border-radius: 7px;
+            text-align: center;
+            border-radius: 9px;
             font-weight: bold;
+            transition: 0.2s;
         }
+
+        .btn-candidatar:hover {
+            background: #0b3d91;
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           SEM RESULTADOS
+        ========================= */
 
         .sem-resultados {
             display: none;
             text-align: center;
             background: white;
-            padding: 30px;
-            border-radius: 12px;
+            padding: 45px 25px;
+            border-radius: 17px;
             margin-top: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 20px rgba(15,23,42,0.06);
         }
+
+        .sem-resultados h2 {
+            color: #0b3d91;
+            margin-bottom: 10px;
+        }
+
+        .sem-resultados p {
+            color: #64748b;
+        }
+
+        /* =========================
+           VOLTAR
+        ========================= */
 
         .voltar {
             display: block;
-            text-align: center;
-            margin-top: 30px;
+            width: fit-content;
+            margin: 30px auto 0;
+            padding: 10px 16px;
+            background: white;
+            border: 1px solid #dbe3ee;
+            border-radius: 9px;
             color: #0b5ed7;
             text-decoration: none;
             font-weight: bold;
         }
 
+        .voltar:hover {
+            background: #eef5ff;
+        }
+
+        /* =========================
+           RODAPÉ
+        ========================= */
+
         footer {
             margin-top: 50px;
-            background: #222;
-            color: white;
+            background: #0f172a;
+            color: #cbd5e1;
             text-align: center;
-            padding: 25px;
+            padding: 28px 20px;
+            font-size: 13px;
         }
+
+        /* =========================
+           RESPONSIVO
+        ========================= */
+
+        @media (max-width: 750px) {
+
+            .container {
+                margin: 25px auto;
+                padding: 0 14px;
+            }
+
+            .filtros-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .vagas {
+                grid-template-columns: 1fr;
+            }
+
+            .hero h2 {
+                font-size: 25px;
+            }
+
+            .marca h1 {
+                font-size: 18px;
+            }
+
+            .marca p {
+                font-size: 11px;
+            }
+
+            .logo {
+                width: 43px;
+                height: 43px;
+            }
+
+            .inicio {
+                font-size: 13px;
+                padding: 8px 12px;
+            }
+        }
+
+        @media (max-width: 450px) {
+
+            .topo {
+                gap: 8px;
+            }
+
+            .marca {
+                gap: 9px;
+            }
+
+            .marca h1 {
+                font-size: 16px;
+            }
+
+            .inicio {
+                font-size: 12px;
+                padding: 7px 10px;
+            }
+
+            .vaga {
+                padding: 20px;
+            }
+
+        }
+
     </style>
+
 </head>
 
 <body>
 
 <header>
-    <div class="logo">RNO</div>
 
-    <a href="index.html" class="inicio">
-        Início
-    </a>
+    <div class="topo">
+
+        <div class="marca">
+
+            <div class="logo">
+                RNO
+            </div>
+
+            <div>
+
+                <h1>Oportunidades</h1>
+
+                <p>
+                    Rede Nacional de Oportunidades
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <a href="index.html" class="inicio">
+            Início
+        </a>
+
+    </div>
+
 </header>
+
 
 <div class="container">
 
-    <h1>Oportunidades de Emprego</h1>
+    <div class="hero">
 
-    <p class="subtitulo">
-        Encontre oportunidades de trabalho em Moçambique
-    </p>
+        <h2>
+            💼 Oportunidades de Emprego
+        </h2>
+
+        <p class="subtitulo">
+            Encontre oportunidades de trabalho em Moçambique
+            e candidate-se às vagas disponíveis.
+        </p>
+
+    </div>
+
 
     <div class="filtros">
+
+        <div class="filtros-titulo">
+            🔎 Procurar oportunidades
+        </div>
 
         <div class="filtros-grid">
 
@@ -173,35 +462,104 @@
             >
 
             <select id="provincia">
-                <option value="">Todas as províncias</option>
-                <option value="Maputo">Maputo</option>
-                <option value="Gaza">Gaza</option>
-                <option value="Inhambane">Inhambane</option>
-                <option value="Sofala">Sofala</option>
-                <option value="Manica">Manica</option>
-                <option value="Tete">Tete</option>
-                <option value="Zambézia">Zambézia</option>
-                <option value="Nampula">Nampula</option>
-                <option value="Cabo Delgado">Cabo Delgado</option>
-                <option value="Niassa">Niassa</option>
+
+                <option value="">
+                    Todas as províncias
+                </option>
+
+                <option value="Maputo">
+                    Maputo
+                </option>
+
+                <option value="Gaza">
+                    Gaza
+                </option>
+
+                <option value="Inhambane">
+                    Inhambane
+                </option>
+
+                <option value="Sofala">
+                    Sofala
+                </option>
+
+                <option value="Manica">
+                    Manica
+                </option>
+
+                <option value="Tete">
+                    Tete
+                </option>
+
+                <option value="Zambézia">
+                    Zambézia
+                </option>
+
+                <option value="Nampula">
+                    Nampula
+                </option>
+
+                <option value="Cabo Delgado">
+                    Cabo Delgado
+                </option>
+
+                <option value="Niassa">
+                    Niassa
+                </option>
+
             </select>
+
 
             <select id="tipo">
-                <option value="">Todos os tipos</option>
-                <option value="Tempo inteiro">Tempo inteiro</option>
-                <option value="Tempo parcial">Tempo parcial</option>
-                <option value="Estágio">Estágio</option>
-                <option value="Freelancer">Freelancer</option>
+
+                <option value="">
+                    Todos os tipos
+                </option>
+
+                <option value="Tempo inteiro">
+                    Tempo inteiro
+                </option>
+
+                <option value="Tempo parcial">
+                    Tempo parcial
+                </option>
+
+                <option value="Estágio">
+                    Estágio
+                </option>
+
+                <option value="Freelancer">
+                    Freelancer
+                </option>
+
             </select>
-<div id="contador"></div>
 
-<div class="vagas" id="listaVagas">
-</div>
+        </div>
 
-<div id="semResultados" class="sem-resultados">
-    <h2>Nenhuma oportunidade encontrada</h2>
-    <p>Tente alterar os filtros.</p>
-</div>
+    </div>
+
+
+    <div id="contador" class="contador">
+        A carregar oportunidades...
+    </div>
+
+
+    <div class="vagas" id="listaVagas">
+    </div>
+
+
+    <div id="semResultados" class="sem-resultados">
+
+        <h2>
+            🔎 Nenhuma oportunidade encontrada
+        </h2>
+
+        <p>
+            Tente alterar os filtros de pesquisa.
+        </p>
+
+    </div>
+
 
     <a href="index.html" class="voltar">
         ← Voltar para a RNO
@@ -209,9 +567,13 @@
 
 </div>
 
+
 <footer>
-    © 2026 RNO - Rede Nacional de Oportunidades
+
+    © 2026 RNO — Rede Nacional de Oportunidades
+
 </footer>
+
 
 <script>
 
@@ -221,42 +583,69 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
 
+
 const pesquisa =
     document.getElementById("pesquisa");
+
 
 const provincia =
     document.getElementById("provincia");
 
+
 const tipo =
     document.getElementById("tipo");
+
 
 const listaVagas =
     document.getElementById("listaVagas");
 
+
 let todasAsVagas = [];
+
 
 async function carregarVagas() {
 
     try {
 
         const resposta = await fetch(
+
             SUPABASE_URL +
             "/rest/v1/vagas?select=*&order=created_at.desc",
+
             {
+
                 method: "GET",
 
                 headers: {
-                    "apikey": SUPABASE_KEY,
-                    "Accept-Profile": "public"
+
+                    "apikey":
+                        SUPABASE_KEY,
+
+                    "Accept-Profile":
+                        "public"
+
                 }
+
             }
+
         );
+
 
         const texto =
             await resposta.text();
 
-        console.log("STATUS:", resposta.status);
-        console.log("RESPOSTA:", texto);
+
+        console.log(
+            "STATUS:",
+            resposta.status
+        );
+
+
+        console.log(
+            "RESPOSTA:",
+            texto
+        );
+
 
         if (!resposta.ok) {
 
@@ -267,10 +656,13 @@ async function carregarVagas() {
 
         }
 
+
         todasAsVagas =
             JSON.parse(texto);
 
+
         mostrarVagas();
+
 
     } catch (erro) {
 
@@ -279,14 +671,19 @@ async function carregarVagas() {
             erro
         );
 
+
         listaVagas.innerHTML =
+
             "<p style='text-align:center;'>" +
+
             "Não foi possível carregar as oportunidades." +
+
             "</p>";
 
     }
 
 }
+
 
 function mostrarVagas() {
 
@@ -295,126 +692,167 @@ function mostrarVagas() {
         .toLowerCase()
         .trim();
 
+
     const provinciaSelecionada =
         provincia.value;
+
 
     const tipoSelecionado =
         tipo.value;
 
+
     const resultados =
         todasAsVagas.filter(function(vaga) {
+
 
             const titulo =
                 (vaga.titulo || "")
                 .toLowerCase();
 
+
             const empresa =
                 (vaga.empresa || "")
                 .toLowerCase();
 
+
             const localizacao =
                 vaga.localizacao || "";
 
+
             const tipoVaga =
                 vaga.tipo || "";
+
 
             const encontrouTexto =
                 titulo.includes(texto) ||
                 empresa.includes(texto);
 
+
             const encontrouProvincia =
                 provinciaSelecionada === "" ||
                 localizacao === provinciaSelecionada;
+
 
             const encontrouTipo =
                 tipoSelecionado === "" ||
                 tipoVaga === tipoSelecionado;
 
+
             return (
+
                 encontrouTexto &&
                 encontrouProvincia &&
                 encontrouTipo
+
             );
 
         });
 
+
     listaVagas.innerHTML = "";
 
+
     resultados.forEach(function(vaga) {
+
 
         const cartao =
             document.createElement("div");
 
-        cartao.className = "vaga";
+
+        cartao.className =
+            "vaga";
+
 
         cartao.innerHTML = `
 
-            <h2>${vaga.titulo || "Sem título"}</h2>
+            <h2>
+                ${vaga.titulo || "Sem título"}
+            </h2>
 
             <p class="empresa">
-                Empresa: ${vaga.empresa || "Não informado"}
+                🏢 ${vaga.empresa || "Não informado"}
             </p>
 
-            <p class="info">
-                📍 ${vaga.localizacao || "Não informado"}
-            </p>
+            <div class="etiquetas">
 
-            <p class="info">
-                💼 ${vaga.tipo || "Não informado"}
-            </p>
+                <span class="etiqueta">
+                    📍 ${vaga.localizacao || "Não informado"}
+                </span>
 
-            <p class="info">
-                💰 ${vaga.salario || "A combinar"}
-            </p>
+                <span class="etiqueta">
+                    💼 ${vaga.tipo || "Não informado"}
+                </span>
 
-            <p class="info">
-                ${vaga.descricao || ""}
+                <span class="etiqueta">
+                    💰 ${vaga.salario || "A combinar"}
+                </span>
+
+            </div>
+
+            <p class="descricao">
+                ${vaga.descricao || "Descrição não disponível."}
             </p>
 
             <a
-               href="candidatar.html?vaga_id=${encodeURIComponent(vaga.id)}&vaga=${encodeURIComponent(vaga.titulo || "")}"
-                class="btn-candidatar">
+                href="candidatar.html?vaga_id=${encodeURIComponent(vaga.id)}&vaga=${encodeURIComponent(vaga.titulo || "")}"
+                class="btn-candidatar"
+            >
                 Candidatar-se
             </a>
 
         `;
 
-        listaVagas.appendChild(cartao);
+
+        listaVagas.appendChild(
+            cartao
+        );
 
     });
 
+
     document.getElementById(
         "contador"
-    ).textContent =
+    ).innerHTML =
+
+        "<strong>" +
+
         resultados.length +
-        " oportunidade(s) encontrada(s)";
+
+        "</strong> oportunidade(s) encontrada(s)";
+
 
     document.getElementById(
         "semResultados"
     ).style.display =
+
         resultados.length === 0
         ? "block"
         : "none";
 
 }
 
+
 pesquisa.addEventListener(
     "input",
     mostrarVagas
 );
+
 
 provincia.addEventListener(
     "change",
     mostrarVagas
 );
 
+
 tipo.addEventListener(
     "change",
     mostrarVagas
 );
 
+
 carregarVagas();
 
 </script>
+
 </body>
 </html>
