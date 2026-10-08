@@ -154,10 +154,7 @@ async function carregarCandidaturas() {
 
           SUPABASE_URL +
 "/rest/v1/candidaturas" +
-"?select=id,nome_completo,email,vaga,candidato_id,status" +
-            "&candidato_id=eq." +
-            encodeURIComponent(candidatoId),
-
+"?select=id,nome_completo,email,vaga,candidato_id,status,created_at",
             {
                 method: "GET",
 
