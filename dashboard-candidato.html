@@ -229,10 +229,63 @@
                 <p>Consulte e acompanhe as suas candidaturas.</p>
             </a>
 
-            <a href="#" class="acao" id="editarPerfil">
-                <h3>👤 Meu Perfil</h3>
-                <p>Área para atualizar os seus dados.</p>
-            </a>
+          <a href="#editarArea" class="acao" id="editarPerfil">
+    <h3>✏️ Editar Perfil</h3>
+    <p>Atualize os seus dados profissionais.</p>
+</a>
+
+        </div>
+
+    </div>
+
+</div>
+        </div>
+
+        <div id="editarArea" style="display:none;">
+
+            <div class="perfil">
+
+                <h2>✏️ Editar Perfil</h2>
+
+                <label>Nome completo</label>
+                <input type="text" id="editarNome">
+
+                <label>Telefone</label>
+                <input type="tel" id="editarTelefone">
+
+                <label>Província</label>
+                <select id="editarProvincia">
+                    <option value="">Selecione</option>
+                    <option>Maputo Cidade</option>
+                    <option>Maputo Província</option>
+                    <option>Gaza</option>
+                    <option>Inhambane</option>
+                    <option>Sofala</option>
+                    <option>Manica</option>
+                    <option>Tete</option>
+                    <option>Zambézia</option>
+                    <option>Nampula</option>
+                    <option>Cabo Delgado</option>
+                    <option>Niassa</option>
+                </select>
+
+                <label>Área profissional</label>
+                <input type="text" id="editarAreaProfissional">
+
+                <label>Experiência profissional</label>
+                <textarea id="editarExperiencia"></textarea>
+
+                <button type="button" id="guardarPerfil">
+                    💾 Guardar alterações
+                </button>
+
+                <button type="button" id="cancelarEdicao">
+                    Cancelar
+                </button>
+
+    <div id="mensagemEdicao"></div>
+
+            </div>
 
         </div>
 
@@ -241,7 +294,6 @@
 </div>
 
 <script>
-
 const SUPABASE_URL =
     "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
@@ -369,7 +421,217 @@ async function carregarPerfil() {
 
 }
 
+// ===============================
+// EDIÇÃO DO PERFIL
+// ===============================
 
+const editarPerfil =
+    document.getElementById("editarPerfil");
+
+const editarArea =
+    document.getElementById("editarArea");
+
+const guardarPerfil =
+    document.getElementById("guardarPerfil");
+
+const cancelarEdicao =
+    document.getElementById("cancelarEdicao");
+
+const mensagemEdicao =
+    document.getElementById("mensagemEdicao");
+
+
+// Abrir edição do perfil
+
+editarPerfil.addEventListener("click", function (event) {
+
+    event.preventDefault();
+
+    document.getElementById("editarNome").value =
+        document.getElementById("nome").textContent === "Não informado"
+            ? ""
+            : document.getElementById("nome").textContent;
+
+    document.getElementById("editarTelefone").value =
+        document.getElementById("telefone").textContent === "Não informado"
+            ? ""
+            : document.getElementById("telefone").textContent;
+
+    document.getElementById("editarProvincia").value =
+        document.getElementById("provincia").textContent === "Não informado"
+            ? ""
+            : document.getElementById("provincia").textContent;
+
+    document.getElementById("editarAreaProfissional").value =
+        document.getElementById("area").textContent === "Não informado"
+            ? ""
+            : document.getElementById("area").textContent;
+
+    document.getElementById("editarExperiencia").value =
+        document.getElementById("experiencia").textContent === "Não informado"
+            ? ""
+            : document.getElementById("experiencia").textContent;
+
+    mensagemEdicao.textContent = "";
+
+    editarArea.style.display = "block";
+
+    editarArea.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+    });
+
+});
+
+
+// Guardar alterações
+
+guardarPerfil.addEventListener("click", async function () {
+
+    mensagemEdicao.textContent =
+        "A guardar alterações...";
+
+    mensagemEdicao.style.color = "#0b3d91";
+
+    const dadosAtualizados = {
+
+        nome_completo:
+            document.getElementById("editarNome").value.trim(),
+
+        telefone:
+            document.getElementById("editarTelefone").value.trim(),
+
+        provincia:
+            document.getElementById("editarProvincia").value,
+
+        area_profissional:
+            document.getElementById("editarAreaProfissional").value.trim(),
+
+        experiencia:
+            document.getElementById("editarExperiencia").value.trim()
+
+    };
+
+
+    try {
+
+        const url =
+            SUPABASE_URL +
+            "/rest/v1/candidatos?id=eq." +
+            userId;
+
+        const resposta = await fetch(url, {
+
+            method: "PATCH",
+
+            headers: {
+
+                "apikey": SUPABASE_KEY,
+
+                "Authorization":
+                    "Bearer " + accessToken,
+
+                "Content-Type":
+                    "application/json",
+
+                "Prefer":
+                    "return=representation"
+
+            },
+
+            body:
+                JSON.stringify(dadosAtualizados)
+
+        });
+
+
+        const texto =
+            await resposta.text();
+
+        console.log(
+            "STATUS ATUALIZAÇÃO:",
+            resposta.status
+        );
+
+        console.log(
+            "RESPOSTA ATUALIZAÇÃO:",
+            texto
+        );
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Não foi possível atualizar o perfil. Status: " +
+                resposta.status
+            );
+
+        }
+
+
+        // Atualizar os dados mostrados no dashboard
+
+        document.getElementById("nome").textContent =
+            dadosAtualizados.nome_completo || "Não informado";
+
+        document.getElementById("telefone").textContent =
+            dadosAtualizados.telefone || "Não informado";
+
+        document.getElementById("provincia").textContent =
+            dadosAtualizados.provincia || "Não informado";
+
+        document.getElementById("area").textContent =
+            dadosAtualizados.area_profissional || "Não informado";
+
+        document.getElementById("experiencia").textContent =
+            dadosAtualizados.experiencia || "Não informado";
+
+
+        document.getElementById("nomeBoasVindas").textContent =
+            "Olá, " +
+            (dadosAtualizados.nome_completo || "candidato") +
+            "! Esta é a sua área pessoal.";
+
+
+        mensagemEdicao.textContent =
+            "✅ Perfil atualizado com sucesso!";
+
+        mensagemEdicao.style.color = "green";
+
+
+        setTimeout(function () {
+
+            editarArea.style.display = "none";
+
+        }, 1500);
+
+
+    } catch (erro) {
+
+        console.error(
+            "ERRO AO ATUALIZAR PERFIL:",
+            erro
+        );
+
+        mensagemEdicao.textContent =
+            "❌ " + erro.message;
+
+        mensagemEdicao.style.color = "red";
+
+    }
+
+});
+
+
+// Cancelar edição
+
+cancelarEdicao.addEventListener("click", function () {
+
+    editarArea.style.display = "none";
+
+    mensagemEdicao.textContent = "";
+
+});
 // Botão sair
 
 document.getElementById("btnSair").addEventListener(
