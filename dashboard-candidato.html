@@ -530,7 +530,7 @@ guardarPerfil.addEventListener("click", async function () {
     "Content-Type": "application/json",
     "Content-Profile": "public",
     "Accept-Profile": "public",
-    "Prefer": "return=representation"
+    "Prefer": "return=minimal"
 },
             body:
                 JSON.stringify(dadosAtualizados)
