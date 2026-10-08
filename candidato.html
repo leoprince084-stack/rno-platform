@@ -1,318 +1,699 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>Cadastro de Candidato - RNO</title>
 
     <style>
+
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f5f7fa;
+            background: #f4f7fb;
+            color: #1f2937;
+            min-height: 100vh;
             padding: 30px 15px;
         }
 
+        /* =========================
+           CONTAINER
+        ========================= */
+
         .container {
-            max-width: 600px;
+            max-width: 680px;
             margin: 0 auto;
+        }
+
+        /* =========================
+           CABEÇALHO
+        ========================= */
+
+        .topo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            color: #0b5ed7;
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        .nome-plataforma {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 3px;
+        }
+
+        /* =========================
+           CARTÃO
+        ========================= */
+
+        .form-card {
             background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+            border: 1px solid #e5e7eb;
         }
 
         h1 {
             text-align: center;
-            color: #0b5ed7;
+            color: #0f172a;
+            font-size: 30px;
+            margin-bottom: 10px;
         }
 
         .subtitulo {
             text-align: center;
-            color: #666;
+            color: #64748b;
             margin-bottom: 30px;
+            font-size: 16px;
+        }
+
+        /* =========================
+           CAMPOS
+        ========================= */
+
+        .campo {
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
-            margin-top: 15px;
-            margin-bottom: 6px;
-            font-weight: bold;
+            margin-bottom: 7px;
+            color: #334155;
+            font-weight: 700;
+            font-size: 14px;
         }
 
         input,
         select,
         textarea {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
+            padding: 13px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
             font-size: 15px;
+            color: #1f2937;
+            background: white;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #0b5ed7;
+            box-shadow: 0 0 0 3px rgba(11, 94, 215, 0.10);
         }
 
         textarea {
-            min-height: 110px;
+            min-height: 130px;
             resize: vertical;
         }
 
+        input::placeholder,
+        textarea::placeholder {
+            color: #94a3b8;
+        }
+
+        /* =========================
+           BOTÃO
+        ========================= */
+
         button {
             width: 100%;
-            margin-top: 25px;
-            padding: 14px;
+            margin-top: 10px;
+            padding: 15px;
             border: none;
-            border-radius: 7px;
+            border-radius: 8px;
             background: #0b5ed7;
             color: white;
             font-size: 17px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #084298;
         }
 
         button:disabled {
-            opacity: 0.7;
+            opacity: 0.65;
+            cursor: not-allowed;
         }
+
+        /* =========================
+           MENSAGEM
+        ========================= */
 
         #mensagem {
             display: none;
             margin-top: 20px;
-            padding: 15px;
-            border-radius: 7px;
+            padding: 16px;
+            border-radius: 8px;
             background: #eef4ff;
-            line-height: 1.5;
+            border: 1px solid #cfe0ff;
+            color: #334155;
+            line-height: 1.6;
             word-break: break-word;
         }
+
+        /* =========================
+           VOLTAR
+        ========================= */
 
         .voltar {
             display: block;
             text-align: center;
-            margin-top: 20px;
+            margin-top: 22px;
             color: #0b5ed7;
             text-decoration: none;
+            font-weight: 600;
         }
+
+        .voltar:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           SEGURANÇA
+        ========================= */
+
+        .nota {
+            text-align: center;
+            margin-top: 20px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* =========================
+           RESPONSIVO
+        ========================= */
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 20px 12px;
+            }
+
+            .form-card {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+
+            .logo {
+                font-size: 30px;
+            }
+
+            h1 {
+                font-size: 25px;
+            }
+
+            .subtitulo {
+                font-size: 14px;
+            }
+
+        }
+
     </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-    <h1>Cadastro de Candidato</h1>
+    <!-- CABEÇALHO -->
 
-    <p class="subtitulo">
-        Crie o seu perfil profissional na RNO
-    </p>
+    <div class="topo">
 
-    <form id="formCandidato">
+        <div class="logo">
+            RNO
+        </div>
 
-        <label for="nome">Nome completo</label>
-        <input type="text" id="nome" required>
+        <div class="nome-plataforma">
+            Rede Nacional de Oportunidades
+        </div>
 
-        <label for="telefone">Telefone</label>
-        <input type="tel" id="telefone" required>
+    </div>
 
-     <label for="email">Email</label>
-<input type="email" id="email" required>
 
-<label for="senha">Senha</label>
-<input type="password" id="senha" minlength="6" required>
+    <!-- FORMULÁRIO -->
 
-<label for="confirmarSenha">Confirmar senha</label>
-<input type="password" id="confirmarSenha" minlength="6" required>
-        <label for="provincia">Província</label>
-        <select id="provincia" required>
-            <option value="">Selecione</option>
-            <option>Maputo Cidade</option>
-            <option>Maputo Província</option>
-            <option>Gaza</option>
-            <option>Inhambane</option>
-            <option>Sofala</option>
-            <option>Manica</option>
-            <option>Tete</option>
-            <option>Zambézia</option>
-            <option>Nampula</option>
-            <option>Cabo Delgado</option>
-            <option>Niassa</option>
-        </select>
+    <div class="form-card">
 
-        <label for="area">Área profissional</label>
-        <input
-            type="text"
-            id="area"
-            placeholder="Ex.: Informática"
-            required
+        <h1>
+            Cadastro de Candidato
+        </h1>
+
+        <p class="subtitulo">
+            Crie o seu perfil profissional na RNO
+        </p>
+
+
+        <form id="formCandidato">
+
+
+            <div class="campo">
+
+                <label for="nome">
+                    Nome completo
+                </label>
+
+                <input
+                    type="text"
+                    id="nome"
+                    placeholder="Digite o seu nome completo"
+                    required
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="telefone">
+                    Telefone
+                </label>
+
+                <input
+                    type="tel"
+                    id="telefone"
+                    placeholder="Ex.: 84 000 0000"
+                    required
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="Digite o seu email"
+                    required
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="senha">
+                    Senha
+                </label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    minlength="6"
+                    placeholder="Mínimo de 6 caracteres"
+                    required
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="confirmarSenha">
+                    Confirmar senha
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmarSenha"
+                    minlength="6"
+                    placeholder="Digite novamente a senha"
+                    required
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="provincia">
+                    Província
+                </label>
+
+                <select id="provincia" required>
+
+                    <option value="">
+                        Selecione a sua província
+                    </option>
+
+                    <option>
+                        Maputo Cidade
+                    </option>
+
+                    <option>
+                        Maputo Província
+                    </option>
+
+                    <option>
+                        Gaza
+                    </option>
+
+                    <option>
+                        Inhambane
+                    </option>
+
+                    <option>
+                        Sofala
+                    </option>
+
+                    <option>
+                        Manica
+                    </option>
+
+                    <option>
+                        Tete
+                    </option>
+
+                    <option>
+                        Zambézia
+                    </option>
+
+                    <option>
+                        Nampula
+                    </option>
+
+                    <option>
+                        Cabo Delgado
+                    </option>
+
+                    <option>
+                        Niassa
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="area">
+                    Área profissional
+                </label>
+
+                <input
+                    type="text"
+                    id="area"
+                    placeholder="Ex.: Informática, Contabilidade, Marketing"
+                    required
+                >
+
+            </div>
+
+
+            <div class="campo">
+
+                <label for="experiencia">
+                    Experiência profissional
+                </label>
+
+                <textarea
+                    id="experiencia"
+                    placeholder="Descreva a sua experiência profissional"
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                id="botao"
+            >
+                Criar Perfil
+            </button>
+
+
+        </form>
+
+
+        <div id="mensagem"></div>
+
+
+        <a
+            href="index.html"
+            class="voltar"
         >
+            ← Voltar para a RNO
+        </a>
 
-        <label for="experiencia">Experiência profissional</label>
-        <textarea
-            id="experiencia"
-            placeholder="Descreva a sua experiência profissional"
-        ></textarea>
 
-        <button type="submit" id="botao">
-            Criar Perfil
-        </button>
+        <p class="nota">
+            🔒 Os seus dados são protegidos pela plataforma RNO.
+        </p>
 
-    </form>
-
-    <div id="mensagem"></div>
-
-    <a href="index.html" class="voltar">
-        ← Voltar para a RNO
-    </a>
+    </div>
 
 </div>
 
+
 <script>
+
     const SUPABASE_URL =
         "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
     const SUPABASE_KEY =
         "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
 
+
     const formulario =
         document.getElementById("formCandidato");
+
 
     const mensagem =
         document.getElementById("mensagem");
 
+
     const botao =
         document.getElementById("botao");
 
-    formulario.addEventListener("submit", async function(event) {
 
-        event.preventDefault();
+    formulario.addEventListener(
+        "submit",
+        async function(event) {
 
-        const nome =
-            document.getElementById("nome").value.trim();
+            event.preventDefault();
 
-        const telefone =
-            document.getElementById("telefone").value.trim();
 
-        const email =
-            document.getElementById("email").value.trim();
+            const nome =
+                document
+                .getElementById("nome")
+                .value
+                .trim();
 
-        const provincia =
-            document.getElementById("provincia").value;
 
-        const area =
-            document.getElementById("area").value.trim();
+            const telefone =
+                document
+                .getElementById("telefone")
+                .value
+                .trim();
 
-        const experiencia =
-            document.getElementById("experiencia").value.trim();
 
-        const senha =
-            document.getElementById("senha").value;
+            const email =
+                document
+                .getElementById("email")
+                .value
+                .trim();
 
-        const confirmarSenha =
-            document.getElementById("confirmarSenha").value;
 
-        if (senha !== confirmarSenha) {
+            const provincia =
+                document
+                .getElementById("provincia")
+                .value;
 
-            mensagem.style.display = "block";
 
-            mensagem.innerHTML =
-                "<strong>As senhas não coincidem.</strong>";
+            const area =
+                document
+                .getElementById("area")
+                .value
+                .trim();
 
-            return;
-        }
 
-        mensagem.style.display = "block";
-        mensagem.innerHTML =
-            "A criar a sua conta...";
+            const experiencia =
+                document
+                .getElementById("experiencia")
+                .value
+                .trim();
 
-        botao.disabled = true;
-        botao.textContent = "A criar conta...";
 
-        try {
+            const senha =
+                document
+                .getElementById("senha")
+                .value;
 
-            const resposta = await fetch(
-                SUPABASE_URL + "/auth/v1/signup",
-                {
-                    method: "POST",
 
-                    headers: {
-                        "Content-Type": "application/json",
-                        "apikey": SUPABASE_KEY
-                    },
+            const confirmarSenha =
+                document
+                .getElementById("confirmarSenha")
+                .value;
 
-                    body: JSON.stringify({
 
-                        email: email,
+            if (senha !== confirmarSenha) {
 
-                        password: senha,
-
-                        data: {
-
-                            nome_completo: nome,
-
-                            telefone: telefone,
-
-                            provincia: provincia,
-
-                            area_profissional: area,
-
-                            experiencia: experiencia
-                        }
-                    })
-                }
-            );
-
-            const resultado =
-                await resposta.json();
-
-            console.log(
-                "Resposta do Supabase:",
-                resultado
-            );
-
-            if (!resposta.ok) {
+                mensagem.style.display = "block";
 
                 mensagem.innerHTML =
-                    "<strong>Erro ao criar a conta:</strong><br><br>" +
-                    (
-                        resultado.msg ||
-                        resultado.message ||
-                        "Não foi possível criar a conta."
-                    );
-
-                botao.disabled = false;
-                botao.textContent = "Criar Perfil";
+                    "<strong>As senhas não coincidem.</strong>";
 
                 return;
             }
 
-            mensagem.innerHTML =
-                "<strong>✅ Conta criada com sucesso!</strong><br><br>" +
-                "Enviámos um e-mail de confirmação para <strong>" +
-                email +
-                "</strong>.<br><br>" +
-                "Abra o seu e-mail e confirme a sua conta para continuar.";
 
-            formulario.reset();
-
-            botao.disabled = false;
-            botao.textContent = "Criar Perfil";
-
-        } catch (erro) {
-
-            console.error(
-                "Erro de ligação:",
-                erro
-            );
+            mensagem.style.display = "block";
 
             mensagem.innerHTML =
-                "<strong>Erro de ligação:</strong><br><br>" +
-                erro.message;
+                "A criar a sua conta...";
 
-            botao.disabled = false;
-            botao.textContent = "Criar Perfil";
+
+            botao.disabled = true;
+
+            botao.textContent =
+                "A criar conta...";
+
+
+            try {
+
+                const resposta =
+                    await fetch(
+                        SUPABASE_URL +
+                        "/auth/v1/signup",
+                        {
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type":
+                                    "application/json",
+
+                                "apikey":
+                                    SUPABASE_KEY
+                            },
+
+                            body: JSON.stringify({
+
+                                email: email,
+
+                                password: senha,
+
+                                data: {
+
+                                    nome_completo:
+                                        nome,
+
+                                    telefone:
+                                        telefone,
+
+                                    provincia:
+                                        provincia,
+
+                                    area_profissional:
+                                        area,
+
+                                    experiencia:
+                                        experiencia
+                                }
+                            })
+                        }
+                    );
+
+
+                const resultado =
+                    await resposta.json();
+
+
+                console.log(
+                    "Resposta do Supabase:",
+                    resultado
+                );
+
+
+                if (!resposta.ok) {
+
+                    mensagem.innerHTML =
+                        "<strong>Erro ao criar a conta:</strong><br><br>" +
+                        (
+                            resultado.msg ||
+                            resultado.message ||
+                            "Não foi possível criar a conta."
+                        );
+
+
+                    botao.disabled = false;
+
+                    botao.textContent =
+                        "Criar Perfil";
+
+                    return;
+                }
+
+
+                mensagem.innerHTML =
+                    "<strong>✅ Conta criada com sucesso!</strong><br><br>" +
+                    "Enviámos um e-mail de confirmação para <strong>" +
+                    email +
+                    "</strong>.<br><br>" +
+                    "Abra o seu e-mail e confirme a sua conta para continuar.";
+
+
+                formulario.reset();
+
+
+                botao.disabled = false;
+
+                botao.textContent =
+                    "Criar Perfil";
+
+
+            } catch (erro) {
+
+                console.error(
+                    "Erro de ligação:",
+                    erro
+                );
+
+
+                mensagem.innerHTML =
+                    "<strong>Erro de ligação:</strong><br><br>" +
+                    erro.message;
+
+
+                botao.disabled = false;
+
+                botao.textContent =
+                    "Criar Perfil";
+
+            }
+
         }
+    );
 
-    });
 </script>
+
 </body>
 </html>
