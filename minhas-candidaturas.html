@@ -138,7 +138,13 @@ async function carregarCandidaturas() {
         document.getElementById("listaCandidaturas");
 
 
-    if (!candidatoId || !accessToken) {
+   const tokenValido =
+    await renovarSessao();
+
+const accessToken =
+    localStorage.getItem("rno_access_token");
+
+if (!candidatoId || !accessToken || !tokenValido) {
 
         container.className = "erro";
 
