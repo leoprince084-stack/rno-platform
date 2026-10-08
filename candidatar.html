@@ -118,14 +118,17 @@
 
         <label for="email">Email</label>
         <input type="email" id="email">
-<label for="mensagemCandidato">Mensagem</label>
 
-<textarea
-    id="mensagemCandidato"
-    name="mensagem"
-    placeholder="Faça uma breve apresentação"
-    required
-></textarea>
+        <label for="mensagemCandidato">
+            Mensagem
+        </label>
+
+        <textarea
+            id="mensagemCandidato"
+            name="mensagem"
+            placeholder="Faça uma breve apresentação"
+            required
+        ></textarea>
 
         <button type="submit" id="botao">
             Enviar Candidatura
@@ -148,15 +151,30 @@ const SUPABASE_URL =
 
 const SUPABASE_KEY =
     "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
+
+
+/* ==========================================
+   DADOS DA VAGA
+   ========================================== */
+
 const parametros =
     new URLSearchParams(window.location.search);
 
-const vagaId = parametros.get("vaga_id");
+const vagaId =
+    parametros.get("vaga_id");
+
 console.log("VAGA ID:", vagaId);
+
 const vagaSelecionada =
     parametros.get("vaga") || "Vaga não identificada";
+
 document.getElementById("vaga").textContent =
     vagaSelecionada;
+
+
+/* ==========================================
+   ELEMENTOS DO FORMULÁRIO
+   ========================================== */
 
 const formulario =
     document.getElementById("formCandidatura");
@@ -167,81 +185,313 @@ const mensagem =
 const botao =
     document.getElementById("botao");
 
-formulario.addEventListener("submit", async function(event) {
 
-    event.preventDefault();
+/* ==========================================
+   OBTER UTILIZADOR AUTENTICADO
+   ========================================== */
 
-    mensagem.style.display = "block";
-    mensagem.innerHTML = "A enviar candidatura...";
+async function obterUtilizador() {
 
- const vagaId = parametros.get("vaga_id");
+    const accessToken =
+        localStorage.getItem("rno_access_token");
 
-const dados = {
-    vaga_id: vagaId,
-    vaga: vagaSelecionada,
-    nome_completo:
-        document.getElementById("nome").value.trim(),
-    telefone:
-        document.getElementById("telefone").value.trim(),
-    email:
-        document.getElementById("email").value.trim() || null,
-    mensagem:
-    document.getElementById("mensagemCandidato").value
-};
+    if (!accessToken) {
+        return null;
+    }
 
-    try {
+    const resposta = await fetch(
+        SUPABASE_URL + "/auth/v1/user",
+        {
+            method: "GET",
 
-        const resposta = await fetch(
-            SUPABASE_URL + "/rest/v1/candidaturas",
-            {
-                method: "POST",
-
- headers: {
-    "Content-Type": "application/json",
-    "apikey": SUPABASE_KEY,
-    "Content-Profile": "public",
-    "Prefer": "return=minimal"
-},
-                body: JSON.stringify(dados)
+            headers: {
+                "apikey": SUPABASE_KEY,
+                "Authorization":
+                    "Bearer " + accessToken
             }
-        );
+        }
+    );
 
-        const resultado = await resposta.text();
+    if (!resposta.ok) {
+        return null;
+    }
 
-        if (!resposta.ok) {
+    return await resposta.json();
+}
+
+
+/* ==========================================
+   ENVIAR CANDIDATURA
+   ========================================== */
+
+formulario.addEventListener(
+    "submit",
+    async function(event) {
+
+        event.preventDefault();
+
+        mensagem.style.display = "block";
+
+        mensagem.innerHTML =
+            "A verificar a sua sessão...";
+
+        botao.disabled = true;
+
+        botao.textContent =
+            "A enviar...";
+
+
+        /* ======================================
+           VERIFICAR LOGIN
+           ====================================== */
+
+        const utilizador =
+            await obterUtilizador();
+
+
+        if (!utilizador) {
 
             mensagem.innerHTML =
-                "<strong>❌ ERRO DO SUPABASE</strong><br><br>" +
-                resultado;
+                "<strong>❌ É necessário iniciar sessão.</strong><br><br>" +
+                "Faça login antes de enviar uma candidatura.<br><br>" +
+                "<a href='login.html'>Ir para o login</a>";
 
             botao.disabled = false;
-            botao.textContent = "Enviar Candidatura";
+
+            botao.textContent =
+                "Enviar Candidatura";
 
             return;
         }
 
-        mensagem.innerHTML =
-            "<strong>✅ CANDIDATURA GRAVADA!</strong><br><br>" +
-            "Vaga: " + vagaSelecionada + "<br>" +
-            "Nome: " + dados.nome_completo + "<br>" +
-            "Mensagem: " + dados.mensagem;
 
-        botao.disabled = false;
-        botao.textContent = "Enviar Candidatura";
+        console.log(
+            "UTILIZADOR AUTENTICADO:",
+            utilizador
+        );
 
-        console.log("Candidatura gravada:", resultado);
 
-    } catch (erro) {
+        /* ======================================
+           TOKEN E ID DO CANDIDATO
+           ====================================== */
 
-        mensagem.innerHTML =
-            "<strong>❌ ERRO DE LIGAÇÃO</strong><br><br>" +
-            erro.message;
+        const accessToken =
+            localStorage.getItem("rno_access_token");
 
-        botao.disabled = false;
-        botao.textContent = "Enviar Candidatura";
+        const candidatoId =
+            localStorage.getItem("rno_user_id");
+
+
+        if (!accessToken || !candidatoId) {
+
+            mensagem.innerHTML =
+                "<strong>❌ Sessão não encontrada.</strong><br><br>" +
+                "<a href='login.html'>Voltar para o login</a>";
+
+            botao.disabled = false;
+
+            botao.textContent =
+                "Enviar Candidatura";
+
+            return;
+        }
+
+
+        /* ======================================
+           GARANTIR QUE O ID DO LOGIN
+           É O ID DO UTILIZADOR AUTENTICADO
+           ====================================== */
+
+        if (candidatoId !== utilizador.id) {
+
+            console.error(
+                "ID DO LOGIN:",
+                candidatoId
+            );
+
+            console.error(
+                "ID DO SUPABASE:",
+                utilizador.id
+            );
+
+            mensagem.innerHTML =
+                "<strong>❌ Erro de identificação da conta.</strong><br><br>" +
+                "Faça login novamente.";
+
+            botao.disabled = false;
+
+            botao.textContent =
+                "Enviar Candidatura";
+
+            return;
+        }
+
+
+        /* ======================================
+           DADOS DA CANDIDATURA
+           ====================================== */
+
+        const dados = {
+
+            vaga_id:
+                vagaId,
+
+            vaga:
+                vagaSelecionada,
+
+            candidato_id:
+                candidatoId,
+
+            nome_completo:
+                document
+                    .getElementById("nome")
+                    .value
+                    .trim(),
+
+            telefone:
+                document
+                    .getElementById("telefone")
+                    .value
+                    .trim(),
+
+            email:
+                document
+                    .getElementById("email")
+                    .value
+                    .trim() || null,
+
+            mensagem:
+                document
+                    .getElementById("mensagemCandidato")
+                    .value
+                    .trim()
+        };
+
+
+        console.log(
+            "DADOS DA CANDIDATURA:",
+            dados
+        );
+
+
+        /* ======================================
+           ENVIAR PARA SUPABASE
+           ====================================== */
+
+        try {
+
+            const resposta = await fetch(
+                SUPABASE_URL +
+                "/rest/v1/candidaturas",
+                {
+                    method: "POST",
+
+                    headers: {
+
+                        "Content-Type":
+                            "application/json",
+
+                        "apikey":
+                            SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " +
+                            accessToken,
+
+                        "Content-Profile":
+                            "public",
+
+                        "Prefer":
+                            "return=minimal"
+                    },
+
+                    body:
+                        JSON.stringify(dados)
+                }
+            );
+
+
+            const resultado =
+                await resposta.text();
+
+
+            /* ==================================
+               ERRO DO SUPABASE
+               ================================== */
+
+            if (!resposta.ok) {
+
+                mensagem.innerHTML =
+                    "<strong>❌ ERRO DO SUPABASE</strong><br><br>" +
+                    resultado;
+
+                console.error(
+                    "ERRO DO SUPABASE:",
+                    resultado
+                );
+
+                botao.disabled = false;
+
+                botao.textContent =
+                    "Enviar Candidatura";
+
+                return;
+            }
+
+
+            /* ==================================
+               SUCESSO
+               ================================== */
+
+            mensagem.innerHTML =
+                "<strong>✅ CANDIDATURA GRAVADA!</strong><br><br>" +
+
+                "Vaga: " +
+                vagaSelecionada +
+                "<br>" +
+
+                "Nome: " +
+                dados.nome_completo +
+                "<br>" +
+
+                "Candidato ID: " +
+                dados.candidato_id +
+                "<br><br>" +
+
+                "A sua candidatura foi enviada com sucesso.";
+
+
+            botao.disabled = false;
+
+            botao.textContent =
+                "Enviar Candidatura";
+
+
+            console.log(
+                "Candidatura gravada:",
+                resultado
+            );
+
+
+        } catch (erro) {
+
+            console.error(
+                "ERRO DE LIGAÇÃO:",
+                erro
+            );
+
+            mensagem.innerHTML =
+                "<strong>❌ ERRO DE LIGAÇÃO</strong><br><br>" +
+                erro.message;
+
+            botao.disabled = false;
+
+            botao.textContent =
+                "Enviar Candidatura";
+        }
+
     }
-
-});
+);
 
 </script>
 
