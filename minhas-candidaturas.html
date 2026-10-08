@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -117,6 +118,7 @@
 </div>
 
 <script src="auth.js"></script>
+
 <script>
 
 const SUPABASE_URL =
@@ -125,12 +127,10 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
 
-const candidatoId =
-    localStorage.getItem("rno_user_id");
 
-const accessToken =
-    localStorage.getItem("rno_access_token");
-
+// ========================================
+// CARREGAR CANDIDATURAS
+// ========================================
 
 async function carregarCandidaturas() {
 
@@ -138,13 +138,18 @@ async function carregarCandidaturas() {
         document.getElementById("listaCandidaturas");
 
 
-   const tokenValido =
-    await renovarSessao();
+    const candidatoId =
+        localStorage.getItem("rno_user_id");
 
-const accessToken =
-    localStorage.getItem("rno_access_token");
+    let accessToken =
+        localStorage.getItem("rno_access_token");
 
-if (!candidatoId || !accessToken || !tokenValido) {
+
+    // ========================================
+    // VERIFICAR LOGIN
+    // ========================================
+
+    if (!candidatoId || !accessToken) {
 
         container.className = "erro";
 
@@ -155,25 +160,90 @@ if (!candidatoId || !accessToken || !tokenValido) {
     }
 
 
-    try {
+    // ========================================
+    // FUNÇÃO PARA CONSULTAR CANDIDATURAS
+    // ========================================
 
-        const resposta = await fetch(
+    async function consultarCandidaturas(token) {
 
-          SUPABASE_URL +
-"/rest/v1/candidaturas" +
-"?select=id,nome_completo,email,vaga,candidato_id,status,created_at",
+        return await fetch(
+
+            SUPABASE_URL +
+            "/rest/v1/candidaturas" +
+            "?select=id,nome_completo,email,vaga,candidato_id,status,created_at",
+
             {
                 method: "GET",
 
                 headers: {
                     "apikey": SUPABASE_KEY,
+
                     "Authorization":
-                        "Bearer " + accessToken,
-                    "Accept-Profile": "public"
+                        "Bearer " + token,
+
+                    "Accept-Profile":
+                        "public"
                 }
             }
         );
+    }
 
+
+    try {
+
+        // ========================================
+        // PRIMEIRA TENTATIVA
+        // ========================================
+
+        let resposta =
+            await consultarCandidaturas(accessToken);
+
+
+        // ========================================
+        // SE O TOKEN EXPIROU
+        // ========================================
+
+        if (resposta.status === 401) {
+
+            console.log(
+                "Token expirado. Tentando renovar sessão..."
+            );
+
+
+            const sessaoRenovada =
+                await renovarSessao();
+
+
+            if (!sessaoRenovada) {
+
+                container.className = "erro";
+
+                container.innerHTML =
+                    "❌ A sua sessão expirou. Por favor, faça login novamente.";
+
+                return;
+            }
+
+
+            // Obter novo token
+
+            accessToken =
+                localStorage.getItem("rno_access_token");
+
+
+            // ========================================
+            // SEGUNDA TENTATIVA
+            // ========================================
+
+            resposta =
+                await consultarCandidaturas(accessToken);
+
+        }
+
+
+        // ========================================
+        // LER RESPOSTA
+        // ========================================
 
         const texto =
             await resposta.text();
@@ -184,6 +254,10 @@ if (!candidatoId || !accessToken || !tokenValido) {
             texto
         );
 
+
+        // ========================================
+        // VERIFICAR ERRO
+        // ========================================
 
         if (!resposta.ok) {
 
@@ -196,6 +270,10 @@ if (!candidatoId || !accessToken || !tokenValido) {
         }
 
 
+        // ========================================
+        // CONVERTER JSON
+        // ========================================
+
         const dados =
             JSON.parse(texto);
 
@@ -205,6 +283,10 @@ if (!candidatoId || !accessToken || !tokenValido) {
             dados
         );
 
+
+        // ========================================
+        // NENHUMA CANDIDATURA
+        // ========================================
 
         if (!dados || dados.length === 0) {
 
@@ -223,6 +305,10 @@ if (!candidatoId || !accessToken || !tokenValido) {
             return;
         }
 
+
+        // ========================================
+        // MOSTRAR CANDIDATURAS
+        // ========================================
 
         container.className = "";
 
@@ -247,11 +333,9 @@ if (!candidatoId || !accessToken || !tokenValido) {
                         ${candidatura.email || "Não informado"}
                     </p>
 
-                   
-
-              <span class="estado">
-    🟡 ${candidatura.status || "Em análise"}
-</span>
+                    <span class="estado">
+                        🟡 ${candidatura.status || "Em análise"}
+                    </span>
 
                 </div>
 
@@ -279,9 +363,15 @@ if (!candidatoId || !accessToken || !tokenValido) {
 }
 
 
+// ========================================
+// INICIAR
+// ========================================
+
 carregarCandidaturas();
 
 </script>
 
 </body>
 </html>
+```
+
