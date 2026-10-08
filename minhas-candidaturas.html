@@ -7,6 +7,7 @@
     <title>Minhas Candidaturas | RNO</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -15,8 +16,8 @@
         }
 
         body {
-            background: #f4f7fb;
-            color: #1f2937;
+            background: #f1f5f9;
+            color: #1e293b;
         }
 
         /* =========================
@@ -26,8 +27,8 @@
         header {
             background: linear-gradient(135deg, #0b3d91, #0b5ed7);
             color: white;
-            padding: 20px;
-            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+            padding: 22px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
         }
 
         .topo {
@@ -39,11 +40,11 @@
         }
 
         .logo {
-            width: 48px;
-            height: 48px;
+            width: 50px;
+            height: 50px;
             background: white;
             color: #0b3d91;
-            border-radius: 12px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -67,22 +68,28 @@
 
         .container {
             max-width: 1100px;
-            margin: 30px auto;
+            margin: 35px auto;
             padding: 0 20px;
         }
 
         .voltar {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            margin-bottom: 22px;
-            text-decoration: none;
+            gap: 7px;
+            margin-bottom: 25px;
+            padding: 10px 16px;
+            border-radius: 9px;
+            background: white;
             color: #0b5ed7;
+            text-decoration: none;
             font-weight: bold;
+            border: 1px solid #dbe3ee;
+            transition: 0.2s;
         }
 
         .voltar:hover {
-            text-decoration: underline;
+            background: #eef5ff;
+            transform: translateX(-2px);
         }
 
         /* =========================
@@ -90,67 +97,83 @@
         ========================= */
 
         .titulo-area {
-            margin-bottom: 25px;
+            margin-bottom: 28px;
         }
 
         .titulo-area h2 {
             color: #0f172a;
-            font-size: 25px;
-            margin-bottom: 7px;
+            font-size: 28px;
+            margin-bottom: 8px;
         }
 
         .titulo-area p {
             color: #64748b;
             font-size: 15px;
+            line-height: 1.6;
         }
 
         /* =========================
-           CARTÃO DE CANDIDATURA
+           LISTA
+        ========================= */
+
+        #listaCandidaturas {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* =========================
+           CARTÃO
         ========================= */
 
         .candidatura {
             background: white;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 18px;
-            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.07);
-            border: 1px solid #e5e7eb;
-            transition: 0.2s;
+            border-radius: 18px;
+            padding: 26px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 20px rgba(15,23,42,0.06);
+            transition: all 0.25s ease;
         }
 
         .candidatura:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 22px rgba(15, 23, 42, 0.10);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 28px rgba(15,23,42,0.11);
         }
+
+        /* =========================
+           TOPO DO CARTÃO
+        ========================= */
 
         .cabecalho-candidatura {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
             gap: 20px;
-            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e5e7eb;
         }
 
         .vaga {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
 
         .icone-vaga {
-            width: 46px;
-            height: 46px;
-            border-radius: 10px;
-            background: #eef5ff;
+            width: 52px;
+            height: 52px;
+            flex-shrink: 0;
+            border-radius: 14px;
+            background: #eaf2ff;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 24px;
         }
 
         .vaga h3 {
             color: #0b3d91;
-            font-size: 19px;
+            font-size: 20px;
             margin-bottom: 5px;
         }
 
@@ -164,11 +187,13 @@
         ========================= */
 
         .estado {
-            display: inline-block;
-            padding: 8px 13px;
-            border-radius: 20px;
-            background: #fff3cd;
-            color: #856404;
+            display: inline-flex;
+            align-items: center;
+            padding: 9px 14px;
+            border-radius: 30px;
+            background: #fff7d6;
+            color: #8a6500;
+            border: 1px solid #f5df8a;
             font-size: 13px;
             font-weight: bold;
             white-space: nowrap;
@@ -181,47 +206,58 @@
         .informacoes {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 14px;
-            padding-top: 18px;
-            border-top: 1px solid #eef0f3;
+            gap: 15px;
+            padding-top: 20px;
         }
 
         .informacao {
             background: #f8fafc;
-            padding: 13px;
-            border-radius: 9px;
+            padding: 15px;
+            border-radius: 11px;
+            border: 1px solid #edf2f7;
         }
 
         .informacao strong {
             display: block;
             color: #64748b;
-            font-size: 12px;
-            margin-bottom: 5px;
+            font-size: 11px;
+            margin-bottom: 7px;
             text-transform: uppercase;
+            letter-spacing: 0.4px;
         }
 
         .informacao span {
-            color: #1f2937;
+            color: #1e293b;
             font-size: 14px;
+            font-weight: 500;
+            word-break: break-word;
         }
 
         /* =========================
-           CARREGANDO / VAZIO / ERRO
+           CARREGANDO
         ========================= */
 
-        .carregando,
-        .vazio,
-        .erro {
+        .carregando {
             background: white;
             padding: 45px 25px;
-            border-radius: 16px;
+            border-radius: 18px;
             text-align: center;
-            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.07);
-            border: 1px solid #e5e7eb;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 20px rgba(15,23,42,0.06);
         }
 
-        .carregando {
-            color: #64748b;
+        /* =========================
+           VAZIO
+        ========================= */
+
+        .vazio {
+            background: white;
+            padding: 50px 25px;
+            border-radius: 18px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 20px rgba(15,23,42,0.06);
         }
 
         .vazio h2 {
@@ -233,8 +269,17 @@
             color: #64748b;
         }
 
+        /* =========================
+           ERRO
+        ========================= */
+
         .erro {
+            background: white;
+            padding: 35px 25px;
+            border-radius: 18px;
+            text-align: center;
             color: #b00020;
+            border: 1px solid #fecaca;
         }
 
         /* =========================
@@ -243,29 +288,50 @@
 
         footer {
             text-align: center;
-            padding: 30px 20px;
+            padding: 35px 20px;
             color: #64748b;
             font-size: 13px;
         }
 
         /* =========================
-           RESPONSIVO
+           MOBILE
         ========================= */
 
         @media (max-width: 700px) {
 
-            .container {
-                padding: 0 14px;
-                margin-top: 22px;
+            header {
+                padding: 18px 15px;
             }
 
             .topo h1 {
                 font-size: 18px;
             }
 
+            .topo p {
+                font-size: 12px;
+            }
+
+            .logo {
+                width: 44px;
+                height: 44px;
+                font-size: 17px;
+            }
+
+            .container {
+                margin: 25px auto;
+                padding: 0 14px;
+            }
+
+            .titulo-area h2 {
+                font-size: 23px;
+            }
+
             .cabecalho-candidatura {
                 flex-direction: column;
-                align-items: flex-start;
+            }
+
+            .estado {
+                align-self: flex-start;
             }
 
             .informacoes {
@@ -279,21 +345,22 @@
 
         @media (max-width: 450px) {
 
-            .logo {
-                width: 42px;
-                height: 42px;
-                font-size: 17px;
+            .vaga h3 {
+                font-size: 18px;
             }
 
-            .topo p {
-                font-size: 12px;
+            .icone-vaga {
+                width: 46px;
+                height: 46px;
             }
 
-            .titulo-area h2 {
-                font-size: 21px;
+            .voltar {
+                font-size: 13px;
             }
         }
+
     </style>
+
 </head>
 
 <body>
@@ -315,11 +382,13 @@
 
 </header>
 
+
 <div class="container">
 
     <a href="dashboard-candidato.html" class="voltar">
         ← Voltar ao meu painel
     </a>
+
 
     <div class="titulo-area">
 
@@ -332,17 +401,23 @@
 
     </div>
 
+
     <div id="listaCandidaturas" class="carregando">
         A carregar as suas candidaturas...
     </div>
 
 </div>
 
+
 <footer>
+
     © 2026 RNO — Rede Nacional de Oportunidades
+
 </footer>
 
+
 <script src="auth.js"></script>
+
 
 <script>
 
@@ -558,6 +633,7 @@ async function carregarCandidaturas() {
 
                             </div>
 
+
                             <span class="estado">
                                 🟡 ${candidatura.status || "Em análise"}
                             </span>
@@ -569,7 +645,9 @@ async function carregarCandidaturas() {
 
                             <div class="informacao">
 
-                                <strong>Candidato</strong>
+                                <strong>
+                                    Candidato
+                                </strong>
 
                                 <span>
                                     ${candidatura.nome_completo || "Não informado"}
@@ -580,7 +658,9 @@ async function carregarCandidaturas() {
 
                             <div class="informacao">
 
-                                <strong>E-mail</strong>
+                                <strong>
+                                    E-mail
+                                </strong>
 
                                 <span>
                                     ${candidatura.email || "Não informado"}
@@ -591,7 +671,9 @@ async function carregarCandidaturas() {
 
                             <div class="informacao">
 
-                                <strong>Data da candidatura</strong>
+                                <strong>
+                                    Data da candidatura
+                                </strong>
 
                                 <span>
                                     ${dataFormatada}
@@ -602,7 +684,9 @@ async function carregarCandidaturas() {
 
                             <div class="informacao">
 
-                                <strong>Estado</strong>
+                                <strong>
+                                    Estado
+                                </strong>
 
                                 <span>
                                     ${candidatura.status || "Em análise"}
