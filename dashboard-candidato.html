@@ -559,14 +559,16 @@ guardarPerfil.addEventListener("click", async function () {
         );
 
 
-        if (!resposta.ok) {
+     if (!resposta.ok) {
 
-            throw new Error(
-                "Não foi possível atualizar o perfil. Status: " +
-                resposta.status
-            );
+    throw new Error(
+        "Não foi possível atualizar o perfil. Status: " +
+        resposta.status +
+        " | Resposta: " +
+        texto
+    );
 
-        }
+}
 
 
         // Atualizar os dados mostrados no dashboard
