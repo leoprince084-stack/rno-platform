@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Cadastro de Empresa - RNO</title>
+    <title>Dashboard da Empresa - RNO</title>
 
     <style>
         * {
@@ -14,16 +14,24 @@
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #eef5ff, #f8fbff);
+            background: #f4f7fb;
             color: #1f2937;
-            min-height: 100vh;
         }
 
         .topo {
-            background: #0b5ed7;
+            background: linear-gradient(135deg, #0b5ed7, #084298);
             color: white;
-            padding: 18px 20px;
-            text-align: center;
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         .logo {
@@ -33,158 +41,242 @@
         }
 
         .nome-plataforma {
-            margin-top: 4px;
-            font-size: 14px;
+            font-size: 13px;
             opacity: 0.9;
         }
 
-        .area-principal {
-            padding: 35px 15px;
+        .botao-sair {
+            background: rgba(255,255,255,0.15);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.35);
+            padding: 10px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 700;
         }
 
-        .container {
+        .botao-sair:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .principal {
             width: 100%;
-            max-width: 650px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: white;
-            padding: 35px;
-            border-radius: 18px;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+            padding: 30px 20px 50px;
         }
 
-        h1 {
-            margin: 0;
-            text-align: center;
-            color: #0b5ed7;
+        .boas-vindas {
+            background: linear-gradient(135deg, #0b5ed7, #1769e0);
+            color: white;
+            padding: 30px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(11, 94, 215, 0.15);
+        }
+
+        .boas-vindas h1 {
+            margin: 0 0 8px;
             font-size: 30px;
         }
 
-        .subtitulo {
-            text-align: center;
-            color: #64748b;
-            margin: 10px 0 30px;
-            line-height: 1.5;
+        .boas-vindas p {
+            margin: 0;
+            opacity: 0.9;
         }
 
-        .campo {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: 700;
-            color: #334155;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 13px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 9px;
-            font-size: 15px;
-            outline: none;
-            transition: 0.2s;
-            background: #fff;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #0b5ed7;
-            box-shadow: 0 0 0 3px rgba(11, 94, 215, 0.10);
-        }
-
-        textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .ajuda {
-            margin-top: 5px;
-            font-size: 12px;
-            color: #64748b;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 10px;
-            padding: 15px;
-            border: none;
-            border-radius: 9px;
-            background: #0b5ed7;
-            color: white;
-            font-size: 17px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        button:hover {
-            background: #084298;
-        }
-
-        button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        #mensagem {
+        .mensagem {
             display: none;
-            margin-top: 20px;
+            background: white;
             padding: 15px;
-            border-radius: 9px;
-            background: #eef4ff;
-            line-height: 1.5;
-            word-break: break-word;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 4px solid #0b5ed7;
         }
 
-        .seguranca {
-            margin-top: 20px;
-            padding: 14px;
-            border-radius: 9px;
-            background: #f8fafc;
-            color: #475569;
-            font-size: 13px;
-            text-align: center;
-            line-height: 1.5;
+        .perfil {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.06);
         }
 
-        .voltar {
-            display: block;
-            text-align: center;
-            margin-top: 22px;
+        .titulo-secao {
+            margin: 0 0 18px;
+            font-size: 21px;
             color: #0b5ed7;
-            text-decoration: none;
-            font-weight: 600;
         }
 
-        .voltar:hover {
-            text-decoration: underline;
+        .dados-perfil {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .dado {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .dado strong {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .dado span {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .acoes {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .acao {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            text-decoration: none;
+            color: #1f2937;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+            transition: 0.2s;
+            border: 1px solid #eef2f7;
+        }
+
+        .acao:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.10);
+        }
+
+        .icone {
+            font-size: 32px;
+            margin-bottom: 12px;
+        }
+
+        .acao h3 {
+            margin: 0 0 8px;
+            color: #0b5ed7;
+        }
+
+        .acao p {
+            margin: 0;
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .resumo {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .numero {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+            text-align: center;
+        }
+
+        .numero-valor {
+            display: block;
+            font-size: 32px;
+            font-weight: 800;
+            color: #0b5ed7;
+        }
+
+        .numero-label {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .vagas {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 6px 25px rgba(0,0,0,0.06);
+        }
+
+        .vaga {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+
+        .vaga:last-child {
+            margin-bottom: 0;
+        }
+
+        .vaga h3 {
+            margin: 0 0 8px;
+            color: #0b5ed7;
+        }
+
+        .vaga-info {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .sem-vagas {
+            color: #64748b;
+            text-align: center;
+            padding: 20px;
         }
 
         .rodape {
             text-align: center;
-            padding: 20px;
+            padding: 25px;
             color: #64748b;
             font-size: 13px;
         }
 
-        @media (max-width: 600px) {
+        @media (max-width: 800px) {
 
-            .area-principal {
-                padding: 20px 12px;
+            .acoes {
+                grid-template-columns: 1fr;
             }
 
-            .container {
-                padding: 25px 18px;
-                border-radius: 14px;
+            .resumo {
+                grid-template-columns: 1fr;
             }
 
-            h1 {
+            .dados-perfil {
+                grid-template-columns: 1fr;
+            }
+
+            .topo {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .boas-vindas h1 {
                 font-size: 25px;
+            }
+        }
+
+        @media (max-width: 500px) {
+
+            .principal {
+                padding: 20px 12px 40px;
+            }
+
+            .boas-vindas,
+            .perfil,
+            .vagas {
+                padding: 20px;
             }
 
             .logo {
@@ -197,172 +289,239 @@
 <body>
 
 <header class="topo">
-    <div class="logo">RNO</div>
-    <div class="nome-plataforma">
-        Rede Nacional de Oportunidades
-    </div>
-</header>
 
-<main class="area-principal">
+    <div class="logo-area">
 
-    <div class="container">
-
-        <h1>Cadastro de Empresa</h1>
-
-        <p class="subtitulo">
-            Crie a conta e apresente a sua empresa na RNO.
-        </p>
-
-        <form id="formEmpresa">
-
-            <div class="campo">
-                <label for="nomeEmpresa">
-                    Nome da empresa
-                </label>
-
-                <input
-                    type="text"
-                    id="nomeEmpresa"
-                    placeholder="Ex.: RNO Tecnologia"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="responsavel">
-                    Nome do responsável
-                </label>
-
-                <input
-                    type="text"
-                    id="responsavel"
-                    placeholder="Nome completo do responsável"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="telefone">
-                    Telefone
-                </label>
-
-                <input
-                    type="tel"
-                    id="telefone"
-                    placeholder="Ex.: 84 000 0000"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="email">
-                    E-mail
-                </label>
-
-                <input
-                    type="email"
-                    id="email"
-                    placeholder="empresa@email.com"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="senha">
-                    Senha
-                </label>
-
-                <input
-                    type="password"
-                    id="senha"
-                    minlength="6"
-                    placeholder="Mínimo de 6 caracteres"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="confirmarSenha">
-                    Confirmar senha
-                </label>
-
-                <input
-                    type="password"
-                    id="confirmarSenha"
-                    minlength="6"
-                    placeholder="Digite novamente a senha"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="provincia">
-                    Província
-                </label>
-
-                <select id="provincia" required>
-                    <option value="">Selecione a província</option>
-                    <option>Maputo Cidade</option>
-                    <option>Maputo Província</option>
-                    <option>Gaza</option>
-                    <option>Inhambane</option>
-                    <option>Sofala</option>
-                    <option>Manica</option>
-                    <option>Tete</option>
-                    <option>Zambézia</option>
-                    <option>Nampula</option>
-                    <option>Cabo Delgado</option>
-                    <option>Niassa</option>
-                </select>
-            </div>
-
-            <div class="campo">
-                <label for="area">
-                    Área de atuação
-                </label>
-
-                <input
-                    type="text"
-                    id="area"
-                    placeholder="Ex.: Construção, Tecnologia, Comércio"
-                    required
-                >
-            </div>
-
-            <div class="campo">
-                <label for="descricao">
-                    Descrição da empresa
-                </label>
-
-                <textarea
-                    id="descricao"
-                    placeholder="Descreva brevemente a sua empresa e os serviços que oferece"
-                ></textarea>
-
-                <div class="ajuda">
-                    Esta informação ajudará os candidatos a conhecer melhor a sua empresa.
-                </div>
-            </div>
-
-            <button type="submit" id="botao">
-                Criar Conta da Empresa
-            </button>
-
-        </form>
-
-        <div id="mensagem"></div>
-
-        <div class="seguranca">
-            🔒 Os seus dados são protegidos e utilizados para criar o perfil da sua empresa na RNO.
+        <div class="logo">
+            RNO
         </div>
 
-        <a href="index.html" class="voltar">
-            ← Voltar para a RNO
-        </a>
+        <div class="nome-plataforma">
+            Rede Nacional de Oportunidades
+        </div>
 
     </div>
 
+    <button
+        class="botao-sair"
+        id="botaoSair"
+    >
+        Sair
+    </button>
+
+</header>
+
+
+<main class="principal">
+
+    <section class="boas-vindas">
+
+        <h1>
+            Dashboard da Empresa
+        </h1>
+
+        <p id="nomeBoasVindas">
+            Bem-vindo à RNO.
+        </p>
+
+    </section>
+
+
+    <div
+        id="mensagem"
+        class="mensagem"
+    ></div>
+
+
+    <section class="perfil">
+
+        <h2 class="titulo-secao">
+            🏢 Perfil da Empresa
+        </h2>
+
+        <div class="dados-perfil">
+
+            <div class="dado">
+                <strong>Empresa</strong>
+                <span id="nomeEmpresa">
+                    A carregar...
+                </span>
+            </div>
+
+            <div class="dado">
+                <strong>Responsável</strong>
+                <span id="responsavel">
+                    A carregar...
+                </span>
+            </div>
+
+            <div class="dado">
+                <strong>Email</strong>
+                <span id="email">
+                    A carregar...
+                </span>
+            </div>
+
+            <div class="dado">
+                <strong>Telefone</strong>
+                <span id="telefone">
+                    A carregar...
+                </span>
+            </div>
+
+            <div class="dado">
+                <strong>Província</strong>
+                <span id="provincia">
+                    A carregar...
+                </span>
+            </div>
+
+            <div class="dado">
+                <strong>Área de atuação</strong>
+                <span id="areaAtuacao">
+                    A carregar...
+                </span>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="resumo">
+
+        <div class="numero">
+
+            <span
+                class="numero-valor"
+                id="totalVagas"
+            >
+                0
+            </span>
+
+            <div class="numero-label">
+                Vagas publicadas
+            </div>
+
+        </div>
+
+
+        <div class="numero">
+
+            <span
+                class="numero-valor"
+                id="totalCandidaturas"
+            >
+                0
+            </span>
+
+            <div class="numero-label">
+                Candidaturas recebidas
+            </div>
+
+        </div>
+
+
+        <div class="numero">
+
+            <span
+                class="numero-valor"
+                id="totalPerfil"
+            >
+                ✓
+            </span>
+
+            <div class="numero-label">
+                Perfil da empresa
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <section class="acoes">
+
+        <a
+            href="publicar-vaga.html"
+            class="acao"
+        >
+
+            <div class="icone">
+                📢
+            </div>
+
+            <h3>
+                Publicar Vaga
+            </h3>
+
+            <p>
+                Publique novas oportunidades de emprego para encontrar candidatos.
+            </p>
+
+        </a>
+
+
+        <a
+            href="vagas.html"
+            class="acao"
+        >
+
+            <div class="icone">
+                💼
+            </div>
+
+            <h3>
+                Ver Oportunidades
+            </h3>
+
+            <p>
+                Consulte as oportunidades disponíveis na plataforma RNO.
+            </p>
+
+        </a>
+
+
+        <a
+            href="index.html"
+            class="acao"
+        >
+
+            <div class="icone">
+                🌐
+            </div>
+
+            <h3>
+                Página Inicial
+            </h3>
+
+            <p>
+                Volte para a página principal da Rede Nacional de Oportunidades.
+            </p>
+
+        </a>
+
+    </section>
+
+
+    <section class="vagas">
+
+        <h2 class="titulo-secao">
+            📋 Minhas Vagas
+        </h2>
+
+        <div id="listaVagas">
+
+            <div class="sem-vagas">
+                A carregar as suas vagas...
+            </div>
+
+        </div>
+
+    </section>
+
 </main>
+
 
 <footer class="rodape">
     © 2026 RNO — Rede Nacional de Oportunidades
@@ -377,180 +536,335 @@ const SUPABASE_URL =
 const SUPABASE_KEY =
     "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
 
-const formulario =
-    document.getElementById("formEmpresa");
+
+const accessToken =
+    localStorage.getItem("rno_access_token");
+
+const userId =
+    localStorage.getItem("rno_user_id");
+
 
 const mensagem =
     document.getElementById("mensagem");
 
-const botao =
-    document.getElementById("botao");
 
-
-formulario.addEventListener("submit", async function(event) {
-
-    event.preventDefault();
-
-    const nomeEmpresa =
-        document.getElementById("nomeEmpresa").value.trim();
-
-    const responsavel =
-        document.getElementById("responsavel").value.trim();
-
-    const telefone =
-        document.getElementById("telefone").value.trim();
-
-    const email =
-        document.getElementById("email").value.trim();
-
-    const senha =
-        document.getElementById("senha").value;
-
-    const confirmarSenha =
-        document.getElementById("confirmarSenha").value;
-
-    const provincia =
-        document.getElementById("provincia").value;
-
-    const area =
-        document.getElementById("area").value.trim();
-
-    const descricao =
-        document.getElementById("descricao").value.trim();
-
-
-    if (senha.length < 6) {
-
-        mensagem.style.display = "block";
-
-        mensagem.innerHTML =
-            "<strong>A senha deve ter pelo menos 6 caracteres.</strong>";
-
-        return;
-    }
-
-
-    if (senha !== confirmarSenha) {
-
-        mensagem.style.display = "block";
-
-        mensagem.innerHTML =
-            "<strong>As senhas não coincidem.</strong>";
-
-        return;
-    }
-
+function mostrarMensagem(texto) {
 
     mensagem.style.display = "block";
 
-    mensagem.innerHTML =
-        "A criar a conta da empresa...";
+    mensagem.innerHTML = texto;
 
-    botao.disabled = true;
+}
 
-    botao.textContent =
-        "A criar conta...";
 
+function headersAutenticacao() {
+
+    return {
+
+        "apikey": SUPABASE_KEY,
+
+        "Authorization":
+            "Bearer " + accessToken,
+
+        "Accept-Profile": "public"
+
+    };
+
+}
+
+
+async function carregarDashboard() {
+
+    if (!accessToken || !userId) {
+
+        window.location.href =
+            "login-empresa.html";
+
+        return;
+
+    }
+
+
+    try {
+
+        const respostaEmpresa =
+            await fetch(
+                SUPABASE_URL +
+                "/rest/v1/empresas?id=eq." +
+                encodeURIComponent(userId) +
+                "&select=*",
+                {
+                    headers: headersAutenticacao()
+                }
+            );
+
+
+        if (!respostaEmpresa.ok) {
+
+            throw new Error(
+                "Não foi possível carregar o perfil da empresa."
+            );
+
+        }
+
+
+        const empresas =
+            await respostaEmpresa.json();
+
+
+        if (!empresas.length) {
+
+            mostrarMensagem(
+                "<strong>Perfil da empresa não encontrado.</strong><br><br>" +
+                "Confirme se a conta da empresa foi criada corretamente."
+            );
+
+            return;
+
+        }
+
+
+        const empresa =
+            empresas[0];
+
+
+        document.getElementById("nomeEmpresa").textContent =
+            empresa.nome_empresa || "—";
+
+        document.getElementById("responsavel").textContent =
+            empresa.responsavel || "—";
+
+        document.getElementById("email").textContent =
+            empresa.email || "—";
+
+        document.getElementById("telefone").textContent =
+            empresa.telefone || "—";
+
+        document.getElementById("provincia").textContent =
+            empresa.provincia || "—";
+
+        document.getElementById("areaAtuacao").textContent =
+            empresa.area_atuacao || "—";
+
+
+        document.getElementById("nomeBoasVindas").textContent =
+            "Bem-vindo, " +
+            (empresa.nome_empresa || "empresa") +
+            ". Aqui pode acompanhar a sua atividade na RNO.";
+
+
+        await carregarVagas();
+
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        mostrarMensagem(
+            "<strong>Erro ao carregar o dashboard.</strong><br><br>" +
+            erro.message
+        );
+
+    }
+
+}
+
+
+async function carregarVagas() {
 
     try {
 
         const resposta =
             await fetch(
-                SUPABASE_URL + "/auth/v1/signup",
+                SUPABASE_URL +
+                "/rest/v1/vagas?empresa_id=eq." +
+                encodeURIComponent(userId) +
+                "&select=*&order=created_at.desc",
                 {
-                    method: "POST",
-
-                    headers: {
-                        "Content-Type": "application/json",
-                        "apikey": SUPABASE_KEY
-                    },
-
-                    body: JSON.stringify({
-
-                        email: email,
-
-                        password: senha,
-
-                        data: {
-                            tipo_conta: "empresa",
-                            nome_empresa: nomeEmpresa,
-                            responsavel: responsavel,
-                            telefone: telefone,
-                            provincia: provincia,
-                            area_atuacao: area,
-                            descricao: descricao
-                        }
-
-                    })
+                    headers: headersAutenticacao()
                 }
             );
 
 
-        const resultado =
-            await resposta.json();
-
-
-        console.log(
-            "Resposta do Supabase:",
-            resultado
-        );
-
-
         if (!resposta.ok) {
 
-            mensagem.innerHTML =
-                "<strong>Erro ao criar a conta:</strong><br><br>" +
-                (
-                    resultado.msg ||
-                    resultado.message ||
-                    resultado.error_description ||
-                    "Não foi possível criar a conta."
-                );
+            throw new Error(
+                "Não foi possível carregar as vagas."
+            );
 
-            botao.disabled = false;
-
-            botao.textContent =
-                "Criar Conta da Empresa";
-
-            return;
         }
 
 
-        mensagem.innerHTML =
-            "<strong>✅ CONTA DA EMPRESA CRIADA!</strong><br><br>" +
-            "Enviámos um email de confirmação para <strong>" +
-            email +
-            "</strong>.<br><br>" +
-            "Abra o seu email e confirme a conta para continuar.";
+        const vagas =
+            await resposta.json();
 
 
-        formulario.reset();
+        document.getElementById("totalVagas")
+            .textContent = vagas.length;
 
-        botao.disabled = false;
 
-        botao.textContent =
-            "Criar Conta da Empresa";
+        const lista =
+            document.getElementById("listaVagas");
+
+
+        if (!vagas.length) {
+
+            lista.innerHTML =
+                "<div class='sem-vagas'>" +
+                "Ainda não publicou nenhuma vaga." +
+                "</div>";
+
+            document.getElementById("totalCandidaturas")
+                .textContent = "0";
+
+            return;
+
+        }
+
+
+        lista.innerHTML = "";
+
+
+        vagas.forEach(function(vaga) {
+
+            const elemento =
+                document.createElement("div");
+
+            elemento.className = "vaga";
+
+
+            elemento.innerHTML =
+
+                "<h3>" +
+                (vaga.titulo || "Sem título") +
+                "</h3>" +
+
+                "<div class='vaga-info'>" +
+
+                "📍 " +
+                (vaga.localizacao || "Local não informado") +
+
+                " &nbsp; • &nbsp; " +
+
+                "💼 " +
+                (vaga.tipo || "Tipo não informado") +
+
+                "<br>" +
+
+                "💰 " +
+                (vaga.salario || "A combinar") +
+
+                "</div>";
+
+
+            lista.appendChild(elemento);
+
+        });
+
+
+        await carregarCandidaturas(vagas);
 
 
     } catch (erro) {
 
-        console.error(
-            "Erro de ligação:",
-            erro
-        );
+        console.error(erro);
 
-        mensagem.innerHTML =
-            "<strong>Erro de ligação:</strong><br><br>" +
-            erro.message;
-
-        botao.disabled = false;
-
-        botao.textContent =
-            "Criar Conta da Empresa";
+        document.getElementById("listaVagas").innerHTML =
+            "<div class='sem-vagas'>" +
+            "Não foi possível carregar as vagas." +
+            "</div>";
 
     }
 
-});
+}
+
+
+async function carregarCandidaturas(vagas) {
+
+    try {
+
+        if (!vagas.length) {
+
+            document.getElementById("totalCandidaturas")
+                .textContent = "0";
+
+            return;
+
+        }
+
+
+        const ids =
+            vagas.map(function(vaga) {
+
+                return vaga.id;
+
+            });
+
+
+        const filtro =
+            ids.join(",");
+
+
+        const resposta =
+            await fetch(
+                SUPABASE_URL +
+                "/rest/v1/candidaturas?vaga_id=in.(" +
+                encodeURIComponent(filtro) +
+                ")&select=id",
+                {
+                    headers: headersAutenticacao()
+                }
+            );
+
+
+        if (!resposta.ok) {
+
+            throw new Error(
+                "Não foi possível carregar as candidaturas."
+            );
+
+        }
+
+
+        const candidaturas =
+            await resposta.json();
+
+
+        document.getElementById("totalCandidaturas")
+            .textContent =
+            candidaturas.length;
+
+
+    } catch (erro) {
+
+        console.error(erro);
+
+        document.getElementById("totalCandidaturas")
+            .textContent = "—";
+
+    }
+
+}
+
+
+document
+    .getElementById("botaoSair")
+    .addEventListener("click", function() {
+
+        localStorage.removeItem("rno_access_token");
+
+        localStorage.removeItem("rno_refresh_token");
+
+        localStorage.removeItem("rno_user_id");
+
+        window.location.href =
+            "login-empresa.html";
+
+    });
+
+
+carregarDashboard();
+
 </script>
 
 </body>
