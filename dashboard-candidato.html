@@ -15,18 +15,23 @@
         }
 
         body {
-            background: #f4f6f8;
-            color: #222;
+            background: #f4f7fb;
+            color: #1f2937;
         }
 
+        /* =========================
+           CABEÇALHO
+        ========================= */
+
         header {
-            background: #0b3d91;
+            background: linear-gradient(135deg, #0b3d91, #0b5ed7);
             color: white;
-            padding: 20px;
+            padding: 18px 20px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
         }
 
         header .topo {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: auto;
             display: flex;
             justify-content: space-between;
@@ -34,12 +39,32 @@
             gap: 20px;
         }
 
-        header h1 {
-            font-size: 24px;
+        .marca {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
-        header p {
-            margin-top: 5px;
+        .logo {
+            width: 48px;
+            height: 48px;
+            background: white;
+            color: #0b3d91;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .marca h1 {
+            font-size: 22px;
+            margin-bottom: 4px;
+        }
+
+        .marca p {
+            font-size: 14px;
             opacity: 0.9;
         }
 
@@ -47,105 +72,324 @@
             background: white;
             color: #0b3d91;
             border: none;
-            padding: 10px 18px;
-            border-radius: 6px;
+            padding: 11px 20px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
+            transition: 0.2s;
         }
 
+        .btn-sair:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
         .container {
-            max-width: 1000px;
-            margin: 30px auto;
+            max-width: 1100px;
+            margin: 35px auto;
             padding: 0 20px;
         }
 
+        .mensagem {
+            text-align: center;
+            padding: 50px 20px;
+            color: #64748b;
+        }
+
+        /* =========================
+           BOAS-VINDAS
+        ========================= */
+
         .boas-vindas {
             background: white;
-            padding: 25px;
-            border-radius: 10px;
+            padding: 30px;
+            border-radius: 16px;
             margin-bottom: 25px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.07);
+            border: 1px solid #e5e7eb;
         }
 
         .boas-vindas h2 {
             color: #0b3d91;
+            font-size: 25px;
             margin-bottom: 8px;
         }
 
+        .boas-vindas p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        /* =========================
+           PERFIL
+        ========================= */
+
         .perfil {
             background: white;
-            padding: 25px;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.07);
+            border: 1px solid #e5e7eb;
+        }
+
+        .perfil-titulo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .icone-perfil {
+            width: 42px;
+            height: 42px;
+            background: #eef5ff;
+            color: #0b5ed7;
             border-radius: 10px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
         }
 
         .perfil h2 {
             color: #0b3d91;
-            margin-bottom: 20px;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
+            font-size: 21px;
+        }
+
+        .dados-perfil {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0 30px;
         }
 
         .campo {
-            padding: 14px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .campo:last-child {
-            border-bottom: none;
+            padding: 17px 0;
+            border-bottom: 1px solid #eef0f3;
         }
 
         .campo strong {
             display: block;
-            color: #555;
-            font-size: 14px;
-            margin-bottom: 5px;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .campo span {
             font-size: 16px;
+            color: #1f2937;
+            line-height: 1.5;
+            white-space: pre-wrap;
+        }
+
+        .campo-experiencia {
+            grid-column: 1 / -1;
+        }
+
+        /* =========================
+           AÇÕES
+        ========================= */
+
+        .titulo-acoes {
+            margin: 30px 0 15px;
+            color: #0f172a;
+            font-size: 20px;
         }
 
         .acoes {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-top: 25px;
+            gap: 18px;
         }
 
         .acao {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 23px;
+            border-radius: 14px;
             text-decoration: none;
-            color: #222;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            color: #1f2937;
+            box-shadow: 0 4px 18px rgba(15, 23, 42, 0.07);
+            border: 1px solid #e5e7eb;
             transition: 0.2s;
         }
 
         .acao:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 22px rgba(15, 23, 42, 0.11);
+        }
+
+        .acao-icone {
+            width: 46px;
+            height: 46px;
+            border-radius: 10px;
+            background: #eef5ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 15px;
         }
 
         .acao h3 {
             color: #0b3d91;
-            margin-bottom: 8px;
+            margin-bottom: 7px;
+            font-size: 17px;
         }
 
-        .mensagem {
+        .acao p {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           EDITAR PERFIL
+        ========================= */
+
+        #editarArea {
+            margin-top: 25px;
+        }
+
+        #editarArea .perfil h2 {
+            margin-bottom: 25px;
+        }
+
+        #editarArea label {
+            display: block;
+            font-size: 14px;
+            font-weight: bold;
+            color: #475569;
+            margin: 16px 0 7px;
+        }
+
+        #editarArea input,
+        #editarArea select,
+        #editarArea textarea {
+            width: 100%;
+            padding: 12px 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+            background: white;
+        }
+
+        #editarArea input:focus,
+        #editarArea select:focus,
+        #editarArea textarea:focus {
+            border-color: #0b5ed7;
+            box-shadow: 0 0 0 3px rgba(11, 94, 215, 0.1);
+        }
+
+        #editarArea textarea {
+            min-height: 130px;
+            resize: vertical;
+        }
+
+        #guardarPerfil,
+        #cancelarEdicao {
+            margin-top: 20px;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        #guardarPerfil {
+            background: #0b5ed7;
+            color: white;
+            margin-right: 8px;
+        }
+
+        #guardarPerfil:hover {
+            background: #094db2;
+        }
+
+        #cancelarEdicao {
+            background: #e5e7eb;
+            color: #374151;
+        }
+
+        #mensagemEdicao {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* =========================
+           RODAPÉ
+        ========================= */
+
+        footer {
             text-align: center;
-            padding: 40px;
-            color: #555;
+            padding: 30px 20px;
+            color: #64748b;
+            font-size: 13px;
         }
 
-        @media (max-width: 700px) {
-            header .topo {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+        /* =========================
+           RESPONSIVO
+        ========================= */
+
+        @media (max-width: 800px) {
 
             .acoes {
                 grid-template-columns: 1fr;
+            }
+
+            .dados-perfil {
+                grid-template-columns: 1fr;
+            }
+
+            .campo-experiencia {
+                grid-column: auto;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            header .topo {
+                align-items: flex-start;
+            }
+
+            .marca h1 {
+                font-size: 18px;
+            }
+
+            .marca p {
+                font-size: 13px;
+            }
+
+            .logo {
+                width: 42px;
+                height: 42px;
+                font-size: 17px;
+            }
+
+            .btn-sair {
+                padding: 9px 14px;
+            }
+
+            .container {
+                margin: 22px auto;
+                padding: 0 14px;
+            }
+
+            .boas-vindas,
+            .perfil {
+                padding: 22px;
+            }
+
+            .boas-vindas h2 {
+                font-size: 21px;
             }
         }
     </style>
@@ -155,14 +399,24 @@
 
 <header>
     <div class="topo">
-        <div>
-            <h1>RNO — Rede Nacional de Oportunidades</h1>
-            <p>Área do Candidato</p>
+
+        <div class="marca">
+
+            <div class="logo">
+                RNO
+            </div>
+
+            <div>
+                <h1>Rede Nacional de Oportunidades</h1>
+                <p>Área do Candidato</p>
+            </div>
+
         </div>
 
         <button class="btn-sair" id="btnSair">
             Sair
         </button>
+
     </div>
 </header>
 
@@ -175,87 +429,170 @@
     <div id="conteudo" style="display:none;">
 
         <div class="boas-vindas">
-            <h2>Bem-vindo à RNO!</h2>
+
+            <h2>Bem-vindo à RNO! 👋</h2>
+
             <p id="nomeBoasVindas">
                 Estamos a carregar os seus dados...
             </p>
+
         </div>
 
         <div class="perfil">
 
-            <h2>Meu Perfil</h2>
+            <div class="perfil-titulo">
 
-            <div class="campo">
-                <strong>Nome completo</strong>
-                <span id="nome">—</span>
+                <div class="icone-perfil">
+                    👤
+                </div>
+
+                <h2>Meu Perfil</h2>
+
             </div>
 
-            <div class="campo">
-                <strong>E-mail</strong>
-                <span id="email">—</span>
-            </div>
+            <div class="dados-perfil">
 
-            <div class="campo">
-                <strong>Telefone</strong>
-                <span id="telefone">—</span>
-            </div>
+                <div class="campo">
 
-            <div class="campo">
-                <strong>Província</strong>
-                <span id="provincia">—</span>
-            </div>
+                    <strong>Nome completo</strong>
 
-            <div class="campo">
-                <strong>Área profissional</strong>
-                <span id="area">—</span>
-            </div>
+                    <span id="nome">—</span>
 
-            <div class="campo">
-                <strong>Experiência</strong>
-                <span id="experiencia">—</span>
+                </div>
+
+                <div class="campo">
+
+                    <strong>E-mail</strong>
+
+                    <span id="email">—</span>
+
+                </div>
+
+                <div class="campo">
+
+                    <strong>Telefone</strong>
+
+                    <span id="telefone">—</span>
+
+                </div>
+
+                <div class="campo">
+
+                    <strong>Província</strong>
+
+                    <span id="provincia">—</span>
+
+                </div>
+
+                <div class="campo">
+
+                    <strong>Área profissional</strong>
+
+                    <span id="area">—</span>
+
+                </div>
+
+                <div class="campo campo-experiencia">
+
+                    <strong>Experiência profissional</strong>
+
+                    <span id="experiencia">—</span>
+
+                </div>
+
             </div>
 
         </div>
+
+        <h2 class="titulo-acoes">
+            Acesso rápido
+        </h2>
 
         <div class="acoes">
 
             <a href="vagas.html" class="acao">
-                <h3>💼 Ver Vagas</h3>
-                <p>Encontre oportunidades disponíveis.</p>
+
+                <div class="acao-icone">
+                    💼
+                </div>
+
+                <h3>Ver Vagas</h3>
+
+                <p>
+                    Encontre oportunidades disponíveis
+                    na plataforma RNO.
+                </p>
+
             </a>
 
-            <a href="candidatar.html" class="acao">
-                <h3>📄 Candidaturas</h3>
-                <p>Consulte e acompanhe as suas candidaturas.</p>
+            <a href="minhas-candidaturas.html" class="acao">
+
+                <div class="acao-icone">
+                    📄
+                </div>
+
+                <h3>Minhas Candidaturas</h3>
+
+                <p>
+                    Consulte e acompanhe as suas
+                    candidaturas.
+                </p>
+
             </a>
 
-          <a href="#editarArea" class="acao" id="editarPerfil">
-    <h3>✏️ Editar Perfil</h3>
-    <p>Atualize os seus dados profissionais.</p>
-</a>
+            <a href="#editarArea" class="acao" id="editarPerfil">
 
-        </div>
+                <div class="acao-icone">
+                    ✏️
+                </div>
 
-    </div>
+                <h3>Editar Perfil</h3>
 
-</div>
+                <p>
+                    Atualize os seus dados pessoais
+                    e profissionais.
+                </p>
+
+            </a>
+
         </div>
 
         <div id="editarArea" style="display:none;">
 
             <div class="perfil">
 
-                <h2>✏️ Editar Perfil</h2>
+                <div class="perfil-titulo">
+
+                    <div class="icone-perfil">
+                        ✏️
+                    </div>
+
+                    <h2>Editar Perfil</h2>
+
+                </div>
 
                 <label>Nome completo</label>
-                <input type="text" id="editarNome">
+
+                <input
+                    type="text"
+                    id="editarNome"
+                >
 
                 <label>Telefone</label>
-                <input type="tel" id="editarTelefone">
+
+                <input
+                    type="tel"
+                    id="editarTelefone"
+                >
 
                 <label>Província</label>
+
                 <select id="editarProvincia">
-                    <option value="">Selecione</option>
+
+                    <option value="">
+                        Selecione
+                    </option>
+
                     <option>Maputo Cidade</option>
                     <option>Maputo Província</option>
                     <option>Gaza</option>
@@ -267,23 +604,35 @@
                     <option>Nampula</option>
                     <option>Cabo Delgado</option>
                     <option>Niassa</option>
+
                 </select>
 
                 <label>Área profissional</label>
-                <input type="text" id="editarAreaProfissional">
+
+                <input
+                    type="text"
+                    id="editarAreaProfissional"
+                >
 
                 <label>Experiência profissional</label>
+
                 <textarea id="editarExperiencia"></textarea>
 
-                <button type="button" id="guardarPerfil">
+                <button
+                    type="button"
+                    id="guardarPerfil"
+                >
                     💾 Guardar alterações
                 </button>
 
-                <button type="button" id="cancelarEdicao">
+                <button
+                    type="button"
+                    id="cancelarEdicao"
+                >
                     Cancelar
                 </button>
 
-    <div id="mensagemEdicao"></div>
+                <div id="mensagemEdicao"></div>
 
             </div>
 
@@ -293,7 +642,12 @@
 
 </div>
 
+<footer>
+    © 2026 RNO — Rede Nacional de Oportunidades
+</footer>
+
 <script>
+
 const SUPABASE_URL =
     "https://bwkpmirlwrsbeiavzapm.supabase.co";
 
@@ -313,7 +667,9 @@ const conteudo =
     document.getElementById("conteudo");
 
 
-// Verificar autenticação
+// ===============================
+// VERIFICAR AUTENTICAÇÃO
+// ===============================
 
 if (!accessToken || !userId) {
 
@@ -326,7 +682,9 @@ if (!accessToken || !userId) {
 }
 
 
-// Carregar perfil do candidato
+// ===============================
+// CARREGAR PERFIL
+// ===============================
 
 async function carregarPerfil() {
 
@@ -376,7 +734,6 @@ async function carregarPerfil() {
 
         const candidato = dados[0];
 
-
         document.getElementById("nome").textContent =
             candidato.nome_completo || "Não informado";
 
@@ -395,17 +752,14 @@ async function carregarPerfil() {
         document.getElementById("experiencia").textContent =
             candidato.experiencia || "Não informado";
 
-
         document.getElementById("nomeBoasVindas").textContent =
             "Olá, " +
             (candidato.nome_completo || "candidato") +
             "! Esta é a sua área pessoal.";
 
-
         carregando.style.display = "none";
 
         conteudo.style.display = "block";
-
 
     } catch (erro) {
 
@@ -420,6 +774,7 @@ async function carregarPerfil() {
     }
 
 }
+
 
 // ===============================
 // EDIÇÃO DO PERFIL
@@ -441,209 +796,251 @@ const mensagemEdicao =
     document.getElementById("mensagemEdicao");
 
 
-// Abrir edição do perfil
+// Abrir edição
 
-editarPerfil.addEventListener("click", function (event) {
+editarPerfil.addEventListener(
+    "click",
+    function (event) {
 
-    event.preventDefault();
+        event.preventDefault();
 
-    document.getElementById("editarNome").value =
-        document.getElementById("nome").textContent === "Não informado"
-            ? ""
-            : document.getElementById("nome").textContent;
+        document.getElementById("editarNome").value =
+            document.getElementById("nome").textContent === "Não informado"
+                ? ""
+                : document.getElementById("nome").textContent;
 
-    document.getElementById("editarTelefone").value =
-        document.getElementById("telefone").textContent === "Não informado"
-            ? ""
-            : document.getElementById("telefone").textContent;
+        document.getElementById("editarTelefone").value =
+            document.getElementById("telefone").textContent === "Não informado"
+                ? ""
+                : document.getElementById("telefone").textContent;
 
-    document.getElementById("editarProvincia").value =
-        document.getElementById("provincia").textContent === "Não informado"
-            ? ""
-            : document.getElementById("provincia").textContent;
+        document.getElementById("editarProvincia").value =
+            document.getElementById("provincia").textContent === "Não informado"
+                ? ""
+                : document.getElementById("provincia").textContent;
 
-    document.getElementById("editarAreaProfissional").value =
-        document.getElementById("area").textContent === "Não informado"
-            ? ""
-            : document.getElementById("area").textContent;
+        document.getElementById("editarAreaProfissional").value =
+            document.getElementById("area").textContent === "Não informado"
+                ? ""
+                : document.getElementById("area").textContent;
 
-    document.getElementById("editarExperiencia").value =
-        document.getElementById("experiencia").textContent === "Não informado"
-            ? ""
-            : document.getElementById("experiencia").textContent;
+        document.getElementById("editarExperiencia").value =
+            document.getElementById("experiencia").textContent === "Não informado"
+                ? ""
+                : document.getElementById("experiencia").textContent;
 
-    mensagemEdicao.textContent = "";
+        mensagemEdicao.textContent = "";
 
-    editarArea.style.display = "block";
+        editarArea.style.display = "block";
 
-    editarArea.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
-
-});
-
-
-// Guardar alterações
-
-guardarPerfil.addEventListener("click", async function () {
-
-    mensagemEdicao.textContent =
-        "A guardar alterações...";
-
-    mensagemEdicao.style.color = "#0b3d91";
-
-    const dadosAtualizados = {
-
-        nome_completo:
-            document.getElementById("editarNome").value.trim(),
-
-        telefone:
-            document.getElementById("editarTelefone").value.trim(),
-
-        provincia:
-            document.getElementById("editarProvincia").value,
-
-        area_profissional:
-            document.getElementById("editarAreaProfissional").value.trim(),
-
-        experiencia:
-            document.getElementById("editarExperiencia").value.trim()
-
-    };
-
-
-    try {
-
-        const url =
-            SUPABASE_URL +
-            "/rest/v1/candidatos?id=eq." +
-            userId;
-
-        const resposta = await fetch(url, {
-
-            method: "PATCH",
-
-    headers: {
-    "apikey": SUPABASE_KEY,
-    "Authorization": "Bearer " + accessToken,
-    "Content-Type": "application/json",
-    "Content-Profile": "public",
-    "Accept-Profile": "public",
-    "Prefer": "return=minimal"
-},
-            body:
-                JSON.stringify(dadosAtualizados)
-
+        editarArea.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
         });
 
-
-        const texto =
-            await resposta.text();
-
-        console.log(
-            "STATUS ATUALIZAÇÃO:",
-            resposta.status
-        );
-
-        console.log(
-            "RESPOSTA ATUALIZAÇÃO:",
-            texto
-        );
+    }
+);
 
 
-     if (!resposta.ok) {
+// ===============================
+// GUARDAR ALTERAÇÕES
+// ===============================
 
-    throw new Error(
-        "Não foi possível atualizar o perfil. Status: " +
-        resposta.status +
-        " | Resposta: " +
-        texto
-    );
-
-}
-
-
-        // Atualizar os dados mostrados no dashboard
-
-        document.getElementById("nome").textContent =
-            dadosAtualizados.nome_completo || "Não informado";
-
-        document.getElementById("telefone").textContent =
-            dadosAtualizados.telefone || "Não informado";
-
-        document.getElementById("provincia").textContent =
-            dadosAtualizados.provincia || "Não informado";
-
-        document.getElementById("area").textContent =
-            dadosAtualizados.area_profissional || "Não informado";
-
-        document.getElementById("experiencia").textContent =
-            dadosAtualizados.experiencia || "Não informado";
-
-
-        document.getElementById("nomeBoasVindas").textContent =
-            "Olá, " +
-            (dadosAtualizados.nome_completo || "candidato") +
-            "! Esta é a sua área pessoal.";
-
+guardarPerfil.addEventListener(
+    "click",
+    async function () {
 
         mensagemEdicao.textContent =
-            "✅ Perfil atualizado com sucesso!";
+            "A guardar alterações...";
 
-        mensagemEdicao.style.color = "green";
+        mensagemEdicao.style.color =
+            "#0b3d91";
 
+        const dadosAtualizados = {
 
-        setTimeout(function () {
+            nome_completo:
+                document.getElementById(
+                    "editarNome"
+                ).value.trim(),
 
-            editarArea.style.display = "none";
+            telefone:
+                document.getElementById(
+                    "editarTelefone"
+                ).value.trim(),
 
-        }, 1500);
+            provincia:
+                document.getElementById(
+                    "editarProvincia"
+                ).value,
 
+            area_profissional:
+                document.getElementById(
+                    "editarAreaProfissional"
+                ).value.trim(),
 
-    } catch (erro) {
+            experiencia:
+                document.getElementById(
+                    "editarExperiencia"
+                ).value.trim()
 
-        console.error(
-            "ERRO AO ATUALIZAR PERFIL:",
-            erro
-        );
+        };
 
-        mensagemEdicao.textContent =
-            "❌ " + erro.message;
+        try {
 
-        mensagemEdicao.style.color = "red";
+            const url =
+                SUPABASE_URL +
+                "/rest/v1/candidatos?id=eq." +
+                userId;
+
+            const resposta = await fetch(url, {
+
+                method: "PATCH",
+
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": "Bearer " + accessToken,
+                    "Content-Type": "application/json",
+                    "Content-Profile": "public",
+                    "Accept-Profile": "public",
+                    "Prefer": "return=minimal"
+                },
+
+                body:
+                    JSON.stringify(dadosAtualizados)
+
+            });
+
+            const texto =
+                await resposta.text();
+
+            console.log(
+                "STATUS ATUALIZAÇÃO:",
+                resposta.status
+            );
+
+            console.log(
+                "RESPOSTA ATUALIZAÇÃO:",
+                texto
+            );
+
+            if (!resposta.ok) {
+
+                throw new Error(
+                    "Não foi possível atualizar o perfil. Status: " +
+                    resposta.status +
+                    " | Resposta: " +
+                    texto
+                );
+
+            }
+
+            document.getElementById("nome").textContent =
+                dadosAtualizados.nome_completo ||
+                "Não informado";
+
+            document.getElementById("telefone").textContent =
+                dadosAtualizados.telefone ||
+                "Não informado";
+
+            document.getElementById("provincia").textContent =
+                dadosAtualizados.provincia ||
+                "Não informado";
+
+            document.getElementById("area").textContent =
+                dadosAtualizados.area_profissional ||
+                "Não informado";
+
+            document.getElementById("experiencia").textContent =
+                dadosAtualizados.experiencia ||
+                "Não informado";
+
+            document.getElementById("nomeBoasVindas").textContent =
+                "Olá, " +
+                (
+                    dadosAtualizados.nome_completo ||
+                    "candidato"
+                ) +
+                "! Esta é a sua área pessoal.";
+
+            mensagemEdicao.textContent =
+                "✅ Perfil atualizado com sucesso!";
+
+            mensagemEdicao.style.color =
+                "green";
+
+            setTimeout(function () {
+
+                editarArea.style.display =
+                    "none";
+
+            }, 1500);
+
+        } catch (erro) {
+
+            console.error(
+                "ERRO AO ATUALIZAR PERFIL:",
+                erro
+            );
+
+            mensagemEdicao.textContent =
+                "❌ " + erro.message;
+
+            mensagemEdicao.style.color =
+                "red";
+
+        }
 
     }
+);
 
-});
 
+// ===============================
+// CANCELAR EDIÇÃO
+// ===============================
 
-// Cancelar edição
-
-cancelarEdicao.addEventListener("click", function () {
-
-    editarArea.style.display = "none";
-
-    mensagemEdicao.textContent = "";
-
-});
-// Botão sair
-
-document.getElementById("btnSair").addEventListener(
+cancelarEdicao.addEventListener(
     "click",
     function () {
 
-        localStorage.removeItem("rno_access_token");
+        editarArea.style.display =
+            "none";
 
-        localStorage.removeItem("rno_refresh_token");
+        mensagemEdicao.textContent =
+            "";
 
-        localStorage.removeItem("rno_user_id");
+    }
+);
 
-        window.location.href = "login.html";
+
+// ===============================
+// SAIR
+// ===============================
+
+document.getElementById(
+    "btnSair"
+).addEventListener(
+    "click",
+    function () {
+
+        localStorage.removeItem(
+            "rno_access_token"
+        );
+
+        localStorage.removeItem(
+            "rno_refresh_token"
+        );
+
+        localStorage.removeItem(
+            "rno_user_id"
+        );
+
+        window.location.href =
+            "login.html";
 
     }
 );
 
 </script>
+
 </body>
 </html>
