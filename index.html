@@ -3,194 +3,516 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>RNO - Rede Nacional de Oportunidades</title>
 
     <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            background: #f5f7fa;
-            color: #222;
+            background: #f5f7fb;
+            color: #1f2937;
+            line-height: 1.6;
         }
+
+        /* =========================
+           HEADER
+        ========================= */
 
         header {
             background: #0b5ed7;
             color: white;
-            padding: 20px 8%;
+            padding: 18px 7%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
         }
 
         .logo {
-            font-size: 28px;
-            font-weight: bold;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .logo span {
+            font-size: 12px;
+            display: block;
+            font-weight: normal;
+            opacity: 0.9;
+            letter-spacing: 0;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 25px;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            margin-left: 20px;
+            font-size: 15px;
+            font-weight: 600;
+            transition: 0.3s;
         }
 
+        nav a:hover {
+            opacity: 0.75;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
         .hero {
-            background: white;
+            background:
+                linear-gradient(
+                    135deg,
+                    #0b5ed7 0%,
+                    #084298 100%
+                );
+
+            color: white;
             text-align: center;
-            padding: 80px 20px;
+            padding: 100px 20px 90px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: auto;
         }
 
         .hero h1 {
-            font-size: 50px;
-            color: #0b5ed7;
-            margin-bottom: 10px;
+            font-size: 64px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
         }
 
         .hero h2 {
+            font-size: 30px;
             margin-bottom: 20px;
+            font-weight: 700;
         }
 
         .hero p {
-            font-size: 18px;
-            color: #555;
-            margin-bottom: 30px;
+            max-width: 700px;
+            margin: 0 auto 35px;
+            font-size: 19px;
+            color: #eaf2ff;
+        }
+
+        /* =========================
+           BOTÕES
+        ========================= */
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .btn {
             display: inline-block;
-            padding: 15px 30px;
-            margin: 8px;
+            padding: 14px 25px;
             border-radius: 8px;
             text-decoration: none;
-            font-weight: bold;
-            color: white;
+            font-weight: 700;
+            transition: 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.92;
         }
 
         .candidato {
-            background: #0b5ed7;
+            background: white;
+            color: #0b5ed7;
         }
 
-       .empresa {
-    background: #198754;
-}
+        .empresa {
+            background: #198754;
+            color: white;
+        }
 
-.vagas {
-    background: #6f42c1;
-}
+        .vagas {
+            background: #6f42c1;
+            color: white;
+        }
+
+        /* =========================
+           SEÇÕES
+        ========================= */
+
         .section {
-            padding: 60px 8%;
+            padding: 80px 7%;
             text-align: center;
         }
+
+        .section h2 {
+            font-size: 34px;
+            color: #0b5ed7;
+            margin-bottom: 15px;
+        }
+
+        .section-intro {
+            max-width: 700px;
+            margin: 0 auto;
+            color: #64748b;
+            font-size: 17px;
+        }
+
+        /* =========================
+           CARDS
+        ========================= */
 
         .cards {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
-            margin-top: 30px;
+            margin-top: 40px;
         }
 
         .card {
             background: white;
-            width: 280px;
-            padding: 30px 20px;
-            border-radius: 10px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            width: 300px;
+            padding: 35px 25px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+            border: 1px solid #e5e7eb;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+        }
+
+        .card-icon {
+            font-size: 38px;
+            margin-bottom: 15px;
         }
 
         .card h3 {
             color: #0b5ed7;
             margin-bottom: 12px;
+            font-size: 21px;
         }
 
+        .card p {
+            color: #64748b;
+        }
+
+        /* =========================
+           DESTAQUE
+        ========================= */
+
+        .cta {
+            background: white;
+            padding: 70px 20px;
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 32px;
+            color: #0f172a;
+            margin-bottom: 12px;
+        }
+
+        .cta p {
+            color: #64748b;
+            margin-bottom: 25px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #0b5ed7;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .cta-button:hover {
+            background: #084298;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
         footer {
-            background: #222;
+            background: #111827;
             color: white;
             text-align: center;
-            padding: 25px;
+            padding: 30px 20px;
         }
+
+        footer strong {
+            color: #60a5fa;
+        }
+
+        footer p {
+            margin-top: 8px;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* =========================
+           RESPONSIVO
+        ========================= */
+
+        @media (max-width: 700px) {
+
+            header {
+                padding: 15px 20px;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            nav {
+                gap: 15px;
+            }
+
+            nav a {
+                font-size: 14px;
+            }
+
+            .hero {
+                padding: 70px 20px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero h2 {
+                font-size: 23px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section {
+                padding: 60px 20px;
+            }
+
+            .section h2 {
+                font-size: 28px;
+            }
+
+            .card {
+                width: 100%;
+                max-width: 350px;
+            }
+
+        }
+
     </style>
 </head>
 
 <body>
 
-<header>
-    <div class="logo">RNO</div>
+    <!-- =========================
+         HEADER
+    ========================= -->
 
-    <nav>
-        <a href="index.html">Início</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#servicos">Serviços</a>
-    </nav>
-</header>
+    <header>
 
-<section class="hero">
-    <h1>RNO</h1>
-
-    <h2>Rede Nacional de Oportunidades</h2>
-
-    <p>
-        Conectamos candidatos a oportunidades de emprego
-        e empresas aos profissionais que procuram.
-    </p>
-
-  <a href="candidato.html" class="btn candidato">
-    Sou Candidato
-</a>
-
-<a href="empresa.html" class="btn empresa">
-    Sou Empresa
-</a>
-
-<a href="vagas.html" class="btn vagas">
-    Ver Oportunidades
-</a>
-
-<section class="section" id="sobre">
-    <h2>Sobre a RNO</h2>
-
-    <p>
-        A RNO é uma plataforma criada para facilitar a ligação
-        entre candidatos e empresas em Moçambique.
-    </p>
-</section>
-
-<section class="section" id="servicos">
-    <h2>Serviços</h2>
-
-    <div class="cards">
-
-        <div class="card">
-            <h3>Para Candidatos</h3>
-            <p>
-                Criação de perfil profissional e procura de oportunidades.
-            </p>
+        <div class="logo">
+            RNO
+            <span>Rede Nacional de Oportunidades</span>
         </div>
 
-        <div class="card">
-            <h3>Para Empresas</h3>
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#servicos">Serviços</a>
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>RNO</h1>
+
+            <h2>Rede Nacional de Oportunidades</h2>
+
             <p>
-                Divulgação de vagas e procura de profissionais.
+                Conectamos candidatos a oportunidades de emprego
+                e empresas aos profissionais que procuram.
             </p>
+
+            <div class="buttons">
+
+                <a href="candidato.html" class="btn candidato">
+                    Sou Candidato
+                </a>
+
+                <a href="empresa.html" class="btn empresa">
+                    Sou Empresa
+                </a>
+
+                <a href="vagas.html" class="btn vagas">
+                    Ver Oportunidades
+                </a>
+
+            </div>
+
         </div>
 
-        <div class="card">
-            <h3>Conexão</h3>
-            <p>
-                Aproximamos empresas e candidatos numa única plataforma.
-            </p>
+    </section>
+
+
+    <!-- =========================
+         SOBRE
+    ========================= -->
+
+    <section class="section" id="sobre">
+
+        <h2>Sobre a RNO</h2>
+
+        <p class="section-intro">
+            A RNO é uma plataforma criada para facilitar a ligação
+            entre candidatos e empresas em Moçambique, tornando
+            o acesso às oportunidades mais simples, rápido e organizado.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         SERVIÇOS
+    ========================= -->
+
+    <section class="section" id="servicos">
+
+        <h2>O que a RNO oferece</h2>
+
+        <p class="section-intro">
+            Uma plataforma pensada para aproximar pessoas,
+            empresas e oportunidades.
+        </p>
+
+
+        <div class="cards">
+
+            <div class="card">
+
+                <div class="card-icon">
+                    👤
+                </div>
+
+                <h3>Para Candidatos</h3>
+
+                <p>
+                    Criação de perfil profissional, procura de vagas
+                    e candidatura a oportunidades.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🏢
+                </div>
+
+                <h3>Para Empresas</h3>
+
+                <p>
+                    Publicação de vagas e procura de profissionais
+                    para as suas necessidades.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🤝
+                </div>
+
+                <h3>Conexão</h3>
+
+                <p>
+                    Aproximamos candidatos e empresas numa única
+                    plataforma de oportunidades.
+                </p>
+
+            </div>
+
         </div>
 
-    </div>
-</section>
+    </section>
 
-<footer>
-    © 2026 RNO - Rede Nacional de Oportunidades
-</footer>
+
+    <!-- =========================
+         CHAMADA PARA AÇÃO
+    ========================= -->
+
+    <section class="cta">
+
+        <h2>Encontre a sua próxima oportunidade</h2>
+
+        <p>
+            Explore as oportunidades disponíveis na RNO.
+        </p>
+
+        <a href="vagas.html" class="cta-button">
+            Ver Oportunidades
+        </a>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <strong>RNO - Rede Nacional de Oportunidades</strong>
+
+        <p>
+            Conectando candidatos e empresas em Moçambique.
+        </p>
+
+        <p>
+            © 2026 RNO. Todos os direitos reservados.
+        </p>
+
+    </footer>
 
 </body>
 </html>
