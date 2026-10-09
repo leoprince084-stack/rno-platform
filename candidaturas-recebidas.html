@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candidaturas Recebidas | RNO</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f6fb;
+      color: #172033;
+    }
+    header {
+      background: #102b55;
+      color: white;
+      padding: 22px 5%;
+    }
+    header h1 { margin: 0 0 8px; font-size: 25px; }
+    header p { margin: 0; color: #dbe7ff; }
+    main {
+      width: min(1100px, 92%);
+      margin: 28px auto;
+    }
+    .topo, .candidatura {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 3px 12px #102b5510;
+    }
+    .topo {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .topo h2 { margin: 0; }
+    .botao {
+      display: inline-block;
+      border: 0;
+      border-radius: 8px;
+      padding: 11px 15px;
+      background: #175cd3;
+      color: white;
+      text-decoration: none;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .secundario { background: #475569; }
+    .vaga {
+      color: #175cd3;
+      font-size: 13px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    .candidatura h3 { margin: 8px 0 14px; }
+    .detalhes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 12px;
+    }
+    .detalhes p { margin: 4px 0; overflow-wrap: anywhere; }
+    .rotulo { color: #64748b; font-size: 12px; }
+    .valor { font-size: 14px; }
+    .mensagem {
+      padding: 16px;
+      background: #e8efff;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      overflow-wrap: anywhere;
+    }
+    .erro { background: #fee2e2; color: #991b1b; }
+    .vazio { text-align: center; padding: 35px 15px; }
+    footer { text-align: center; color: #64748b; padding: 20px; font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>RNO — Rede Nacional de Oportunidades</h1>
+    <p>Área da empresa · Gestão de candidaturas</p>
+  </header>
+
+  <main>
+    <div class="topo">
+      <div>
+        <h2>Candidaturas recebidas</h2>
+        <p id="resumo">A preparar a consulta...</p>
+      </div>
+      <div>
+        <button class="botao" id="atualizar" type="button">Atualizar</button>
+        <a class="botao secundario" href="dashboard-empresa.html">Voltar ao painel</a>
+      </div>
+    </div>
+
+    <div id="mensagem" class="mensagem" role="status" aria-live="polite">
+      A carregar candidaturas...
+    </div>
+    <section id="lista"></section>
+  </main>
+
+  <footer>RNO · Rede Nacional de Oportunidades</footer>
+
+  <script>
+    const SUPABASE_URL = "https://bwkpmirlwrsbeiavzapm.supabase.co";
+    const SUPABASE_KEY = "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
+
+    const lista = document.getElementById("lista");
+    const mensagem = document.getElementById("mensagem");
+    const resumo = document.getElementById("resumo");
+
+    function mostrarMensagem(texto, erro = false) {
+      mensagem.textContent = texto;
+      mensagem.className = erro ? "mensagem erro" : "mensagem";
+      mensagem.style.display = "block";
+    }
+
+    function formatarData(data) {
+      if (!data) return "Não indicada";
+      const dataValida = new Date(data);
+      if (Number.isNaN(dataValida.getTime())) return "Não indicada";
+      return dataValida.toLocaleString("pt-PT");
+    }
+
+    function criarCampo(rotulo, valor) {
+      const caixa = document.createElement("div");
+      const titulo = document.createElement("div");
+      titulo.className = "rotulo";
+      titulo.textContent = rotulo;
+
+      const texto = document.createElement("p");
+      texto.className = "valor";
+      texto.textContent = valor || "Não informado";
+
+      caixa.append(titulo, texto);
+      return caixa;
+    }
+
+    async function carregarCandidaturas() {
+      lista.replaceChildren();
+      resumo.textContent = "A carregar...";
+      mostrarMensagem("A consultar as candidaturas da tua empresa...");
+
+      const accessToken = localStorage.getItem("rno_access_token");
+      const userId = localStorage.getItem("rno_user_id");
+      const tipoConta = localStorage.getItem("rno_tipo_conta");
+
+      if (!accessToken || !userId || tipoConta !== "empresa") {
+        mostrarMensagem(
+          "Sessão de empresa não encontrada. Entra novamente através do login da empresa.",
+          true
+        );
+        resumo.textContent = "Sessão necessária";
+        return;
+      }
+
+      const cabecalhos = {
+        "apikey": SUPABASE_KEY,
+        "Authorization": "Bearer " + accessToken,
+        "Accept": "application/json",
+        "Accept-Profile": "public"
+      };
+
+      try {
+        const respostaVagas = await fetch(
+          SUPABASE_URL + "/rest/v1/vagas?empresa_id=eq." +
+          encodeURIComponent(userId) + "&select=id,titulo",
+          { headers: cabecalhos }
+        );
+
+        if (!respostaVagas.ok) {
+          throw new Error("Não foi possível consultar as vagas. Código: " + respostaVagas.status);
+        }
+
+        const vagas = await respostaVagas.json();
+
+        if (!vagas.length) {
+          resumo.textContent = "0 candidaturas";
+          mostrarMensagem("Ainda não tens vagas publicadas nesta conta.");
+          return;
+        }
+
+        const mapaVagas = new Map(vagas.map(vaga => [
+          vaga.id,
+          vaga.titulo || "Vaga sem título"
+        ]));
+
+        const idsVagas = vagas.map(vaga => vaga.id);
+        const filtro = idsVagas.join(",");
+
+        const urlCandidaturas = SUPABASE_URL +
+          "/rest/v1/candidaturas?vaga_id=in.(" +
+          encodeURIComponent(filtro) +
+          ")&select=id,vaga_id,nome_completo,email,telefone,created_at";
+
+        const respostaCandidaturas = await fetch(urlCandidaturas, {
+          headers: cabecalhos
+        });
+
+        if (!respostaCandidaturas.ok) {
+          throw new Error(
+            "Não foi possível consultar as candidaturas. Código: " +
+            respostaCandidaturas.status
+          );
+        }
+
+        const candidaturas = await respostaCandidaturas.json();
+
+        candidaturas.sort((a, b) =>
+          new Date(b.created_at || 0) - new Date(a.created_at || 0)
+        );
+
+        resumo.textContent = candidaturas.length +
+          (candidaturas.length === 1 ? " candidatura" : " candidaturas");
+
+        if (!candidaturas.length) {
+          mostrarMensagem("As tuas vagas ainda não receberam candidaturas.");
+          return;
+        }
+
+        mensagem.style.display = "none";
+
+        candidaturas.forEach((candidatura, indice) => {
+          const cartao = document.createElement("article");
+          cartao.className = "candidatura";
+
+          const tituloVaga = document.createElement("div");
+          tituloVaga.className = "vaga";
+          tituloVaga.textContent =
+            mapaVagas.get(candidatura.vaga_id) || "Vaga não identificada";
+
+          const titulo = document.createElement("h3");
+          titulo.textContent =
+            candidatura.nome_completo || "Nome não informado";
+
+          const detalhes = document.createElement("div");
+          detalhes.className = "detalhes";
+          detalhes.append(
+            criarCampo("E-mail", candidatura.email),
+            criarCampo("Telefone", candidatura.telefone),
+            criarCampo("Data da candidatura", formatarData(candidatura.created_at))
+          );
+
+          const numero = document.createElement("p");
+          numero.className = "rotulo";
+          numero.textContent = "Candidatura #" + (indice + 1);
+
+          cartao.append(tituloVaga, titulo, detalhes, numero);
+          lista.appendChild(cartao);
+        });
+
+      } catch (erro) {
+        console.error("Erro ao carregar candidaturas:", erro);
+        mostrarMensagem(
+          erro.message || "Ocorreu um erro ao carregar as candidaturas.",
+          true
+        );
+        resumo.textContent = "Consulta não concluída";
+      }
+    }
+
+    document.getElementById("atualizar").addEventListener(
+      "click", carregarCandidaturas
+    );
+
+    carregarCandidaturas();
+  </script>
+</body>
+</html>
