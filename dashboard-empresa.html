@@ -738,31 +738,73 @@ async function carregarVagas() {
             const elemento =
                 document.createElement("div");
 
-            elemento.className = "vaga";
+          
+elemento.className = "vaga";
 
+elemento.innerHTML =
+    "<h3></h3>" +
+    "<div class='vaga-info'></div>" +
+    "<div class='acoes-vaga'>" +
+        "<button type='button' class='editar-vaga'>Editar</button>" +
+        "<button type='button' class='estado-vaga'></button>" +
+    "</div>";
 
-            elemento.innerHTML =
+elemento.querySelector("h3").textContent =
+    vaga.titulo || "Sem título";
 
-                "<h3>" +
-                (vaga.titulo || "Sem título") +
-                "</h3>" +
+elemento.querySelector(".vaga-info").textContent =
+    "📍 " + (vaga.localizacao || "Local não informado") +
+    " • 💼 " + (vaga.tipo || "Tipo não informado") +
+    " • 💰 " + (vaga.salario || "A combinar") +
+    " • Estado: " + (vaga.estado || "ativa");
 
-                "<div class='vaga-info'>" +
+const botaoEstado = elemento.querySelector(".estado-vaga");
 
-                "📍 " +
-                (vaga.localizacao || "Local não informado") +
+botaoEstado.textContent =
+    vaga.estado === "encerrada" ? "Reabrir vaga" : "Encerrar vaga";
 
-                " &nbsp; • &nbsp; " +
+botaoEstado.addEventListener("click", async function () {
+    const novoEstado =
+        vaga.estado === "encerrada" ? "ativa" : "encerrada";
 
-                "💼 " +
-                (vaga.tipo || "Tipo não informado") +
+    if (!confirm("Deseja " +
+        (novoEstado === "encerrada" ? "encerrar" : "reabrir") +
+        " esta vaga?")) {
+        return;
+    }
 
-                "<br>" +
+    try {
+        const respostaEstado = await fetch(
+            SUPABASE_URL + "/rest/v1/vagas?id=eq." +
+            encodeURIComponent(vaga.id) +
+            "&empresa_id=eq." + encodeURIComponent(userId),
+            {
+                method: "PATCH",
+                headers: {
+                    ...headersAutenticacao(),
+                    "Content-Type": "application/json",
+                    "Prefer": "return=minimal"
+                },
+                body: JSON.stringify({ estado: novoEstado })
+            }
+        );
 
-                "💰 " +
-                (vaga.salario || "A combinar") +
+        if (!respostaEstado.ok) {
+            throw new Error(await respostaEstado.text());
+        }
 
-                "</div>";
+        alert("Estado da vaga actualizado.");
+        await carregarVagas();
+
+    } catch (erro) {
+        console.error(erro);
+        alert("Não foi possível actualizar a vaga. Verifica as permissões no Supabase.");
+    }
+});
+
+elemento.querySelector(".editar-vaga").addEventListener("click", function () {
+    alert("A edição completa será configurada no próximo passo.");
+});
 
 
             lista.appendChild(elemento);
