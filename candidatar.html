@@ -816,24 +816,23 @@ formulario.addEventListener(
 
         try {
 
-            const respostaCandidato = await fetch(
-                SUPABASE_URL +
-                "/rest/v1/candidatos?id=eq." +
-                encodeURIComponent(candidatoId) +
-                "&select=id,nome_completo,email",
-                {
-                    method: "GET",
+          
+const respostaCandidato = await fetch(
+    SUPABASE_URL +
+    "/rest/v1/candidatos?id=eq." +
+    encodeURIComponent(candidatoId) +
+    "&select=id,nome_completo,email",
+    {
+        method: "GET",
+        headers: {
+            "apikey": SUPABASE_KEY,
+            "Authorization": "Bearer " + accessToken,
+            "Accept-Profile": "public"
+        }
+    }
+);
 
-                    headers: {
-                        "apikey": SUPABASE_KEY,
-
-                        "Authorization":
-                            "Bearer " + accessToken
-                    }
-                }
-            );
-
-            if (!respostaCandidato.ok) {
+if (!respostaCandidato.ok) {
 
                 mensagem.innerHTML =
                     "<strong>❌ Não foi possível verificar o perfil.</strong><br><br>" +
