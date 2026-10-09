@@ -978,6 +978,58 @@ document.getElementById("btnCancelarPerfilEmpresa").addEventListener("click", fu
     formularioEmpresa.style.display = "none";
 });
 
+document.getElementById("btnGuardarPerfilEmpresa").addEventListener("click", async function () {
+
+    const botao = this;
+    botao.disabled = true;
+    botao.textContent = "A guardar...";
+
+    try {
+        const dados = {
+            nome_empresa: document.getElementById("editarNomeEmpresa").value.trim(),
+            responsavel: document.getElementById("editarResponsavel").value.trim(),
+            telefone: document.getElementById("editarTelefoneEmpresa").value.trim(),
+            provincia: document.getElementById("editarProvinciaEmpresa").value.trim(),
+            area_atuacao: document.getElementById("editarAreaEmpresa").value.trim(),
+            descricao: document.getElementById("editarDescricaoEmpresa").value.trim()
+        };
+
+        if (!dados.nome_empresa || !dados.responsavel) {
+            alert("Preencha o nome da empresa e o responsável.");
+            return;
+        }
+
+        const resposta = await fetch(
+            SUPABASE_URL + "/rest/v1/empresas?id=eq." + encodeURIComponent(userId),
+            {
+                method: "PATCH",
+                headers: {
+                    ...headersAutenticacao(),
+                    "Content-Type": "application/json",
+                    "Content-Profile": "public",
+                    "Prefer": "return=minimal"
+                },
+                body: JSON.stringify(dados)
+            }
+        );
+
+        if (!resposta.ok) {
+            const detalhe = await resposta.text();
+            throw new Error(detalhe || "Não foi possível guardar as alterações.");
+        }
+
+        alert("Perfil da empresa actualizado com sucesso!");
+        formularioEmpresa.style.display = "none";
+        await carregarDashboard();
+
+    } catch (erro) {
+        console.error("Erro ao guardar perfil:", erro);
+        alert("Não foi possível guardar. Verifique a ligação e as permissões do Supabase.");
+    } finally {
+        botao.disabled = false;
+        botao.textContent = "Guardar alterações";
+    }
+});
 carregarDashboard();
 
 </script>
