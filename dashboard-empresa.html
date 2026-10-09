@@ -666,6 +666,25 @@ async function carregarDashboard() {
 
         const empresa =
             empresas[0];
+```javascript
+        document.getElementById("editarNomeEmpresa").value =
+            empresa.nome_empresa || "";
+
+        document.getElementById("editarResponsavel").value =
+            empresa.responsavel || "";
+
+        document.getElementById("editarTelefoneEmpresa").value =
+            empresa.telefone || "";
+
+        document.getElementById("editarProvinciaEmpresa").value =
+            empresa.provincia || "";
+
+        document.getElementById("editarAreaEmpresa").value =
+            empresa.area_atuacao || "";
+
+        document.getElementById("editarDescricaoEmpresa").value =
+            empresa.descricao || "";
+```
 
 
         document.getElementById("nomeEmpresa").textContent =
