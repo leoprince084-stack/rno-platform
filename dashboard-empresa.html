@@ -773,7 +773,9 @@ botaoEstado.addEventListener("click", async function () {
         return;
     }
 
+  
     try {
+
         const respostaEstado = await fetch(
             SUPABASE_URL + "/rest/v1/vagas?id=eq." +
             encodeURIComponent(vaga.id) +
@@ -783,6 +785,8 @@ botaoEstado.addEventListener("click", async function () {
                 headers: {
                     ...headersAutenticacao(),
                     "Content-Type": "application/json",
+                    "Accept-Profile": "public",
+                    "Content-Profile": "public",
                     "Prefer": "return=minimal"
                 },
                 body: JSON.stringify({ estado: novoEstado })
