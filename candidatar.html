@@ -808,7 +808,78 @@ formulario.addEventListener(
         }
 
 
+    
+
         /* ======================================
+           CONFIRMAR QUE É UM CANDIDATO
+        ====================================== */
+
+        try {
+
+            const respostaCandidato = await fetch(
+                SUPABASE_URL +
+                "/rest/v1/candidatos?id=eq." +
+                encodeURIComponent(candidatoId) +
+                "&select=id,nome_completo,email",
+                {
+                    method: "GET",
+
+                    headers: {
+                        "apikey": SUPABASE_KEY,
+
+                        "Authorization":
+                            "Bearer " + accessToken
+                    }
+                }
+            );
+
+            if (!respostaCandidato.ok) {
+
+                mensagem.innerHTML =
+                    "<strong>❌ Não foi possível verificar o perfil.</strong><br><br>" +
+                    "Faça login novamente como candidato.";
+
+                botao.disabled = false;
+                botao.textContent = "Enviar Candidatura";
+
+                return;
+            }
+
+            const perfilCandidato =
+                await respostaCandidato.json();
+
+            if (
+                !Array.isArray(perfilCandidato) ||
+                perfilCandidato.length === 0
+            ) {
+
+                mensagem.innerHTML =
+                    "<strong>❌ Esta conta não tem um perfil de candidato.</strong><br><br>" +
+                    "<a href='login.html'>Entrar como candidato</a>";
+
+                botao.disabled = false;
+                botao.textContent = "Enviar Candidatura";
+
+                return;
+            }
+
+        } catch (erro) {
+
+            console.error(
+                "ERRO AO VERIFICAR CANDIDATO:",
+                erro
+            );
+
+            mensagem.innerHTML =
+                "<strong>❌ Erro ao verificar a conta.</strong><br><br>" +
+                "Tente novamente.";
+
+            botao.disabled = false;
+            botao.textContent = "Enviar Candidatura";
+
+            return;
+        }
+              /* ======================================
            DADOS DA CANDIDATURA
         ====================================== */
 
