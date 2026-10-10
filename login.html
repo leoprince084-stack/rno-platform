@@ -429,15 +429,28 @@ formulario.addEventListener(
                 "#ecfdf5";
 
 
-            setTimeout(
-                function() {
+           
+const tipoConta = dados.user.user_metadata?.tipo_conta;
 
-                    window.location.href =
-                        "dashboard-candidato.html";
+setTimeout(
+    function() {
 
-                },
-                1000
-            );
+        if (tipoConta === "empresa") {
+
+            window.location.href =
+                "dashboard-empresa.html";
+
+        } else {
+
+            window.location.href =
+                "dashboard-candidato.html";
+
+        }
+
+    },
+    1000
+);
+
 
 
         } catch (erro) {
