@@ -1,0 +1,236 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nova palavra-passe | RNO</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fa;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .caixa {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #123b70;
+            text-align: center;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 12px;
+            box-sizing: border-box;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input {
+            border: 1px solid #ccc;
+        }
+
+        button {
+            border: none;
+            background: #123b70;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        #mensagem {
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        a {
+            color: #123b70;
+        }
+
+        .voltar {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="caixa">
+        <h1>RNO</h1>
+        <h2>Definir nova palavra-passe</h2>
+
+        <p>Introduz a tua nova palavra-passe e confirma-a.</p>
+
+        <form id="formNovaSenha">
+            <label for="senha">Nova palavra-passe</label>
+            <input
+                type="password"
+                id="senha"
+                required
+                minlength="6"
+                autocomplete="new-password"
+                placeholder="Mínimo de 6 caracteres"
+            >
+
+            <label for="confirmarSenha">Confirmar palavra-passe</label>
+            <input
+                type="password"
+                id="confirmarSenha"
+                required
+                minlength="6"
+                autocomplete="new-password"
+                placeholder="Repete a nova palavra-passe"
+            >
+
+            <button type="submit" id="botaoGuardar">
+                Guardar nova palavra-passe
+            </button>
+        </form>
+
+        <p id="mensagem" role="status" aria-live="polite"></p>
+
+        <div class="voltar">
+            <a href="login.html">Voltar para o login</a>
+        </div>
+    </main>
+
+    <script>
+        const SUPABASE_URL =
+            "https://bwkpmirlwrsbeiavzapm.supabase.co";
+
+        const SUPABASE_KEY =
+            "sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
+
+        const form = document.getElementById("formNovaSenha");
+        const senha = document.getElementById("senha");
+        const confirmarSenha = document.getElementById("confirmarSenha");
+        const botao = document.getElementById("botaoGuardar");
+        const mensagem = document.getElementById("mensagem");
+
+        function obterTokenRecuperacao() {
+            const hash = window.location.hash.substring(1);
+            const parametros = new URLSearchParams(hash);
+
+            return {
+                accessToken: parametros.get("access_token"),
+                tipo: parametros.get("type"),
+                erro: parametros.get("error_description")
+            };
+        }
+
+        const recuperacao = obterTokenRecuperacao();
+
+        if (recuperacao.erro) {
+            mensagem.textContent =
+                "A ligação de recuperação expirou ou não é válida. Solicita uma nova ligação.";
+            mensagem.style.color = "#b42318";
+            form.style.display = "none";
+        } else if (
+            !recuperacao.accessToken ||
+            recuperacao.tipo !== "recovery"
+        ) {
+            mensagem.textContent =
+                "Abre esta página através da ligação recebida no email de recuperação.";
+            mensagem.style.color = "#b42318";
+            form.style.display = "none";
+        }
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            if (senha.value.length < 6) {
+                mensagem.textContent =
+                    "A palavra-passe deve ter pelo menos 6 caracteres.";
+                mensagem.style.color = "#b42318";
+                return;
+            }
+
+            if (senha.value !== confirmarSenha.value) {
+                mensagem.textContent =
+                    "As palavras-passe não coincidem.";
+                mensagem.style.color = "#b42318";
+                return;
+            }
+
+            if (!recuperacao.accessToken ||
+                recuperacao.tipo !== "recovery") {
+                mensagem.textContent =
+                    "A ligação não é válida. Solicita uma nova recuperação.";
+                mensagem.style.color = "#b42318";
+                return;
+            }
+
+            botao.disabled = true;
+            botao.textContent = "A guardar...";
+            mensagem.textContent = "";
+
+            try {
+                const resposta = await fetch(
+                    SUPABASE_URL + "/auth/v1/user",
+                    {
+                        method: "PUT",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "apikey": SUPABASE_KEY,
+                            "Authorization":
+                                "Bearer " + recuperacao.accessToken
+                        },
+                        body: JSON.stringify({
+                            password: senha.value
+                        })
+                    }
+                );
+
+                const resultado =
+                    await resposta.json().catch(() => ({}));
+
+                if (!resposta.ok) {
+                    throw new Error(
+                        resultado.msg ||
+                        resultado.message ||
+                        resultado.error_description ||
+                        "Não foi possível alterar a palavra-passe."
+                    );
+                }
+
+                mensagem.textContent =
+                    "Palavra-passe alterada com sucesso! Já podes entrar com a nova palavra-passe.";
+                mensagem.style.color = "#176b37";
+                form.style.display = "none";
+
+            } catch (erro) {
+                console.error("Erro ao alterar palavra-passe:", erro);
+
+                mensagem.textContent =
+                    "Não foi possível alterar a palavra-passe. A ligação pode ter expirado. Solicita outra ligação e tenta novamente.";
+                mensagem.style.color = "#b42318";
+
+            } finally {
+                botao.disabled = false;
+                botao.textContent = "Guardar nova palavra-passe";
+            }
+        });
+    </script>
+</body>
+</html>
