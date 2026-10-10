@@ -1,0 +1,183 @@
+
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar palavra-passe | RNO</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f3f6fa;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .caixa {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #123b70;
+            text-align: center;
+        }
+
+        p {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 12px;
+            box-sizing: border-box;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        input {
+            border: 1px solid #ccc;
+        }
+
+        button {
+            border: none;
+            background: #123b70;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        #mensagem {
+            margin-top: 15px;
+            overflow-wrap: anywhere;
+        }
+
+        a {
+            color: #123b70;
+        }
+
+        .voltar {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <main class="caixa">
+        <h1>RNO</h1>
+        <h2>Recuperar palavra-passe</h2>
+
+        <p>
+            Introduz o teu email registado na RNO.
+            Se a recuperação estiver disponível, receberás uma ligação
+            para definires uma nova palavra-passe.
+        </p>
+
+        <form id="formRecuperar">
+            <label for="email">Email</label>
+            <input
+                type="email"
+                id="email"
+                required
+                autocomplete="email"
+                placeholder="Digite o seu email"
+            >
+
+            <button type="submit" id="botaoEnviar">
+                Enviar ligação de recuperação
+            </button>
+        </form>
+
+        <p id="mensagem" role="status" aria-live="polite"></p>
+
+        <div class="voltar">
+            <a href="login.html">Voltar para o login</a>
+        </div>
+    </main>
+
+    <script>
+        const SUPABASE_URL =
+            "https://bwkpmirlwrsbeiavzapm.supabase.co";
+
+        const SUPABASE_KEY =
+            sb_publishable_m5Z5nOdirdaXyoaOoA-fxg_Y_zlNuXJ";
+
+        const form = document.getElementById("formRecuperar");
+        const campoEmail = document.getElementById("email");
+        const botao = document.getElementById("botaoEnviar");
+        const mensagem = document.getElementById("mensagem");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const email = campoEmail.value.trim();
+
+            mensagem.textContent = "";
+            botao.disabled = true;
+            botao.textContent = "A enviar...";
+
+            try {
+                const destino =
+                    "https://leoprince084-stack.github.io/rno-platform/nova-senha.html";
+
+                const resposta = await fetch(
+                    SUPABASE_URL +
+                    "/auth/v1/recover?redirect_to=" +
+                    encodeURIComponent(destino),
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "apikey": SUPABASE_KEY
+                        },
+                        body: JSON.stringify({
+                            email: email
+                        })
+                    }
+                );
+
+                if (!resposta.ok) {
+                    const erro = await resposta.json().catch(() => ({}));
+                    throw new Error(
+                        erro.msg ||
+                        erro.message ||
+                        erro.error_description ||
+                        "Não foi possível enviar o pedido."
+                    );
+                }
+
+                mensagem.textContent =
+                    "Pedido enviado. Verifica a tua caixa de entrada e a pasta de spam.";
+                mensagem.style.color = "#176b37";
+
+            } catch (erro) {
+                console.error("Erro na recuperação:", erro);
+
+                mensagem.textContent =
+                    "Não foi possível enviar o pedido. Verifica a ligação e a configuração do Supabase. Se aparecer um limite de emails, aguarda antes de tentar novamente.";
+                mensagem.style.color = "#b42318";
+
+            } finally {
+                botao.disabled = false;
+                botao.textContent = "Enviar ligação de recuperação";
+            }
+        });
+    </script>
+</body>
+</html>
