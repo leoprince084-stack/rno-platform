@@ -1011,7 +1011,7 @@ async function carregarCandidaturas(vagas) {
             seletor.style.margin = "8px";
             seletor.style.maxWidth = "100%";
 
-            seletor.classList.add("estado-candidatura");
+          seletor.classList.add("estado-candidatura");
 
             function atualizarCorEstado() {
                 seletor.classList.remove(
@@ -1034,18 +1034,23 @@ async function carregarCandidaturas(vagas) {
                 }
             }
 
-            seletor.addEventListener("change", atualizarCorEstado);
+           estados.forEach(estado => {
+    const opcao = document.createElement("option");
+    opcao.value = estado;
+    opcao.textContent = estado;
+    seletor.appendChild(opcao);
+});
 
-            estados.forEach(estado => {
-                const opcao = document.createElement("option");
-                opcao.value = estado;
-                opcao.textContent = estado;
-                seletor.appendChild(opcao);
-            });
+seletor.addEventListener("change", atualizarCorEstado);
 
-         const estadoAtual = candidatura.status || "em analise";
+         
+const estadoOriginal = candidatura.status || "em analise";
 
-if (!estados.includes(estadoAtual)){
+const estadoAtual = /^(em análise|em analise)$/i.test(estadoOriginal)
+    ? "em analise"
+    : estadoOriginal;
+
+if (!estados.includes(estadoAtual)) {
     const opcaoAtual = document.createElement("option");
     opcaoAtual.value = estadoAtual;
     opcaoAtual.textContent = estadoAtual;
@@ -1054,6 +1059,7 @@ if (!estados.includes(estadoAtual)){
 
 seletor.value = estadoAtual;
 atualizarCorEstado();
+
             const botaoGuardar = document.createElement("button");
             botaoGuardar.type = "button";
             botaoGuardar.textContent = "Guardar estado";
@@ -1104,6 +1110,7 @@ if (!Array.isArray(resultadoAtualizacao) || resultadoAtualizacao.length === 0) {
 
 candidatura.status = resultadoAtualizacao[0].status;
 seletor.value = resultadoAtualizacao[0].status;
+atualizarCorEstado();
 
 alert("Estado da candidatura atualizado com sucesso.");
                 } catch (erro) {
