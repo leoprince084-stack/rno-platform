@@ -897,71 +897,187 @@ elemento.querySelector(".editar-vaga").addEventListener("click", function () {
 }
 
 
+
 async function carregarCandidaturas(vagas) {
+    const lista = document.getElementById("listaCandidaturas");
+    const contador = document.getElementById("totalCandidaturas");
 
-    try {
+  const estados = [
+    "em analise",
+    "Pré-selecionado",
+    "Aprovado",
+    "Rejeitado"
+];
 
-        if (!vagas.length) {
-
-            document.getElementById("totalCandidaturas")
-                .textContent = "0";
-
-            return;
-
-        }
-
-
-        const ids =
-            vagas.map(function(vaga) {
-
-                return vaga.id;
-
-            });
-
-
-        const filtro =
-            ids.join(",");
-
-
-        const resposta =
-            await fetch(
-                SUPABASE_URL +
-                "/rest/v1/candidaturas?vaga_id=in.(" +
-                encodeURIComponent(filtro) +
-                ")&select=id",
-                {
-                    headers: headersAutenticacao()
-                }
-            );
-
-
-        if (!resposta.ok) {
-
-            throw new Error(
-                "Não foi possível carregar as candidaturas."
-            );
-
-        }
-
-
-        const candidaturas =
-            await resposta.json();
-
-
-        document.getElementById("totalCandidaturas")
-            .textContent =
-            candidaturas.length;
-
-
-    } catch (erro) {
-
-        console.error(erro);
-
-        document.getElementById("totalCandidaturas")
-            .textContent = "—";
-
+    if (!vagas.length) {
+        contador.textContent = "0";
+        lista.innerHTML =
+            "<div class='sem-vagas'>Ainda não publicou nenhuma vaga.</div>";
+        return;
     }
 
+    try {
+        const idsVagas = vagas.map(vaga => vaga.id);
+        const filtro = idsVagas.join(",");
+
+        const resposta = await fetch(
+            SUPABASE_URL +
+            "/rest/v1/candidaturas?vaga_id=in.(" +
+            encodeURIComponent(filtro) +
+            ")&select=id,vaga_id,candidato_id,nome_completo,email,telefone,mensagem,status,created_at&order=created_at.desc",
+            {
+                headers: headersAutenticacao()
+            }
+        );
+
+        if (!resposta.ok) {
+            throw new Error(await resposta.text());
+        }
+
+        const candidaturas = await resposta.json();
+        contador.textContent = candidaturas.length;
+        lista.innerHTML = "";
+
+        if (!candidaturas.length) {
+            lista.innerHTML =
+                "<div class='sem-vagas'>Ainda não recebeu candidaturas para as suas vagas.</div>";
+            return;
+        }
+
+        const titulosVagas = {};
+        vagas.forEach(vaga => {
+            titulosVagas[vaga.id] = vaga.titulo || "Vaga sem título";
+        });
+
+        candidaturas.forEach(candidatura => {
+            const cartao = document.createElement("div");
+            cartao.className = "vaga";
+
+            const titulo = document.createElement("h3");
+            titulo.textContent = candidatura.nome_completo || "Candidato sem nome";
+
+            const detalhes = document.createElement("div");
+            detalhes.className = "vaga-info";
+            detalhes.textContent =
+                "Vaga: " + (titulosVagas[candidatura.vaga_id] || candidatura.vaga || "Não identificada") +
+                " • Email: " + (candidatura.email || "Não indicado") +
+                " • Telefone: " + (candidatura.telefone || "Não indicado");
+
+            const mensagemCandidato = document.createElement("p");
+            mensagemCandidato.textContent =
+                candidatura.mensagem || "Sem mensagem do candidato.";
+
+            const linhaEstado = document.createElement("div");
+            linhaEstado.style.marginTop = "15px";
+
+            const rotulo = document.createElement("label");
+            rotulo.textContent = "Estado da candidatura: ";
+            rotulo.htmlFor = "estado-" + candidatura.id;
+
+            const seletor = document.createElement("select");
+            seletor.id = "estado-" + candidatura.id;
+            seletor.style.padding = "9px";
+            seletor.style.margin = "8px";
+            seletor.style.maxWidth = "100%";
+
+            estados.forEach(estado => {
+                const opcao = document.createElement("option");
+                opcao.value = estado;
+                opcao.textContent = estado;
+                seletor.appendChild(opcao);
+            });
+
+         const estadoAtual = candidatura.status || "em analise";
+
+if (!estados.includes(estadoAtual)){
+    const opcaoAtual = document.createElement("option");
+    opcaoAtual.value = estadoAtual;
+    opcaoAtual.textContent = estadoAtual;
+    seletor.appendChild(opcaoAtual);
+}
+
+seletor.value = estadoAtual;
+
+            const botaoGuardar = document.createElement("button");
+            botaoGuardar.type = "button";
+            botaoGuardar.textContent = "Guardar estado";
+            botaoGuardar.style.padding = "9px 12px";
+            botaoGuardar.style.cursor = "pointer";
+
+            botaoGuardar.addEventListener("click", async function () {
+                const novoEstado = seletor.value;
+
+                if (!confirm("Confirmas a alteração do estado para \"" + novoEstado + "\"?")) {
+                    return;
+                }
+
+                botaoGuardar.disabled = true;
+                botaoGuardar.textContent = "A guardar...";
+
+                try {
+                    const respostaAtualizacao = await fetch(
+                        SUPABASE_URL +
+                        "/rest/v1/candidaturas?id=eq." +
+                        encodeURIComponent(candidatura.id) +
+                        "&vaga_id=in.(" +
+encodeURIComponent(filtro) +
+")&select=id,status",
+                        {
+                            method: "PATCH",
+                            headers: {
+                                ...headersAutenticacao(),
+                                "Content-Type": "application/json",
+                                "Content-Profile": "public",
+                                "Prefer": "return=representation"
+                            },
+                            body: JSON.stringify({
+                                status: novoEstado
+                            })
+                        }
+                    );
+
+                    if (!respostaAtualizacao.ok) {
+                        throw new Error(await respostaAtualizacao.text());
+                    }
+
+                    const resultadoAtualizacao = await respostaAtualizacao.json();
+
+if (!Array.isArray(resultadoAtualizacao) || resultadoAtualizacao.length === 0) {
+    throw new Error("Nenhuma candidatura foi atualizada. Verifica as permissões RLS.");
+}
+
+candidatura.status = resultadoAtualizacao[0].status;
+seletor.value = resultadoAtualizacao[0].status;
+
+alert("Estado da candidatura atualizado com sucesso.");
+                } catch (erro) {
+                    console.error("Erro ao atualizar candidatura:", erro);
+                    alert("Não foi possível guardar o estado. Verifica as políticas RLS do Supabase.");
+                } finally {
+                    botaoGuardar.disabled = false;
+                    botaoGuardar.textContent = "Guardar estado";
+                }
+            });
+
+            linhaEstado.appendChild(rotulo);
+            linhaEstado.appendChild(seletor);
+            linhaEstado.appendChild(document.createElement("br"));
+            linhaEstado.appendChild(botaoGuardar);
+
+            cartao.appendChild(titulo);
+            cartao.appendChild(detalhes);
+            cartao.appendChild(mensagemCandidato);
+            cartao.appendChild(linhaEstado);
+
+            lista.appendChild(cartao);
+        });
+
+    } catch (erro) {
+        console.error("Erro ao carregar candidaturas:", erro);
+        lista.innerHTML =
+            "<div class='sem-vagas'>Não foi possível carregar as candidaturas. Verifica as permissões no Supabase.</div>";
+        contador.textContent = "—";
+    }
 }
 
 
