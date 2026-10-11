@@ -283,6 +283,37 @@
                 font-size: 26px;
             }
         }
+        /* RNO — cores dos estados das candidaturas */
+
+        .estado-candidatura {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin: 6px 0;
+        }
+
+        .estado-em-analise {
+            background-color: #e5e7eb;
+            color: #374151;
+        }
+
+        .estado-pre-selecionado {
+            background-color: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .estado-aprovado {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+
+        .estado-rejeitado {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
     </style>
 </head>
 
@@ -980,6 +1011,31 @@ async function carregarCandidaturas(vagas) {
             seletor.style.margin = "8px";
             seletor.style.maxWidth = "100%";
 
+            seletor.classList.add("estado-candidatura");
+
+            function atualizarCorEstado() {
+                seletor.classList.remove(
+                    "estado-em-analise",
+                    "estado-pre-selecionado",
+                    "estado-aprovado",
+                    "estado-rejeitado"
+                );
+
+                const estado = seletor.value.toLowerCase();
+
+                if (estado === "em analise" || estado === "em análise") {
+                    seletor.classList.add("estado-em-analise");
+                } else if (estado === "pré-selecionado") {
+                    seletor.classList.add("estado-pre-selecionado");
+                } else if (estado === "aprovado") {
+                    seletor.classList.add("estado-aprovado");
+                } else if (estado === "rejeitado") {
+                    seletor.classList.add("estado-rejeitado");
+                }
+            }
+
+            seletor.addEventListener("change", atualizarCorEstado);
+
             estados.forEach(estado => {
                 const opcao = document.createElement("option");
                 opcao.value = estado;
@@ -997,7 +1053,7 @@ if (!estados.includes(estadoAtual)){
 }
 
 seletor.value = estadoAtual;
-
+atualizarCorEstado();
             const botaoGuardar = document.createElement("button");
             botaoGuardar.type = "button";
             botaoGuardar.textContent = "Guardar estado";
