@@ -8,6 +8,16 @@
 
     <style>
 
+       <!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RNO - Rede Nacional de Oportunidades</title>
+
+    <style>
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -328,6 +338,202 @@
             }
 
         }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header>
+
+        <div class="logo">
+            RNO
+            <span>Rede Nacional de Oportunidades</span>
+        </div>
+
+        
+<nav>
+    <a href="index.html">Início</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#servicos">Serviços</a>
+   <a href="login.html" id="linkMinhaConta">A minha conta</a>
+</nav>
+
+
+    </header>
+
+
+    <!-- =========================
+         HERO
+    ========================= -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <h1>RNO</h1>
+
+            <h2>Rede Nacional de Oportunidades</h2>
+
+            <p>
+                Conectamos candidatos a oportunidades de emprego
+                e empresas aos profissionais que procuram.
+            </p>
+
+            <div class="buttons">
+
+                <a href="candidato.html" class="btn candidato">
+                    Sou Candidato
+                </a>
+
+                <a href="cadastro-empresa.html" class="btn empresa">
+    Sou Empresa
+</a>
+
+                <a href="vagas.html" class="btn vagas">
+                    Ver Oportunidades
+                </a>
+<a href="login.html" class="btn login">
+                Entrar na minha conta
+            </a>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         SOBRE
+    ========================= -->
+
+    <section class="section" id="sobre">
+
+        <h2>Sobre a RNO</h2>
+
+        <p class="section-intro">
+            A RNO é uma plataforma criada para facilitar a ligação
+            entre candidatos e empresas em Moçambique, tornando
+            o acesso às oportunidades mais simples, rápido e organizado.
+        </p>
+
+    </section>
+
+
+    <!-- =========================
+         SERVIÇOS
+    ========================= -->
+
+    <section class="section" id="servicos">
+
+        <h2>O que a RNO oferece</h2>
+
+        <p class="section-intro">
+            Uma plataforma pensada para aproximar pessoas,
+            empresas e oportunidades.
+        </p>
+
+
+
+<div class="cards">
+
+    <a href="candidato.html" class="card" style="text-decoration:none; color:inherit; display:block; cursor:pointer;">
+
+        <div class="card-icon">👤</div>
+
+        <h3>Para Candidatos</h3>
+
+        <p>
+            Criação de perfil profissional, procura de vagas
+            e candidatura a oportunidades.
+        </p>
+
+    </a>
+
+    <a href="cadastro-empresa.html" class="card" style="text-decoration:none; color:inherit; display:block; cursor:pointer;">
+
+        <div class="card-icon">🏢</div>
+
+        <h3>Para Empresas</h3>
+
+        <p>
+            Publicação de vagas e procura de profissionais
+            para as suas necessidades.
+        </p>
+
+    </a>
+
+    <a href="vagas.html" class="card" style="text-decoration:none; color:inherit; display:block; cursor:pointer;">
+
+        <div class="card-icon">🤝</div>
+
+        <h3>Conexão</h3>
+
+        <p>
+            Aproximamos candidatos e empresas numa única
+            plataforma de oportunidades.
+        </p>
+
+    </a>
+
+</div>
+
+    </section>
+
+
+    <!-- =========================
+         CHAMADA PARA AÇÃO
+    ========================= -->
+
+    <section class="cta">
+
+        <h2>Encontre a sua próxima oportunidade</h2>
+
+        <p>
+            Explore as oportunidades disponíveis na RNO.
+        </p>
+
+        <a href="vagas.html" class="cta-button">
+            Ver Oportunidades
+        </a>
+
+    </section>
+
+
+    <!-- =========================
+         FOOTER
+    ========================= -->
+
+    <footer>
+
+        <strong>RNO - Rede Nacional de Oportunidades</strong>
+
+        <p>
+            Conectando candidatos e empresas em Moçambique.
+        </p>
+
+        <p>
+            © 2026 RNO. Todos os direitos reservados.
+        </p>
+
+    </footer>
+<script>
+const linkMinhaConta = document.getElementById("linkMinhaConta");
+
+const accessToken = localStorage.getItem("rno_access_token");
+const userId = localStorage.getItem("rno_user_id");
+
+if (linkMinhaConta && accessToken && userId) {
+    linkMinhaConta.href = "dashboard-candidato.html";
+    linkMinhaConta.textContent = "Ir para o meu painel";
+}
+</script>
+</body>
+</html>
 
     </style>
 </head>
