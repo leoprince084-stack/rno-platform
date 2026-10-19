@@ -5,88 +5,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Candidato - RNO</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+  
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+    }
 
+    :root {
+        color-scheme: dark;
+        --fundo: #071426;
+        --painel: #10223d;
+        --azul: #2878f0;
+        --azul-claro: #66b0ff;
+        --texto: #f1f6ff;
+        --secundario: #a9bad2;
+        --borda: rgba(145, 180, 230, 0.2);
+    }
+
+    html {
+        min-height: 100%;
+        background: var(--fundo);
+    }
+
+    body {
+        min-height: 100vh;
+        padding: 35px 15px;
+        background: radial-gradient(ellipse at top, #15345b 0%, var(--fundo) 65%);
+        color: var(--texto);
+        line-height: 1.6;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 600px;
+        margin: auto;
+        padding: 35px;
+        background: linear-gradient(145deg, #122945, #0d1d33);
+        border: 1px solid var(--borda);
+        border-radius: 20px;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.25);
+    }
+
+    h1 {
+        text-align: center;
+        color: var(--azul-claro);
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
+
+    .subtitulo {
+        text-align: center;
+        color: var(--secundario);
+        margin-bottom: 30px;
+        line-height: 1.7;
+    }
+
+    label {
+        display: block;
+        margin-top: 17px;
+        margin-bottom: 7px;
+        color: var(--texto);
+        font-size: 14px;
+        font-weight: bold;
+    }
+
+    input,
+    select,
+    textarea {
+        display: block;
+        width: 100%;
+        padding: 13px 14px;
+        background: #09182b;
+        color: var(--texto);
+        border: 1px solid var(--borda);
+        border-radius: 10px;
+        font-size: 15px;
+        outline: none;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: #8296b2;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+        border-color: var(--azul-claro);
+        box-shadow: 0 0 0 3px rgba(40, 120, 240, 0.15);
+    }
+
+    select option {
+        background: var(--painel);
+        color: var(--texto);
+    }
+
+    textarea {
+        min-height: 120px;
+        resize: vertical;
+    }
+
+    button {
+        width: 100%;
+        margin-top: 25px;
+        padding: 14px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, var(--azul), #1760d5);
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(40, 120, 240, 0.2);
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 25px rgba(40, 120, 240, 0.3);
+    }
+
+    button:disabled {
+        opacity: 0.65;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .voltar {
+        display: block;
+        text-align: center;
+        margin-top: 22px;
+        color: var(--azul-claro);
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .voltar:hover {
+        color: white;
+        text-decoration: underline;
+    }
+
+    #mensagem {
+        margin-top: 20px;
+        text-align: center;
+        font-weight: bold;
+        overflow-wrap: anywhere;
+    }
+
+    @media (max-width: 500px) {
         body {
-            background: #f5f7fa;
-            padding: 30px 15px;
+            padding: 20px 12px;
         }
 
         .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 35px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            padding: 25px 18px;
+            border-radius: 16px;
         }
 
         h1 {
-            text-align: center;
-            color: #0b5ed7;
-            margin-bottom: 10px;
+            font-size: 24px;
         }
+    }
 
-        .subtitulo {
-            text-align: center;
-            color: #666;
-            margin-bottom: 30px;
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            transition-duration: 0.01ms !important;
+            animation-duration: 0.01ms !important;
         }
+    }
+</style>
 
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 7px;
-            font-weight: bold;
-        }
-
-        input,
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 7px;
-            font-size: 15px;
-        }
-
-        textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        button {
-            width: 100%;
-            margin-top: 25px;
-            padding: 14px;
-            border: none;
-            border-radius: 7px;
-            background: #0b5ed7;
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        .voltar {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            color: #0b5ed7;
-            text-decoration: none;
-        }
-
-        #mensagem {
-            margin-top: 20px;
-            text-align: center;
-            font-weight: bold;
-        }
     </style>
 </head>
 
