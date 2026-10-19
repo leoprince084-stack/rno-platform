@@ -7,141 +7,215 @@
     <title>Entrar como Empresa - RNO</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+       
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(135deg, #0b1f3a, #123d68);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
+:root {
+    color-scheme: dark;
+    --fundo: #071426;
+    --painel: #10223d;
+    --azul: #2878f0;
+    --azul-claro: #66b0ff;
+    --texto: #f1f6ff;
+    --secundario: #a9bad2;
+    --borda: rgba(145, 180, 230, 0.2);
+}
 
-        .container {
-            width: 100%;
-            max-width: 450px;
-        }
+html {
+    min-height: 100%;
+    background: var(--fundo);
+}
 
-        .logo {
-            text-align: center;
-            color: white;
-            margin-bottom: 25px;
-        }
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: radial-gradient(ellipse at top, #15345b 0%, var(--fundo) 70%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px 16px;
+    color: var(--texto);
+}
 
-        .logo h1 {
-            margin: 0;
-            font-size: 38px;
-        }
+.container {
+    width: 100%;
+    max-width: 450px;
+}
 
-        .logo p {
-            margin-top: 8px;
-            font-size: 15px;
-            opacity: 0.9;
-        }
+.logo {
+    text-align: center;
+    color: var(--texto);
+    margin-bottom: 25px;
+}
 
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 35px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
-        }
+.logo h1 {
+    margin: 0;
+    font-size: 38px;
+    letter-spacing: 1px;
+    background: linear-gradient(135deg, #ffffff, var(--azul-claro));
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
 
-        .card h2 {
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 8px;
-            color: #0b1f3a;
-        }
+.logo p {
+    margin-top: 8px;
+    font-size: 15px;
+    color: var(--secundario);
+}
 
-        .subtitulo {
-            text-align: center;
-            color: #666;
-            margin-bottom: 28px;
-        }
+.card {
+    background: linear-gradient(145deg, #122945, #0d1d33);
+    border: 1px solid var(--borda);
+    border-radius: 20px;
+    padding: 35px;
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.28);
+}
 
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-weight: bold;
-            color: #333;
-        }
+.card h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 8px;
+    color: var(--texto);
+    font-size: 24px;
+}
 
-        input {
-            width: 100%;
-            padding: 13px;
-            margin-bottom: 18px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 15px;
-            outline: none;
-        }
+.subtitulo {
+    text-align: center;
+    color: var(--secundario);
+    margin-bottom: 28px;
+    line-height: 1.6;
+}
 
-        input:focus {
-            border-color: #123d68;
-        }
+label {
+    display: block;
+    margin-bottom: 7px;
+    font-weight: bold;
+    font-size: 14px;
+    color: var(--texto);
+}
 
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 8px;
-            background: #0b1f3a;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-        }
+input {
+    display: block;
+    width: 100%;
+    padding: 13px;
+    margin-bottom: 18px;
+    background: #09182b;
+    color: var(--texto);
+    border: 1px solid var(--borda);
+    border-radius: 10px;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
 
-        button:hover {
-            background: #123d68;
-        }
+input::placeholder {
+    color: #8296b2;
+}
 
-        button:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
+input:focus {
+    border-color: var(--azul-claro);
+    box-shadow: 0 0 0 3px rgba(40, 120, 240, 0.15);
+}
 
-        #mensagem {
-            display: none;
-            margin-top: 18px;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 14px;
-            line-height: 1.5;
-        }
+button {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--azul), #1760d5);
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(40, 120, 240, 0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
 
-        .links {
-            text-align: center;
-            margin-top: 22px;
-            line-height: 1.8;
-        }
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(40, 120, 240, 0.3);
+}
 
-        .links a {
-            color: #123d68;
-            text-decoration: none;
-            font-weight: bold;
-        }
+button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
 
-        .links a:hover {
-            text-decoration: underline;
-        }
+#mensagem {
+    display: none;
+    margin-top: 18px;
+    padding: 12px;
+    border-radius: 10px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    border: 1px solid var(--borda);
+    background: rgba(4, 15, 30, 0.5);
+    color: var(--texto);
+}
 
-        .voltar {
-            margin-top: 15px;
-            text-align: center;
-        }
+.links {
+    text-align: center;
+    margin-top: 22px;
+    line-height: 1.9;
+}
 
-        .voltar a {
-            color: #666;
-            text-decoration: none;
-            font-size: 14px;
-        }
+.links a {
+    color: var(--azul-claro);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.links a:hover {
+    color: white;
+    text-decoration: underline;
+}
+
+.voltar {
+    margin-top: 15px;
+    text-align: center;
+}
+
+.voltar a {
+    color: var(--secundario);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.voltar a:hover {
+    color: white;
+}
+
+@media (max-width: 480px) {
+    .card {
+        padding: 26px 20px;
+        border-radius: 16px;
+    }
+
+    .logo h1 {
+        font-size: 33px;
+    }
+
+    .card h2 {
+        font-size: 22px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
     </style>
 </head>
 
