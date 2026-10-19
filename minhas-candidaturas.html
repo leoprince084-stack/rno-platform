@@ -6,358 +6,331 @@
 
     <title>Minhas Candidaturas | RNO</title>
 
-    <style>
+   
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-        }
+:root {
+    color-scheme: dark;
+    --fundo: #071426;
+    --painel: #10223d;
+    --azul: #2878f0;
+    --azul-claro: #66b0ff;
+    --texto: #f1f6ff;
+    --secundario: #a9bad2;
+    --borda: rgba(145, 180, 230, 0.2);
+}
 
-        body {
-            background: #f1f5f9;
-            color: #1e293b;
-        }
+html {
+    min-height: 100%;
+    background: var(--fundo);
+}
 
-        /* =========================
-           CABEÇALHO
-        ========================= */
+body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at top, #15345b 0%, var(--fundo) 65%);
+    color: var(--texto);
+    line-height: 1.6;
+}
 
-        header {
-            background: linear-gradient(135deg, #0b3d91, #0b5ed7);
-            color: white;
-            padding: 22px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
-        }
+header {
+    background: rgba(7, 20, 38, 0.88);
+    color: var(--texto);
+    padding: 22px 20px;
+    border-bottom: 1px solid var(--borda);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+}
 
-        .topo {
-            max-width: 1100px;
-            margin: auto;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+.topo {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
 
-        .logo {
-            width: 50px;
-            height: 50px;
-            background: white;
-            color: #0b3d91;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 19px;
-        }
+.logo {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--azul), var(--azul-claro));
+    color: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 19px;
+    box-shadow: 0 5px 18px rgba(40, 120, 240, 0.3);
+}
 
-        .topo h1 {
-            font-size: 22px;
-            margin-bottom: 4px;
-        }
+.topo h1 {
+    font-size: 22px;
+    margin-bottom: 4px;
+}
 
-        .topo p {
-            font-size: 14px;
-            opacity: 0.9;
-        }
+.topo p {
+    font-size: 14px;
+    color: var(--secundario);
+}
 
-        /* =========================
-           CONTAINER
-        ========================= */
+.container {
+    max-width: 1100px;
+    margin: 35px auto;
+    padding: 0 20px;
+}
 
-        .container {
-            max-width: 1100px;
-            margin: 35px auto;
-            padding: 0 20px;
-        }
+.voltar {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 25px;
+    padding: 10px 16px;
+    border-radius: 10px;
+    background: var(--painel);
+    color: var(--azul-claro);
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid var(--borda);
+    transition: 0.2s;
+}
 
-        .voltar {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            margin-bottom: 25px;
-            padding: 10px 16px;
-            border-radius: 9px;
-            background: white;
-            color: #0b5ed7;
-            text-decoration: none;
-            font-weight: bold;
-            border: 1px solid #dbe3ee;
-            transition: 0.2s;
-        }
+.voltar:hover {
+    background: #19375c;
+    transform: translateX(-2px);
+}
 
-        .voltar:hover {
-            background: #eef5ff;
-            transform: translateX(-2px);
-        }
+.titulo-area {
+    margin-bottom: 28px;
+}
 
-        /* =========================
-           TÍTULO
-        ========================= */
+.titulo-area h2 {
+    color: var(--texto);
+    font-size: 28px;
+    margin-bottom: 8px;
+}
 
-        .titulo-area {
-            margin-bottom: 28px;
-        }
+.titulo-area p {
+    color: var(--secundario);
+    font-size: 15px;
+    line-height: 1.7;
+}
 
-        .titulo-area h2 {
-            color: #0f172a;
-            font-size: 28px;
-            margin-bottom: 8px;
-        }
+#listaCandidaturas {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
-        .titulo-area p {
-            color: #64748b;
-            font-size: 15px;
-            line-height: 1.6;
-        }
+.candidatura {
+    background: linear-gradient(145deg, #122945, #0d1d33);
+    border-radius: 18px;
+    padding: 26px;
+    border: 1px solid var(--borda);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+    transition: transform 0.25s ease, border-color 0.25s ease;
+}
 
-        /* =========================
-           LISTA
-        ========================= */
+.candidatura:hover {
+    transform: translateY(-3px);
+    border-color: rgba(102, 176, 255, 0.5);
+}
 
-        #listaCandidaturas {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+.cabecalho-candidatura {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--borda);
+}
 
-        /* =========================
-           CARTÃO
-        ========================= */
+.vaga {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
 
-        .candidatura {
-            background: white;
-            border-radius: 18px;
-            padding: 26px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 5px 20px rgba(15,23,42,0.06);
-            transition: all 0.25s ease;
-        }
+.icone-vaga {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    border-radius: 15px;
+    background: rgba(40, 120, 240, 0.17);
+    border: 1px solid rgba(102, 176, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
 
-        .candidatura:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 28px rgba(15,23,42,0.11);
-        }
+.vaga h3 {
+    color: var(--azul-claro);
+    font-size: 20px;
+    margin-bottom: 5px;
+    overflow-wrap: anywhere;
+}
 
-        /* =========================
-           TOPO DO CARTÃO
-        ========================= */
+.vaga p {
+    color: var(--secundario);
+    font-size: 13px;
+}
 
-        .cabecalho-candidatura {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            gap: 20px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #e5e7eb;
-        }
+.estado {
+    display: inline-flex;
+    align-items: center;
+    padding: 9px 14px;
+    border-radius: 30px;
+    background: rgba(245, 190, 60, 0.12);
+    color: #ffd778;
+    border: 1px solid rgba(245, 190, 60, 0.3);
+    font-size: 13px;
+    font-weight: bold;
+    white-space: nowrap;
+}
 
-        .vaga {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+.informacoes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+    padding-top: 20px;
+}
 
-        .icone-vaga {
-            width: 52px;
-            height: 52px;
-            flex-shrink: 0;
-            border-radius: 14px;
-            background: #eaf2ff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-        }
+.informacao {
+    min-width: 0;
+    background: rgba(4, 15, 30, 0.4);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--borda);
+}
 
-        .vaga h3 {
-            color: #0b3d91;
-            font-size: 20px;
-            margin-bottom: 5px;
-        }
+.informacao strong {
+    display: block;
+    color: var(--secundario);
+    font-size: 11px;
+    margin-bottom: 7px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
 
-        .vaga p {
-            color: #64748b;
-            font-size: 13px;
-        }
+.informacao span {
+    color: var(--texto);
+    font-size: 14px;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+}
 
-        /* =========================
-           ESTADO
-        ========================= */
+.carregando,
+.vazio {
+    background: var(--painel);
+    padding: 45px 25px;
+    border-radius: 18px;
+    text-align: center;
+    color: var(--secundario);
+    border: 1px solid var(--borda);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+}
 
-        .estado {
-            display: inline-flex;
-            align-items: center;
-            padding: 9px 14px;
-            border-radius: 30px;
-            background: #fff7d6;
-            color: #8a6500;
-            border: 1px solid #f5df8a;
-            font-size: 13px;
-            font-weight: bold;
-            white-space: nowrap;
-        }
+.vazio h2 {
+    color: var(--azul-claro);
+    margin-bottom: 10px;
+}
 
-        /* =========================
-           INFORMAÇÕES
-        ========================= */
+.vazio p {
+    color: var(--secundario);
+}
 
-        .informacoes {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding-top: 20px;
-        }
+.erro {
+    background: #301b2b;
+    padding: 35px 25px;
+    border-radius: 18px;
+    text-align: center;
+    color: #ffb4bd;
+    border: 1px solid rgba(255, 100, 130, 0.3);
+}
 
-        .informacao {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 11px;
-            border: 1px solid #edf2f7;
-        }
+footer {
+    text-align: center;
+    padding: 35px 20px;
+    color: var(--secundario);
+    font-size: 13px;
+    border-top: 1px solid var(--borda);
+}
 
-        .informacao strong {
-            display: block;
-            color: #64748b;
-            font-size: 11px;
-            margin-bottom: 7px;
-            text-transform: uppercase;
-            letter-spacing: 0.4px;
-        }
+@media (max-width: 700px) {
+    header {
+        padding: 18px 15px;
+    }
 
-        .informacao span {
-            color: #1e293b;
-            font-size: 14px;
-            font-weight: 500;
-            word-break: break-word;
-        }
+    .topo h1 {
+        font-size: 18px;
+    }
 
-        /* =========================
-           CARREGANDO
-        ========================= */
+    .topo p {
+        font-size: 12px;
+    }
 
-        .carregando {
-            background: white;
-            padding: 45px 25px;
-            border-radius: 18px;
-            text-align: center;
-            color: #64748b;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 5px 20px rgba(15,23,42,0.06);
-        }
+    .logo {
+        width: 44px;
+        height: 44px;
+        font-size: 17px;
+    }
 
-        /* =========================
-           VAZIO
-        ========================= */
+    .container {
+        margin: 25px auto;
+        padding: 0 14px;
+    }
 
-        .vazio {
-            background: white;
-            padding: 50px 25px;
-            border-radius: 18px;
-            text-align: center;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 5px 20px rgba(15,23,42,0.06);
-        }
+    .titulo-area h2 {
+        font-size: 23px;
+    }
 
-        .vazio h2 {
-            color: #0b3d91;
-            margin-bottom: 10px;
-        }
+    .cabecalho-candidatura {
+        flex-direction: column;
+    }
 
-        .vazio p {
-            color: #64748b;
-        }
+    .estado {
+        align-self: flex-start;
+        white-space: normal;
+    }
 
-        /* =========================
-           ERRO
-        ========================= */
+    .informacoes {
+        grid-template-columns: 1fr;
+    }
 
-        .erro {
-            background: white;
-            padding: 35px 25px;
-            border-radius: 18px;
-            text-align: center;
-            color: #b00020;
-            border: 1px solid #fecaca;
-        }
+    .candidatura {
+        padding: 20px;
+    }
+}
 
-        /* =========================
-           RODAPÉ
-        ========================= */
+@media (max-width: 450px) {
+    .vaga h3 {
+        font-size: 18px;
+    }
 
-        footer {
-            text-align: center;
-            padding: 35px 20px;
-            color: #64748b;
-            font-size: 13px;
-        }
+    .icone-vaga {
+        width: 46px;
+        height: 46px;
+    }
 
-        /* =========================
-           MOBILE
-        ========================= */
+    .voltar {
+        font-size: 13px;
+    }
+}
 
-        @media (max-width: 700px) {
-
-            header {
-                padding: 18px 15px;
-            }
-
-            .topo h1 {
-                font-size: 18px;
-            }
-
-            .topo p {
-                font-size: 12px;
-            }
-
-            .logo {
-                width: 44px;
-                height: 44px;
-                font-size: 17px;
-            }
-
-            .container {
-                margin: 25px auto;
-                padding: 0 14px;
-            }
-
-            .titulo-area h2 {
-                font-size: 23px;
-            }
-
-            .cabecalho-candidatura {
-                flex-direction: column;
-            }
-
-            .estado {
-                align-self: flex-start;
-            }
-
-            .informacoes {
-                grid-template-columns: 1fr;
-            }
-
-            .candidatura {
-                padding: 20px;
-            }
-        }
-
-        @media (max-width: 450px) {
-
-            .vaga h3 {
-                font-size: 18px;
-            }
-
-            .icone-vaga {
-                width: 46px;
-                height: 46px;
-            }
-
-            .voltar {
-                font-size: 13px;
-            }
-        }
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
 
     </style>
 

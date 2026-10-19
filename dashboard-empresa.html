@@ -7,312 +7,619 @@
     <title>Dashboard da Empresa - RNO</title>
 
     <style>
-        * {
-            box-sizing: border-box;
-        }
+      
+* {
+    box-sizing: border-box;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f7fb;
-            color: #1f2937;
-        }
+:root {
+    --fundo: #07111f;
+    --fundo-cartao: #101e32;
+    --fundo-secundario: #162740;
+    --azul: #3b82f6;
+    --azul-claro: #60a5fa;
+    --texto: #f1f5f9;
+    --texto-suave: #a9b8cc;
+    --borda: rgba(148, 163, 184, 0.18);
+    --sombra: 0 16px 40px rgba(0, 0, 0, 0.22);
+}
 
-        .topo {
-            background: linear-gradient(135deg, #0b5ed7, #084298);
-            color: white;
-            padding: 18px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 20px;
-        }
+html {
+    scroll-behavior: smooth;
+}
 
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+body {
+    margin: 0;
+    font-family: Inter, "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at top right, rgba(37, 99, 235, 0.15), transparent 38%),
+        var(--fundo);
+    color: var(--texto);
+    line-height: 1.6;
+}
 
-        .logo {
-            font-size: 30px;
-            font-weight: 800;
-            letter-spacing: 1px;
-        }
+button,
+input,
+textarea,
+select {
+    font: inherit;
+}
 
-        .nome-plataforma {
-            font-size: 13px;
-            opacity: 0.9;
-        }
+button {
+    transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
 
-        .botao-sair {
-            background: rgba(255,255,255,0.15);
-            color: white;
-            border: 1px solid rgba(255,255,255,0.35);
-            padding: 10px 16px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 700;
-        }
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+    outline: 2px solid var(--azul-claro);
+    outline-offset: 3px;
+}
 
-        .botao-sair:hover {
-            background: rgba(255,255,255,0.25);
-        }
+.topo {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 5%;
+    background: rgba(8, 20, 38, 0.94);
+    border-bottom: 1px solid var(--borda);
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.15);
+}
 
-        .principal {
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 30px 20px 50px;
-        }
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
 
-        .boas-vindas {
-            background: linear-gradient(135deg, #0b5ed7, #1769e0);
-            color: white;
-            padding: 30px;
-            border-radius: 18px;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 30px rgba(11, 94, 215, 0.15);
-        }
+.logo {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #ffffff, #60a5fa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
 
-        .boas-vindas h1 {
-            margin: 0 0 8px;
-            font-size: 30px;
-        }
+.nome-plataforma {
+    color: var(--texto-suave);
+    font-size: 13px;
+}
 
-        .boas-vindas p {
-            margin: 0;
-            opacity: 0.9;
-        }
+.botao-sair {
+    padding: 10px 18px;
+    border: 1px solid rgba(248, 113, 113, 0.4);
+    border-radius: 10px;
+    background: rgba(127, 29, 29, 0.2);
+    color: #fecaca;
+    cursor: pointer;
+    font-weight: 700;
+}
 
-        .mensagem {
-            display: none;
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            border-left: 4px solid #0b5ed7;
-        }
+.botao-sair:hover {
+    background: rgba(185, 28, 28, 0.35);
+    transform: translateY(-2px);
+}
 
-        .perfil {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.06);
-        }
+.principal {
+    width: 100%;
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 34px 24px 55px;
+}
 
-        .titulo-secao {
-            margin: 0 0 18px;
-            font-size: 21px;
-            color: #0b5ed7;
-        }
+.boas-vindas {
+    position: relative;
+    overflow: hidden;
+    padding: 38px;
+    margin-bottom: 28px;
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    border-radius: 22px;
+    background: linear-gradient(125deg, #12366a, #1556a8 58%, #1d4ed8);
+    box-shadow: 0 18px 45px rgba(29, 78, 216, 0.2);
+    animation: entradaRNO 0.55s ease both;
+}
 
-        .dados-perfil {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
+.boas-vindas::after {
+    content: "";
+    position: absolute;
+    width: 230px;
+    height: 230px;
+    right: -65px;
+    top: -100px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.07);
+    pointer-events: none;
+}
 
-        .dado {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 10px;
-        }
+.boas-vindas h1 {
+    position: relative;
+    z-index: 1;
+    margin: 0 0 8px;
+    font-size: clamp(25px, 4vw, 34px);
+    line-height: 1.25;
+}
 
-        .dado strong {
-            display: block;
-            color: #64748b;
-            font-size: 12px;
-            margin-bottom: 6px;
-            text-transform: uppercase;
-        }
+.boas-vindas p {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    color: #dbeafe;
+}
 
-        .dado span {
-            font-weight: 600;
-            color: #1e293b;
-        }
+.mensagem {
+    display: none;
+    margin-bottom: 22px;
+    padding: 16px 20px;
+    border: 1px solid rgba(96, 165, 250, 0.35);
+    border-left: 4px solid var(--azul-claro);
+    border-radius: 12px;
+    background: var(--fundo-cartao);
+    color: var(--texto);
+    overflow-wrap: anywhere;
+}
 
-        .acoes {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 25px;
-        }
+.perfil,
+.vagas {
+    padding: 27px;
+    margin-bottom: 26px;
+    border: 1px solid var(--borda);
+    border-radius: 18px;
+    background: linear-gradient(145deg, #112139, #0d192b);
+    box-shadow: var(--sombra);
+    animation: entradaRNO 0.6s ease both;
+}
 
-        .acao {
-            background: white;
-            border-radius: 16px;
-            padding: 25px;
-            text-decoration: none;
-            color: #1f2937;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.06);
-            transition: 0.2s;
-            border: 1px solid #eef2f7;
-        }
+.titulo-secao {
+    margin: 0 0 22px;
+    color: #93c5fd;
+    font-size: 21px;
+    font-weight: 750;
+}
 
-        .acao:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.10);
-        }
+.dados-perfil {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
 
-        .icone {
-            font-size: 32px;
-            margin-bottom: 12px;
-        }
+.dado {
+    min-width: 0;
+    padding: 17px;
+    border: 1px solid var(--borda);
+    border-radius: 12px;
+    background: rgba(22, 39, 64, 0.72);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
 
-        .acao h3 {
-            margin: 0 0 8px;
-            color: #0b5ed7;
-        }
+.dado:hover {
+    border-color: rgba(96, 165, 250, 0.4);
+    transform: translateY(-2px);
+}
 
-        .acao p {
-            margin: 0;
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.5;
-        }
+.dado strong {
+    display: block;
+    margin-bottom: 6px;
+    color: var(--texto-suave);
+    font-size: 11px;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+}
 
-        .resumo {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 25px;
-        }
+.dado span {
+    display: block;
+    color: var(--texto);
+    font-weight: 600;
+    overflow-wrap: anywhere;
+}
 
-        .numero {
-            background: white;
-            padding: 22px;
-            border-radius: 16px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.06);
-            text-align: center;
-        }
+.acoes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 27px;
+}
 
-        .numero-valor {
-            display: block;
-            font-size: 32px;
-            font-weight: 800;
-            color: #0b5ed7;
-        }
+.acao {
+    display: block;
+    padding: 25px;
+    border: 1px solid var(--borda);
+    border-radius: 17px;
+    background: linear-gradient(145deg, #12243c, #0e1b2e);
+    box-shadow: var(--sombra);
+    color: var(--texto);
+    text-decoration: none;
+    transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+}
 
-        .numero-label {
-            color: #64748b;
-            font-size: 14px;
-            margin-top: 5px;
-        }
+.acao:hover {
+    transform: translateY(-5px);
+    border-color: rgba(96, 165, 250, 0.55);
+    box-shadow: 0 20px 38px rgba(0, 0, 0, 0.28);
+}
 
-        .vagas {
-            background: white;
-            padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 6px 25px rgba(0,0,0,0.06);
-        }
+.icone {
+    margin-bottom: 13px;
+    font-size: 32px;
+}
 
-        .vaga {
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 18px;
-            margin-bottom: 12px;
-        }
+.acao h3 {
+    margin: 0 0 8px;
+    color: #93c5fd;
+    font-size: 18px;
+}
 
-        .vaga:last-child {
-            margin-bottom: 0;
-        }
+.acao p {
+    margin: 0;
+    color: var(--texto-suave);
+    font-size: 14px;
+    line-height: 1.7;
+}
 
-        .vaga h3 {
-            margin: 0 0 8px;
-            color: #0b5ed7;
-        }
+.resumo {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 27px;
+}
 
-        .vaga-info {
-            color: #64748b;
-            font-size: 14px;
-            line-height: 1.6;
-        }
+.numero {
+    padding: 25px 18px;
+    border: 1px solid var(--borda);
+    border-radius: 17px;
+    background: linear-gradient(145deg, #12243c, #0e1b2e);
+    box-shadow: var(--sombra);
+    text-align: center;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
 
-        .sem-vagas {
-            color: #64748b;
-            text-align: center;
-            padding: 20px;
-        }
+.numero:hover {
+    transform: translateY(-3px);
+    border-color: rgba(96, 165, 250, 0.4);
+}
 
-        .rodape {
-            text-align: center;
-            padding: 25px;
-            color: #64748b;
-            font-size: 13px;
-        }
+.numero-valor {
+    display: block;
+    color: #60a5fa;
+    font-size: 34px;
+    font-weight: 850;
+    line-height: 1.3;
+}
 
-        @media (max-width: 800px) {
+.numero-label {
+    margin-top: 7px;
+    color: var(--texto-suave);
+    font-size: 13px;
+}
 
-            .acoes {
-                grid-template-columns: 1fr;
-            }
+.vaga {
+    padding: 21px;
+    margin-bottom: 15px;
+    border: 1px solid var(--borda);
+    border-radius: 14px;
+    background: rgba(22, 39, 64, 0.65);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
 
-            .resumo {
-                grid-template-columns: 1fr;
-            }
+.vaga:last-child {
+    margin-bottom: 0;
+}
 
-            .dados-perfil {
-                grid-template-columns: 1fr;
-            }
+.vaga:hover {
+    border-color: rgba(96, 165, 250, 0.35);
+}
 
-            .topo {
-                flex-direction: column;
-                text-align: center;
-            }
+.vaga h3 {
+    margin: 0 0 10px;
+    color: #93c5fd;
+    font-size: 18px;
+    overflow-wrap: anywhere;
+}
 
-            .boas-vindas h1 {
-                font-size: 25px;
-            }
-        }
+.vaga-info {
+    color: var(--texto-suave);
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
 
-        @media (max-width: 500px) {
+.vaga p {
+    color: #d5deeb;
+    overflow-wrap: anywhere;
+}
 
-            .principal {
-                padding: 20px 12px 40px;
-            }
+.sem-vagas {
+    padding: 25px 15px;
+    border: 1px dashed rgba(148, 163, 184, 0.25);
+    border-radius: 12px;
+    color: var(--texto-suave);
+    text-align: center;
+}
 
-            .boas-vindas,
-            .perfil,
-            .vagas {
-                padding: 20px;
-            }
+.botao-principal,
+.acoes-vaga button,
+#btnGuardarPerfilEmpresa,
+#btnCancelarPerfilEmpresa,
+#formularioEditarEmpresa button,
+.vaga button {
+    padding: 11px 17px;
+    border: 1px solid rgba(96, 165, 250, 0.35);
+    border-radius: 9px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
 
-            .logo {
-                font-size: 26px;
-            }
-        }
-        /* RNO — cores dos estados das candidaturas */
+.botao-principal:hover,
+.acoes-vaga button:hover,
+#formularioEditarEmpresa button:hover,
+.vaga button:hover {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    box-shadow: 0 5px 16px rgba(37, 99, 235, 0.2);
+}
 
-        .estado-candidatura {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 600;
-            margin: 6px 0;
-        }
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+    transform: none;
+}
 
-        .estado-em-analise {
-            background-color: #e5e7eb;
-            color: #374151;
-        }
+.acoes-vaga {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+}
 
-        .estado-pre-selecionado {
-            background-color: #dbeafe;
-            color: #1d4ed8;
-        }
+.acoes-vaga .estado-vaga {
+    border-color: rgba(248, 113, 113, 0.3);
+    background: rgba(127, 29, 29, 0.28);
+    color: #fecaca;
+}
 
-        .estado-aprovado {
-            background-color: #dcfce7;
-            color: #166534;
-        }
+.acoes-vaga .estado-vaga:hover {
+    background: rgba(185, 28, 28, 0.4);
+}
 
-        .estado-rejeitado {
-            background-color: #fee2e2;
-            color: #b91c1c;
-        }
+#formularioEditarEmpresa {
+    margin-top: 22px !important;
+    padding: 23px !important;
+    border: 1px solid var(--borda) !important;
+    border-radius: 14px !important;
+    background: rgba(7, 17, 31, 0.6);
+}
+
+#formularioEditarEmpresa h3 {
+    margin-top: 0;
+    color: #93c5fd;
+}
+
+#formularioEditarEmpresa label {
+    display: block;
+    margin-top: 12px;
+    color: #dbeafe;
+    font-size: 13px;
+    font-weight: 650;
+}
+
+#formularioEditarEmpresa input,
+#formularioEditarEmpresa textarea,
+.estado-candidatura,
+#formularioEditarEmpresa select {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 8px 0 15px !important;
+    padding: 12px !important;
+    border: 1px solid rgba(148, 163, 184, 0.28);
+    border-radius: 9px;
+    background: #0a1628;
+    color: var(--texto);
+}
+
+#formularioEditarEmpresa textarea {
+    resize: vertical;
+}
+
+#formularioEditarEmpresa input::placeholder,
+#formularioEditarEmpresa textarea::placeholder {
+    color: #8494aa;
+}
+
+#formularioEditarEmpresa input:focus,
+#formularioEditarEmpresa textarea:focus,
+.estado-candidatura:focus {
+    border-color: var(--azul-claro);
+}
+
+#formularioEditarEmpresa button + button {
+    margin-left: 8px;
+    border-color: rgba(148, 163, 184, 0.3);
+    background: #26374d;
+    color: #e2e8f0;
+}
+
+#formularioEditarEmpresa button + button:hover {
+    background: #344860;
+}
+
+.estado-candidatura {
+    width: auto;
+    min-width: 170px;
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.estado-em-analise {
+    border-color: #64748b;
+    background-color: #27364b;
+    color: #e2e8f0;
+}
+
+.estado-pre-selecionado {
+    border-color: #3b82f6;
+    background-color: #172f55;
+    color: #bfdbfe;
+}
+
+.estado-aprovado {
+    border-color: #22c55e;
+    background-color: #123b2b;
+    color: #bbf7d0;
+}
+
+.estado-rejeitado {
+    border-color: #ef4444;
+    background-color: #451b25;
+    color: #fecaca;
+}
+
+.rodape {
+    padding: 26px 20px;
+    border-top: 1px solid var(--borda);
+    color: #8798af;
+    font-size: 13px;
+    text-align: center;
+}
+
+@keyframes entradaRNO {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 850px) {
+    .acoes {
+        grid-template-columns: 1fr;
+    }
+
+    .acao {
+        padding: 22px;
+    }
+
+    .resumo {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .numero {
+        padding: 20px 10px;
+    }
+
+    .numero-valor {
+        font-size: 29px;
+    }
+}
+
+@media (max-width: 600px) {
+    .topo {
+        padding: 16px;
+        flex-direction: row;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .logo-area {
+        gap: 9px;
+    }
+
+    .logo {
+        font-size: 27px;
+    }
+
+    .nome-plataforma {
+        max-width: 175px;
+        font-size: 11px;
+        line-height: 1.4;
+    }
+
+    .botao-sair {
+        padding: 9px 12px;
+    }
+
+    .principal {
+        padding: 22px 13px 38px;
+    }
+
+    .boas-vindas {
+        padding: 26px 21px;
+        border-radius: 17px;
+    }
+
+    .boas-vindas h1 {
+        font-size: 25px;
+    }
+
+    .perfil,
+    .vagas {
+        padding: 19px 15px;
+        border-radius: 15px;
+    }
+
+    .dados-perfil {
+        grid-template-columns: 1fr;
+    }
+
+    .resumo {
+        grid-template-columns: 1fr;
+    }
+
+    .numero {
+        padding: 18px;
+    }
+
+    .numero-valor {
+        font-size: 30px;
+    }
+
+    .titulo-secao {
+        font-size: 19px;
+    }
+
+    .vaga {
+        padding: 16px;
+    }
+
+    #formularioEditarEmpresa {
+        padding: 16px !important;
+    }
+
+    #formularioEditarEmpresa button {
+        width: 100%;
+        margin: 5px 0 !important;
+    }
+
+    .estado-candidatura {
+        width: 100%;
+        margin: 8px 0 !important;
+    }
+
+    .vaga button {
+        max-width: 100%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
 
     </style>
 </head>

@@ -6,76 +6,240 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Candidaturas Recebidas | RNO</title>
   <style>
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f3f6fb;
-      color: #172033;
+   :root {
+    color-scheme: dark;
+    --fundo: #071426;
+    --painel: #10223d;
+    --azul: #2878f0;
+    --azul-claro: #66b0ff;
+    --texto: #f1f6ff;
+    --secundario: #a9bad2;
+    --borda: rgba(145, 180, 230, 0.2);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at top left, #163d70 0%, transparent 45%),
+        linear-gradient(135deg, #071426, #0b1d35 55%, #10294a);
+    color: var(--texto);
+    min-height: 100vh;
+}
+
+header {
+    background: rgba(7, 20, 38, 0.82);
+    border-bottom: 1px solid var(--borda);
+    padding: 26px 5%;
+    backdrop-filter: blur(12px);
+}
+
+header h1 {
+    margin: 0 0 10px;
+    font-size: clamp(23px, 4vw, 32px);
+    line-height: 1.25;
+    letter-spacing: -0.5px;
+}
+
+header p {
+    margin: 0;
+    color: var(--secundario);
+    line-height: 1.6;
+}
+
+main {
+    width: min(1100px, 92%);
+    margin: 32px auto;
+}
+
+.topo,
+.candidatura {
+    background: linear-gradient(
+        145deg,
+        rgba(18, 41, 69, 0.97),
+        rgba(13, 29, 51, 0.97)
+    );
+    border: 1px solid var(--borda);
+    border-radius: 18px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 16px 38px rgba(0, 0, 0, 0.16);
+    animation: entrada 0.45s ease both;
+}
+
+.topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.topo h2 {
+    margin: 0;
+    font-size: 22px;
+    line-height: 1.4;
+}
+
+.botao {
+    display: inline-block;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 12px 17px;
+    background: linear-gradient(135deg, var(--azul), #1760d0);
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: inherit;
+    transition: transform 0.2s, filter 0.2s;
+}
+
+.botao:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+}
+
+.botao:focus-visible {
+    outline: 2px solid var(--azul-claro);
+    outline-offset: 3px;
+}
+
+.secundario {
+    background: #263c59;
+    border-color: var(--borda);
+    color: var(--texto);
+}
+
+.vaga {
+    color: var(--azul-claro);
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.candidatura h3 {
+    margin: 10px 0 20px;
+    font-size: 21px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.detalhes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+}
+
+.detalhes p {
+    margin: 5px 0;
+    overflow-wrap: anywhere;
+    line-height: 1.6;
+}
+
+.rotulo {
+    color: var(--secundario);
+    font-size: 12px;
+    letter-spacing: 0.3px;
+}
+
+.valor {
+    color: var(--texto);
+    font-size: 14px;
+}
+
+.mensagem {
+    padding: 16px;
+    background: rgba(40, 120, 240, 0.12);
+    border: 1px solid rgba(102, 176, 255, 0.2);
+    border-radius: 12px;
+    margin-bottom: 18px;
+    color: var(--texto);
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.erro {
+    background: rgba(220, 38, 38, 0.13);
+    border-color: rgba(248, 113, 113, 0.3);
+    color: #fecaca;
+}
+
+.vazio {
+    text-align: center;
+    padding: 42px 18px;
+    color: var(--secundario);
+    line-height: 1.7;
+}
+
+footer {
+    text-align: center;
+    color: var(--secundario);
+    padding: 24px 16px;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+@keyframes entrada {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
     }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
     header {
-      background: #102b55;
-      color: white;
-      padding: 22px 5%;
+        padding: 23px 5%;
     }
-    header h1 { margin: 0 0 8px; font-size: 25px; }
-    header p { margin: 0; color: #dbe7ff; }
+
     main {
-      width: min(1100px, 92%);
-      margin: 28px auto;
+        width: 92%;
+        margin: 22px auto;
     }
-    .topo, .candidatura {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 3px 12px #102b5510;
+
+    .topo,
+    .candidatura {
+        padding: 19px;
+        border-radius: 15px;
     }
+
     .topo {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
+        align-items: stretch;
     }
-    .topo h2 { margin: 0; }
-    .botao {
-      display: inline-block;
-      border: 0;
-      border-radius: 8px;
-      padding: 11px 15px;
-      background: #175cd3;
-      color: white;
-      text-decoration: none;
-      cursor: pointer;
-      font-size: 14px;
+
+    .topo .botao {
+        text-align: center;
     }
-    .secundario { background: #475569; }
-    .vaga {
-      color: #175cd3;
-      font-size: 13px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-    .candidatura h3 { margin: 8px 0 14px; }
+
     .detalhes {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-      gap: 12px;
+        grid-template-columns: 1fr;
+        gap: 10px;
     }
-    .detalhes p { margin: 4px 0; overflow-wrap: anywhere; }
-    .rotulo { color: #64748b; font-size: 12px; }
-    .valor { font-size: 14px; }
-    .mensagem {
-      padding: 16px;
-      background: #e8efff;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      overflow-wrap: anywhere;
+
+    .candidatura h3 {
+        font-size: 19px;
     }
-    .erro { background: #fee2e2; color: #991b1b; }
-    .vazio { text-align: center; padding: 35px 15px; }
-    footer { text-align: center; color: #64748b; padding: 20px; font-size: 13px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation: none !important;
+        transition: none !important;
+    }
+}
   </style>
 </head>
 <body>
