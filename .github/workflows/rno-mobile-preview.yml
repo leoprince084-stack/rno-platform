@@ -35,9 +35,9 @@ jobs:
       - name: Extrair o projeto RNO
         shell: bash
         run: |
-          test -f RNO_Mobile_Projeto_v17.zip
+          test -f RNO_Mobile_Projeto_v19.zip
           mkdir -p "$RUNNER_TEMP/rno-mobile-source"
-          unzip -q RNO_Mobile_Projeto_v17.zip -d "$RUNNER_TEMP/rno-mobile-source"
+          unzip -q RNO_Mobile_Projeto_v19.zip -d "$RUNNER_TEMP/rno-mobile-source"
           test -f "$RUNNER_TEMP/rno-mobile-source/RNO_Mobile_Projeto_V17/package.json"
           test -f "$RUNNER_TEMP/rno-mobile-source/RNO_Mobile_Projeto_V17/App.js"
 
